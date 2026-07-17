@@ -2,7 +2,6 @@
 
 import Link from "next/link";
 import { useAuth } from "@/lib/auth";
-import RandomLetterSwap from "./RandomLetterSwap";
 
 export default function NavBar() {
   const { user, loading, logout } = useAuth();
@@ -11,7 +10,7 @@ export default function NavBar() {
     <header className="sticky top-0 z-50 border-b border-black/10 bg-white/90 backdrop-blur">
       <div className="mx-auto flex max-w-6xl items-center justify-between px-4 py-3">
         <Link href="/" className="text-lg font-bold tracking-tight text-ink">
-          <RandomLetterSwap text="CivicNow" />
+          CivicNow
         </Link>
         <nav className="flex items-center gap-5 text-sm font-medium text-ink/80">
           <Link href="/leaderboard" className="hover:text-ink">Leaderboard</Link>
