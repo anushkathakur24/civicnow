@@ -4,6 +4,7 @@ import Link from "next/link";
 import "./globals.css";
 import { AuthProvider } from "@/lib/auth";
 import NavBar from "@/components/NavBar";
+import JourneyStrip from "@/components/JourneyStrip";
 
 // Self-hosted by Next at build time (no runtime font-fetching, no layout
 // shift). Fraunces carries the big editorial headline moments (the "premium,
@@ -22,15 +23,15 @@ const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || "https://civicnow.example.c
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
   title: {
-    default: "CivicNow — Turn awareness into verified civic action",
+    default: "CivicNow — Know More. Do More.",
     template: "%s | CivicNow",
   },
   description:
-    "Track India's most urgent civic issues and take real, verified action — matched to your role, time, and budget. Earn a fraud-resistant Impact Score for what you actually do.",
+    "Every Issue. Every Indian. Every Action Matters. CivicNow tracks India's most urgent civic issues and matches you to one real, verified action — for your role, your time, your city.",
   openGraph: {
-    title: "CivicNow — Turn awareness into verified civic action",
+    title: "CivicNow — Know More. Do More.",
     description:
-      "Track India's most urgent civic issues and take real, verified action — matched to your role, time, and budget.",
+      "Every issue deserves more than awareness. Track what's happening, see what's changed, take one real action.",
     url: SITE_URL,
     siteName: "CivicNow",
     locale: "en_IN",
@@ -38,8 +39,8 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "CivicNow — Turn awareness into verified civic action",
-    description: "Track India's civic issues. Take verified action. Build a real Impact Score.",
+    title: "CivicNow — Know More. Do More.",
+    description: "Every issue deserves more than awareness. Understand. Track. Act.",
   },
   robots: { index: true, follow: true },
 };
@@ -52,11 +53,19 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           <NavBar />
           <main>{children}</main>
           <footer className="mt-24 border-t border-line py-10 text-center text-xs text-ink/40">
-            <p className="mb-3">
+            <p className="mb-1 font-serif text-sm font-medium tracking-tight text-ink/60">
+              Know More. Do More.
+            </p>
+            <p className="mb-4 text-[11px] uppercase tracking-[0.15em] text-ink/35">
+              For Every Issue. For Every Indian.
+            </p>
+            <JourneyStrip className="mb-5" />
+            <p className="mx-auto mb-3 max-w-md">
               CivicNow is an independent civic-information project. Not affiliated with any government body, party, or NGO named on this site.
             </p>
             <nav className="flex flex-wrap items-center justify-center gap-x-4 gap-y-1.5">
               <Link href="/about" className="transition-colors hover:text-ink/70">About</Link>
+              <Link href="/manifesto" className="transition-colors hover:text-ink/70">Our Manifesto</Link>
               <Link href="/methodology" className="transition-colors hover:text-ink/70">Methodology</Link>
               <Link href="/ngos/apply" className="transition-colors hover:text-ink/70">List your NGO</Link>
               <a

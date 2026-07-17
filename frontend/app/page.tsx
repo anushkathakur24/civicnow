@@ -5,6 +5,7 @@ import HomeIssueBrowser from "./HomeIssueBrowser";
 import Reveal from "@/components/ui/Reveal";
 import { ButtonLink } from "@/components/ui/Button";
 import Chip from "@/components/ui/Chip";
+import JourneyStrip from "@/components/JourneyStrip";
 
 export const revalidate = 60; // ISR: re-fetch issue list from the API at most once a minute
 
@@ -32,22 +33,26 @@ export default async function HomePage() {
 
   return (
     <div>
-      {/* ---- Hero: why CivicNow exists, before any data ---- */}
-      <section className="mx-auto max-w-2xl px-5 pb-14 pt-24 text-center sm:pt-32">
+      {/* ---- Hero: the copy is the design — short lines, generous space ---- */}
+      <section className="mx-auto max-w-xl px-5 pb-20 pt-28 text-center sm:pt-36">
         <Reveal>
-          <p className="mb-5 text-xs font-semibold uppercase tracking-[0.2em] text-accent-dark">
+          <p className="mb-8 text-xs font-semibold uppercase tracking-[0.25em] text-accent-dark">
             Stop scrolling.
           </p>
-          <h1 className="mb-6 font-serif text-display-lg font-medium text-ink">
-            Every day, someone shows you a reel about something that matters.
+          <h1 className="mb-8 font-serif text-display-lg font-medium leading-[1.05] text-ink">
+            Know More.
+            <br />
+            Do More.
           </h1>
-          <p className="mx-auto mb-10 max-w-md text-lg leading-relaxed text-ink/55">
-            Almost nobody knows what to do next. CivicNow turns that feeling into somewhere
-            to go — real issues, matched to a real action you can actually take.
+          <p className="mx-auto mb-3 max-w-sm text-lg leading-relaxed text-ink/55">
+            Every issue deserves more than awareness.
+          </p>
+          <p className="mb-12 text-xs font-semibold uppercase tracking-[0.2em] text-ink/35">
+            For Every Issue. For Every Indian.
           </p>
           <div className="flex flex-wrap justify-center gap-3">
             <ButtonLink href="#issues" variant="primary" className="px-6 py-3">
-              See active issues
+              Explore Issues
             </ButtonLink>
             <ButtonLink href="/register" variant="secondary" className="px-6 py-3">
               Start your Impact Score
@@ -133,6 +138,10 @@ export default async function HomePage() {
       )}
 
       <HomeIssueBrowser issues={issues} apiError={apiError} />
+
+      <Reveal className="px-5 pb-4 pt-4">
+        <JourneyStrip />
+      </Reveal>
     </div>
   );
 }

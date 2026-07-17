@@ -9,8 +9,11 @@ export default function NavBar() {
   return (
     <header className="sticky top-0 z-50 border-b border-line/70 bg-paper/85 backdrop-blur-md">
       <div className="mx-auto flex max-w-6xl items-center justify-between px-5 py-4">
-        <Link href="/" className="font-serif text-lg font-medium tracking-tight text-ink">
-          CivicNow
+        <Link href="/" className="flex items-baseline gap-2.5">
+          <span className="font-serif text-lg font-medium tracking-tight text-ink">CivicNow</span>
+          <span className="hidden text-[11px] font-medium uppercase tracking-[0.15em] text-ink/35 sm:inline">
+            Know More. Do More.
+          </span>
         </Link>
         <nav className="flex items-center gap-4 text-sm font-medium text-ink/65 sm:gap-6">
           {/* Secondary links collapse on small screens so the mobile header
