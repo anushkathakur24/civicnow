@@ -38,8 +38,8 @@ services:
       RATE_LIMIT_WRITE: 20/minute
     ports:
       - "8000:8000"
-    command: >
-      sh -c "alembic upgrade head && python scripts/seed.py && uvicorn app.main:app --host 0.0.0.0 --port 8000 --workers 2"
+    # No command override needed — backend/entrypoint.sh (baked into the
+    # image's CMD) already runs migrations + demo seed before starting uvicorn.
 
   frontend:
     build:
