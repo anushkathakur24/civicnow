@@ -1,0 +1,59 @@
+# Local development stack — mirrors production topology (Postgres + FastAPI +
+# Next.js) so "works in Docker locally" actually means something before deploy.
+# Production itself does NOT use this file: Vercel builds the frontend image,
+# Render/Railway builds the backend image, and Neon/Supabase hosts Postgres.
+# See DEPLOYMENT.md.
+
+services:
+  db:
+    image: postgres:16-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: civicnow
+      POSTGRES_PASSWORD: civicnow_dev_password
+      POSTGRES_DB: civicnow
+    ports:
+      - "5432:5432"
+    volumes:
+      - civicnow_pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U civicnow"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  backend:
+    build:
+      context: ./backend
+    restart: unless-stopped
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      DATABASE_URL: postgresql+psycopg2://civicnow:civicnow_dev_password@db:5432/civicnow
+      JWT_SECRET: local-dev-secret-change-in-prod
+      CORS_ORIGINS: http://localhost:3000
+      ENV: development
+      RATE_LIMIT_DEFAULT: 100/minute
+      RATE_LIMIT_WRITE: 20/minute
+    ports:
+      - "8000:8000"
+    command: >
+      sh -c "alembic upgrade head && python scripts/seed.py && uvicorn app.main:app --host 0.0.0.0 --port 8000 --workers 2"
+
+  frontend:
+    build:
+      context: ./frontend
+      args:
+        NEXT_PUBLIC_API_URL: http://localhost:8000/api/v1
+        NEXT_PUBLIC_SITE_URL: http://localhost:3000
+    restart: unless-stopped
+    depends_on:
+      - backend
+    environment:
+      NEXT_PUBLIC_API_URL: http://localhost:8000/api/v1
+    ports:
+      - "3000:3000"
+
+volumes:
+  civicnow_pgdata:
