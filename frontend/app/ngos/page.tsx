@@ -1,4 +1,5 @@
 import { api } from "@/lib/api";
+import NgoBrowser from "./NgoBrowser";
 
 export const revalidate = 300;
 export const metadata = { title: "Verified NGOs" };
@@ -14,22 +15,18 @@ export default async function NgosPage() {
 
   return (
     <div className="mx-auto max-w-2xl px-4 py-12">
-      <h1 className="mb-6 text-2xl font-bold text-ink">NGOs on CivicNow</h1>
-      {error && <p className="text-red-600">Couldn&apos;t load NGOs.</p>}
-      <div className="space-y-3">
-        {ngos.map((n) => (
-          <div key={n.id} className="flex items-center justify-between rounded-xl border border-black/10 bg-white p-4">
-            <div>
-              <div className="font-medium text-ink">{n.name}</div>
-              {n.city ? <div className="text-sm text-ink/50">{String(n.city)}</div> : null}
-            </div>
-            {n.verified && (
-              <span className="rounded-full bg-teal/10 px-2.5 py-1 text-xs font-semibold text-teal">Verified</span>
-            )}
-          </div>
-        ))}
-        {ngos.length === 0 && !error && <p className="text-sm text-ink/50">No NGOs listed yet.</p>}
-      </div>
+      <h1 className="mb-1 text-2xl font-bold tracking-tight text-ink">NGOs on CivicNow</h1>
+      <p className="mb-6 text-sm text-ink/55">
+        &ldquo;Verified&rdquo; means registration (Darpan ID) has been confirmed — not an endorsement.
+      </p>
+      {error ? (
+        <div className="rounded-2xl border border-amber-200 bg-amber-50 p-5 text-center">
+          <p className="font-medium text-amber-900">Live information temporarily unavailable.</p>
+          <p className="mt-1 text-sm text-amber-800/80">Couldn&apos;t reach the CivicNow API — try refreshing shortly.</p>
+        </div>
+      ) : (
+        <NgoBrowser ngos={ngos} />
+      )}
     </div>
   );
 }

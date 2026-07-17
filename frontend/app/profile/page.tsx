@@ -25,7 +25,19 @@ function ProfileInner() {
       <p className="mb-8 text-sm text-ink/60">@{user.username}</p>
 
       {loading ? (
-        <p className="text-ink/50">Loading Impact Score…</p>
+        <div className="animate-pulse rounded-3xl border border-black/10 bg-white p-8">
+          <div className="mb-2 h-3 w-24 rounded bg-black/10" />
+          <div className="mb-4 h-12 w-20 rounded bg-black/10" />
+          <div className="mb-6 h-6 w-28 rounded-full bg-black/10" />
+          <div className="grid grid-cols-2 gap-4 sm:grid-cols-3">
+            {[0, 1, 2, 3, 4, 5].map((i) => (
+              <div key={i}>
+                <div className="mb-1 h-5 w-8 rounded bg-black/10" />
+                <div className="h-3 w-16 rounded bg-black/5" />
+              </div>
+            ))}
+          </div>
+        </div>
       ) : score ? (
         <div className="rounded-3xl border border-black/10 bg-gradient-to-br from-teal/10 to-white p-8">
           <div className="mb-1 text-xs font-semibold uppercase text-ink/50">Impact Score</div>
@@ -44,7 +56,10 @@ function ProfileInner() {
           </div>
         </div>
       ) : (
-        <p className="text-ink/50">Couldn&apos;t load your Impact Score.</p>
+        <div className="rounded-2xl border border-amber-200 bg-amber-50 p-5 text-center">
+          <p className="font-medium text-amber-900">Live information temporarily unavailable.</p>
+          <p className="mt-1 text-sm text-amber-800/80">Couldn&apos;t load your Impact Score — try refreshing.</p>
+        </div>
       )}
     </div>
   );

@@ -24,9 +24,14 @@ export default function IssueCard({ issue }: { issue: IssueSummary }) {
         </span>
         <span className="text-xs text-ink/50">{issue.category}</span>
       </div>
-      <h3 className="mb-1.5 text-lg font-semibold text-ink">{issue.title}</h3>
-      <p className="line-clamp-3 text-sm text-ink/70">{issue.summary}</p>
-      <span className="mt-3 inline-block text-sm font-medium text-teal">See how you can help →</span>
+      <h3 className="mb-1.5 text-lg font-semibold tracking-tight text-ink">{issue.title}</h3>
+      <p className="line-clamp-3 text-sm leading-relaxed text-ink/65">{issue.summary}</p>
+      <div className="mt-4 flex items-center justify-between">
+        <span className="text-sm font-medium text-teal">See how you can help →</span>
+        <span className="text-[11px] text-ink/35">
+          Updated {new Date(issue.updated_at).toLocaleDateString("en-IN", { day: "numeric", month: "short" })}
+        </span>
+      </div>
     </Link>
   );
 }

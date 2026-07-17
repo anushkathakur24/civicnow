@@ -1,4 +1,4 @@
-from datetime import date
+from datetime import date, datetime
 from pydantic import BaseModel, ConfigDict, field_validator
 
 
@@ -10,6 +10,8 @@ class SourceOut(BaseModel):
 class TimelineEventOut(BaseModel):
     event_date: date
     event_text: str
+    source_url: str | None = None
+    verified: bool = False
     model_config = ConfigDict(from_attributes=True)
 
 class PromiseOut(BaseModel):
@@ -17,6 +19,7 @@ class PromiseOut(BaseModel):
     promise_text: str
     deadline_date: date | None
     status: str
+    source_url: str | None = None
     model_config = ConfigDict(from_attributes=True)
 
 class ActionDefinitionOut(BaseModel):
@@ -38,6 +41,7 @@ class IssueSummary(BaseModel):
     urgency: str
     status: str
     summary: str
+    updated_at: datetime
     model_config = ConfigDict(from_attributes=True)
 
 class IssueDetail(IssueSummary):

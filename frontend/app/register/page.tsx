@@ -5,13 +5,7 @@ import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { useAuth } from "@/lib/auth";
 import { ApiError } from "@/lib/api";
-
-const PERSONAS = [
-  { id: "citizen", label: "Citizen" },
-  { id: "content_creator", label: "Content Creator" },
-  { id: "working_professional", label: "Working Professional" },
-  { id: "government_official", label: "Government Official" },
-];
+import { PERSONAS } from "@/lib/personas";
 
 export default function RegisterPage() {
   const { register } = useAuth();

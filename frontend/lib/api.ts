@@ -80,11 +80,14 @@ export interface IssueSummary {
   urgency: string;
   status: string;
   summary: string;
+  updated_at: string;
 }
 
 export interface TimelineEvent {
   event_date: string;
   event_text: string;
+  source_url: string | null;
+  verified: boolean;
 }
 
 export interface PromiseItem {
@@ -92,6 +95,7 @@ export interface PromiseItem {
   promise_text: string;
   deadline_date: string | null;
   status: string;
+  source_url: string | null;
 }
 
 export interface SourceItem {
