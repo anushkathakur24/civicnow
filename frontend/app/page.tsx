@@ -2,6 +2,9 @@ import { api } from "@/lib/api";
 import Link from "next/link";
 import StatsBar from "@/components/StatsBar";
 import HomeIssueBrowser from "./HomeIssueBrowser";
+import Reveal from "@/components/ui/Reveal";
+import { ButtonLink } from "@/components/ui/Button";
+import Chip from "@/components/ui/Chip";
 
 export const revalidate = 60; // ISR: re-fetch issue list from the API at most once a minute
 
@@ -29,32 +32,70 @@ export default async function HomePage() {
 
   return (
     <div>
-      <section className="mx-auto max-w-3xl px-4 pb-8 pt-20 text-center">
-        <h1 className="mb-5 text-[2.6rem] font-bold leading-[1.1] tracking-tight text-ink sm:text-5xl">
-          Stop scrolling past the news.
-          <br />
-          <span className="text-saffron">Start doing something about it.</span>
-        </h1>
-        <p className="mx-auto mb-8 max-w-xl text-lg text-ink/60">
-          <span className="font-medium text-ink/80">Understand.</span>{" "}
-          <span className="font-medium text-ink/80">Track.</span>{" "}
-          <span className="font-medium text-ink/80">Act.</span>
-          <br className="hidden sm:block" />
-          Real civic issues, matched to real actions for your role — with a verified,
-          server-side Impact Score for what you actually do.
-        </p>
-        <div className="flex flex-wrap justify-center gap-3">
-          <Link href="#issues" className="rounded-full bg-ink px-6 py-3 font-medium text-white hover:opacity-90">
-            See active issues
-          </Link>
-          <Link href="/register" className="rounded-full border border-ink/15 px-6 py-3 font-medium text-ink hover:bg-ink/[0.03]">
-            Start your Impact Score
-          </Link>
-        </div>
+      {/* ---- Hero: why CivicNow exists, before any data ---- */}
+      <section className="mx-auto max-w-2xl px-5 pb-14 pt-24 text-center sm:pt-32">
+        <Reveal>
+          <p className="mb-5 text-xs font-semibold uppercase tracking-[0.2em] text-accent-dark">
+            Stop scrolling.
+          </p>
+          <h1 className="mb-6 font-serif text-display-lg font-medium text-ink">
+            Every day, someone shows you a reel about something that matters.
+          </h1>
+          <p className="mx-auto mb-10 max-w-md text-lg leading-relaxed text-ink/55">
+            Almost nobody knows what to do next. CivicNow turns that feeling into somewhere
+            to go — real issues, matched to a real action you can actually take.
+          </p>
+          <div className="flex flex-wrap justify-center gap-3">
+            <ButtonLink href="#issues" variant="primary" className="px-6 py-3">
+              See active issues
+            </ButtonLink>
+            <ButtonLink href="/register" variant="secondary" className="px-6 py-3">
+              Start your Impact Score
+            </ButtonLink>
+          </div>
+        </Reveal>
       </section>
 
+      {/* ---- Understand → Track → Act ---- */}
+      <Reveal delay={0.1}>
+        <section className="mx-auto max-w-3xl px-5 py-16">
+          <div className="grid grid-cols-1 gap-10 sm:grid-cols-3">
+            {[
+              { step: "01", title: "Understand", copy: "The full, honestly-sourced picture — not a headline stripped of context." },
+              { step: "02", title: "Track", copy: "What's actually happened, who's responsible, and what they've done about it." },
+              { step: "03", title: "Act", copy: "One real action, matched to your time, skills, and role — not a generic ask." },
+            ].map((s) => (
+              <div key={s.step} className="text-center sm:text-left">
+                <div className="mb-3 font-serif text-sm text-accent-dark">{s.step}</div>
+                <h3 className="mb-2 font-serif text-xl font-medium text-ink">{s.title}</h3>
+                <p className="text-sm leading-relaxed text-ink/55">{s.copy}</p>
+              </div>
+            ))}
+          </div>
+        </section>
+      </Reveal>
+
+      {/* ---- Flagship issue ---- */}
+      {flagship && (
+        <Reveal delay={0.05}>
+          <section className="mx-auto max-w-3xl px-5 py-6">
+            <Link href={`/issues/${flagship.id}`} className="block">
+              <div className="group rounded-4xl border border-line bg-gradient-to-br from-accent-soft/60 to-white p-9 shadow-soft transition-shadow duration-300 hover:shadow-soft-lg sm:p-12">
+                <Chip tone="red" className="mb-4">Most urgent right now</Chip>
+                <h2 className="mb-3 font-serif text-display-sm font-medium text-ink">{flagship.title}</h2>
+                <p className="mb-6 max-w-xl text-ink/60">{flagship.summary}</p>
+                <span className="inline-flex items-center gap-1 font-medium text-accent-dark transition-transform duration-300 group-hover:translate-x-1">
+                  Read the full story and take action →
+                </span>
+              </div>
+            </Link>
+          </section>
+        </Reveal>
+      )}
+
+      {/* ---- Honest live signal ---- */}
       {apiError ? (
-        <div className="mx-auto mb-6 max-w-2xl rounded-2xl border border-amber-200 bg-amber-50 p-5 text-center">
+        <div className="mx-auto mb-6 max-w-2xl rounded-3xl border border-amber-200 bg-amber-50 p-5 text-center">
           <p className="font-medium text-amber-900">Live information temporarily unavailable.</p>
           <p className="mt-1 text-sm text-amber-800/80">
             We couldn&apos;t reach the CivicNow API just now — nothing fabricated is shown in its place.
@@ -62,8 +103,8 @@ export default async function HomePage() {
           </p>
         </div>
       ) : (
-        <>
-          <div className="mx-auto mb-1 flex max-w-6xl items-center justify-center gap-2 px-4 text-xs text-ink/40">
+        <Reveal>
+          <div className="mx-auto mb-1 mt-6 flex max-w-6xl items-center justify-center gap-2 px-4 text-xs text-ink/40">
             <span className="relative flex h-1.5 w-1.5">
               <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-teal opacity-75" />
               <span className="relative inline-flex h-1.5 w-1.5 rounded-full bg-teal" />
@@ -88,22 +129,7 @@ export default async function HomePage() {
             Every number above is counted directly from what&apos;s in the database right now — not a
             marketing figure.
           </p>
-        </>
-      )}
-
-      {flagship && (
-        <section className="mx-auto max-w-4xl px-4 py-8">
-          <div className="rounded-3xl border border-black/10 bg-gradient-to-br from-orange-50 to-white p-8">
-            <span className="mb-2 inline-block rounded-full bg-red-100 px-3 py-1 text-xs font-semibold uppercase text-red-700">
-              Urgent
-            </span>
-            <h2 className="mb-2 text-2xl font-bold text-ink">{flagship.title}</h2>
-            <p className="mb-4 text-ink/70">{flagship.summary}</p>
-            <Link href={`/issues/${flagship.id}`} className="font-medium text-teal hover:underline">
-              Read the full timeline and take action →
-            </Link>
-          </div>
-        </section>
+        </Reveal>
       )}
 
       <HomeIssueBrowser issues={issues} apiError={apiError} />

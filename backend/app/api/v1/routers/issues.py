@@ -3,7 +3,9 @@ from sqlalchemy.orm import Session as DBSession, selectinload
 
 from app.db.session import get_db
 from app.models.civic import Issue, ActionDefinition
+from app.models.system import AuditLog
 from app.schemas.issue import IssueSummary, IssueDetail, ActionDefinitionOut
+from app.schemas.audit import AuditLogOut
 
 router = APIRouter(prefix="/issues", tags=["issues"])
 
@@ -36,6 +38,23 @@ def get_issue(issue_id: str, db: DBSession = Depends(get_db)):
     if not issue:
         raise HTTPException(404, "Issue not found")
     return IssueDetail.model_validate(issue)
+
+
+@router.get("/{issue_id}/history", response_model=list[AuditLogOut])
+def get_issue_history(issue_id: str, db: DBSession = Depends(get_db)):
+    """Real, immutable version history for an issue — every row here is a
+    genuine content-authoring event (see app/services/audit.py), never a
+    fabricated 'reviewed'/'approved' step. Empty list means no history has
+    been recorded yet for this issue, not that nothing has changed."""
+    issue = db.query(Issue).filter(Issue.id == issue_id, Issue.published.is_(True)).first()
+    if not issue:
+        raise HTTPException(404, "Issue not found")
+    return (
+        db.query(AuditLog)
+        .filter(AuditLog.target_type == "issue", AuditLog.target_id == issue_id)
+        .order_by(AuditLog.created_at.desc())
+        .all()
+    )
 
 
 @router.get("/{issue_id}/actions", response_model=list[ActionDefinitionOut])

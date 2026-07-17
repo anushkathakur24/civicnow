@@ -64,12 +64,33 @@ class Source(Base):
     issue = relationship("Issue", back_populates="sources")
 
 
+class GovernmentBody(Base):
+    """A reusable stakeholder/institution entity (ministry, court, UT administration,
+    civil society group, etc.) — normalized so the same organization can be referenced
+    across multiple issues instead of re-typing its name as a bare string each time.
+    Added alongside the pre-existing `body_name` text field on ResponsibleBody rather
+    than replacing it, so already-seeded production rows keep working unmodified
+    while new/updated stakeholder data links to a real record with a description
+    and website."""
+    __tablename__ = "government_bodies"
+    id = Column(String(36), primary_key=True, default=gen_uuid)
+    name = Column(String(255), nullable=False)
+    body_type = Column(String(50), nullable=False)
+    # ministry | court | ut_administration | constitutional_body |
+    # civil_society_group | investigative_agency
+    description = Column(Text, nullable=True)
+    website = Column(String(500), nullable=True)
+    created_at = Column(DateTime, default=lambda: datetime.now(timezone.utc))
+
+
 class ResponsibleBody(Base):
     __tablename__ = "issue_responsible_bodies"
     id = Column(Integer, primary_key=True, autoincrement=True)
     issue_id = Column(String(80), ForeignKey("issues.id", ondelete="CASCADE"), index=True)
     body_name = Column(String(255), nullable=False)
+    government_body_id = Column(String(36), ForeignKey("government_bodies.id"), nullable=True)
     issue = relationship("Issue", back_populates="responsible_bodies")
+    government_body = relationship("GovernmentBody")
 
 
 class ActionDefinition(Base):
@@ -86,6 +107,8 @@ class ActionDefinition(Base):
     effort_hours = Column(Numeric, nullable=True)
     cost_inr = Column(Numeric, nullable=True)
     recurring = Column(Boolean, default=False)
+    remote_or_in_person = Column(String(20), nullable=True)  # remote|in_person|either
+    required_skills = Column(JSON, nullable=True)  # list[str], e.g. ["Python", "data visualization"]
 
     issue = relationship("Issue", back_populates="actions")
 

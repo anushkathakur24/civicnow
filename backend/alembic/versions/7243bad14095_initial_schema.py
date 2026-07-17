@@ -99,7 +99,11 @@ def upgrade() -> None:
     op.create_index(op.f('ix_action_definitions_issue_id'), 'action_definitions', ['issue_id'], unique=False)
     op.create_index('ix_action_issue_persona', 'action_definitions', ['issue_id', 'persona_id'], unique=False)
     op.create_table('audit_log',
-    sa.Column('id', sa.BigInteger(), autoincrement=True, nullable=False),
+    # BigInteger on Postgres (production, already migrated on this schema);
+    # SQLite (local/CI) only auto-increments a bare INTEGER primary key, so
+    # the variant keeps a fresh local/CI database working without touching
+    # the production DDL this already applied against.
+    sa.Column('id', sa.BigInteger().with_variant(sa.Integer(), "sqlite"), autoincrement=True, nullable=False),
     sa.Column('actor_id', sa.String(length=36), nullable=True),
     sa.Column('action', sa.String(length=100), nullable=False),
     sa.Column('target_type', sa.String(length=50), nullable=True),

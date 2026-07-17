@@ -3,6 +3,11 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { api, ApiError } from "@/lib/api";
 import IssueActions from "./IssueActions";
+import Timeline from "@/components/Timeline";
+import SourceList from "@/components/SourceList";
+import Reveal from "@/components/ui/Reveal";
+import Chip, { ChipTone } from "@/components/ui/Chip";
+import ProgressRing from "@/components/ui/ProgressRing";
 
 export const revalidate = 60;
 
@@ -35,20 +40,29 @@ export async function generateMetadata({ params }: { params: { id: string } }): 
   };
 }
 
-const URGENCY_STYLES: Record<string, string> = {
-  critical: "bg-red-100 text-red-700",
-  high: "bg-orange-100 text-orange-700",
-  medium: "bg-yellow-100 text-yellow-700",
-  low: "bg-gray-100 text-gray-700",
+const URGENCY_TONE: Record<string, ChipTone> = {
+  critical: "red",
+  high: "accent",
+  medium: "amber",
+  low: "neutral",
 };
 
-const PROMISE_STYLES: Record<string, string> = {
-  kept: "bg-green-100 text-green-700",
-  pending: "bg-amber-100 text-amber-700",
-  broken: "bg-red-100 text-red-700",
-  partial: "bg-orange-100 text-orange-700",
-  unclear: "bg-gray-100 text-gray-700",
+const PROMISE_TONE: Record<string, ChipTone> = {
+  kept: "teal",
+  pending: "amber",
+  broken: "red",
+  partial: "accent",
+  unclear: "neutral",
 };
+
+const HISTORY_ACTION_LABELS: Record<string, string> = {
+  "issue.created": "Issue page created",
+  "timeline_event.added": "Timeline event added",
+};
+
+function historyLabel(action: string): string {
+  return HISTORY_ACTION_LABELS[action] || action;
+}
 
 export default async function IssuePage({ params }: { params: { id: string } }) {
   const result = await getIssueSafely(params.id);
@@ -57,13 +71,13 @@ export default async function IssuePage({ params }: { params: { id: string } }) 
 
   if (result.state === "unavailable") {
     return (
-      <div className="mx-auto max-w-lg px-4 py-24 text-center">
-        <h1 className="mb-2 text-2xl font-bold text-ink">Live information temporarily unavailable</h1>
-        <p className="mb-6 text-ink/60">
+      <div className="mx-auto max-w-lg px-5 py-28 text-center">
+        <h1 className="mb-2 font-serif text-2xl font-medium text-ink">Live information temporarily unavailable</h1>
+        <p className="mb-8 text-ink/55">
           We couldn&apos;t reach the CivicNow API to load this issue. Nothing is being shown in its
           place rather than risk displaying stale or fabricated content — try again shortly.
         </p>
-        <Link href="/" className="rounded-full bg-ink px-5 py-2 text-white">
+        <Link href="/" className="rounded-full bg-ink px-5 py-2.5 text-white">
           Back to CivicNow
         </Link>
       </div>
@@ -73,143 +87,162 @@ export default async function IssuePage({ params }: { params: { id: string } }) 
   const issue = result.issue;
   const keptPromises = issue.promises.filter((p) => p.status === "kept").length;
   const totalPromises = issue.promises.length;
+  // History is genuinely optional — an issue with no recorded audit entries
+  // yet should just show nothing here, not an error, and a failed fetch
+  // shouldn't take down the rest of the page.
+  const history = await api.getIssueHistory(issue.id).catch(() => []);
 
   return (
-    <div className="mx-auto max-w-3xl px-4 py-10">
-      {/* ---- Overview ---- */}
-      <div className="mb-3 flex flex-wrap items-center gap-2">
-        <span className={`rounded-full px-2.5 py-0.5 text-xs font-semibold uppercase tracking-wide ${URGENCY_STYLES[issue.urgency] || URGENCY_STYLES.low}`}>
-          {issue.urgency}
-        </span>
-        <span className="text-xs font-medium uppercase tracking-wide text-ink/45">{issue.category}</span>
-        <span className="text-xs text-ink/35">
-          · Last updated {new Date(issue.updated_at).toLocaleDateString("en-IN", { day: "numeric", month: "long", year: "numeric" })}
-        </span>
-      </div>
-      <h1 className="mb-3 text-3xl font-bold tracking-tight text-ink">{issue.title}</h1>
-      <p className="mb-6 text-[17px] leading-relaxed text-ink/70">{issue.summary}</p>
+    <article>
+      {/* ---- Story: hero ---- */}
+      <header className="mx-auto max-w-2xl px-5 pb-10 pt-16 text-center sm:pt-20">
+        <Reveal>
+          <div className="mb-4 flex flex-wrap items-center justify-center gap-2">
+            <Chip tone={URGENCY_TONE[issue.urgency] || "neutral"}>{issue.urgency}</Chip>
+            <span className="text-xs font-medium uppercase tracking-wide text-ink/40">{issue.category}</span>
+          </div>
+          <h1 className="mb-5 font-serif text-display-md font-medium text-ink">{issue.title}</h1>
+          <p className="mx-auto mb-3 max-w-xl text-lg leading-relaxed text-ink/60">{issue.summary}</p>
+          <p className="text-xs text-ink/35">
+            Last updated {new Date(issue.updated_at).toLocaleDateString("en-IN", { day: "numeric", month: "long", year: "numeric" })}
+          </p>
+        </Reveal>
 
-      {issue.sensitive_note && (
-        <div className="mb-6 rounded-2xl border border-amber-200 bg-amber-50 p-4 text-sm text-amber-800">
-          {issue.sensitive_note}
-        </div>
-      )}
+        {issue.sensitive_note && (
+          <Reveal delay={0.1}>
+            <div className="mx-auto mt-6 max-w-xl rounded-2xl border border-amber-200 bg-amber-50 p-4 text-left text-sm text-amber-800">
+              {issue.sensitive_note}
+            </div>
+          </Reveal>
+        )}
+      </header>
 
-      {/* ---- Current Status / Current Ask ---- */}
+      {/* ---- Data: current status, at a glance ---- */}
       {issue.current_ask && (
-        <div className="mb-6 rounded-2xl border border-black/10 bg-white p-5">
-          <h2 className="mb-1 text-xs font-semibold uppercase tracking-wide text-ink/45">Current status</h2>
-          <p className="mb-1 text-sm font-medium text-ink">{issue.status}</p>
-          <p className="text-ink/70">{issue.current_ask}</p>
-        </div>
+        <Reveal>
+          <section className="mx-auto max-w-2xl px-5 pb-14">
+            <div className="flex flex-col items-center gap-6 rounded-4xl border border-line bg-white p-8 text-center shadow-soft sm:flex-row sm:text-left">
+              {totalPromises > 0 && (
+                <ProgressRing value={keptPromises} total={totalPromises} label="Commitments kept" />
+              )}
+              <div>
+                <h2 className="mb-1 text-xs font-semibold uppercase tracking-wide text-ink/40">Current status</h2>
+                <p className="mb-1 font-serif text-lg font-medium text-ink">{issue.status}</p>
+                <p className="text-sm leading-relaxed text-ink/60">{issue.current_ask}</p>
+              </div>
+            </div>
+          </section>
+        </Reveal>
       )}
 
-      {/* ---- Timeline ---- */}
+      {/* ---- Timeline: history unfolding ---- */}
       {issue.timeline.length > 0 && (
-        <section className="mb-8">
-          <h2 className="mb-4 text-xl font-semibold tracking-tight text-ink">Timeline</h2>
-          <ol className="space-y-4 border-l-2 border-black/10 pl-5">
-            {issue.timeline.map((t, i) => (
-              <li key={i} className="relative">
-                <span className="absolute -left-[26px] top-1 h-2.5 w-2.5 rounded-full bg-teal" />
-                <div className="mb-0.5 flex items-center gap-2 text-xs font-medium text-teal">
-                  {new Date(t.event_date).toLocaleDateString("en-IN", { day: "numeric", month: "short", year: "numeric" })}
-                  {t.verified && (
-                    <span className="rounded-full bg-teal/10 px-1.5 py-0.5 text-[10px] font-semibold uppercase text-teal">
-                      Sourced
-                    </span>
+        <section className="mx-auto max-w-2xl px-5 py-8">
+          <Reveal>
+            <h2 className="mb-1 font-serif text-display-sm font-medium text-ink">How we got here</h2>
+            <p className="mb-8 text-sm text-ink/50">Tap any moment to see where it came from.</p>
+          </Reveal>
+          <Timeline events={issue.timeline} />
+        </section>
+      )}
+
+      {/* ---- Data: government response ---- */}
+      {issue.promises.length > 0 && (
+        <Reveal>
+          <section className="mx-auto max-w-2xl px-5 py-8">
+            <div className="mb-5 flex items-end justify-between">
+              <h2 className="font-serif text-display-sm font-medium text-ink">Government response</h2>
+              <span className="text-sm text-ink/45">{keptPromises} of {totalPromises} kept</span>
+            </div>
+            <div className="space-y-3">
+              {issue.promises.map((p, i) => (
+                <div key={i} className="rounded-2xl border border-line bg-white p-5">
+                  <div className="mb-1.5 flex flex-wrap items-center justify-between gap-2">
+                    <span className="text-sm font-medium text-ink">{p.made_by}</span>
+                    <Chip tone={PROMISE_TONE[p.status] || "neutral"}>{p.status}</Chip>
+                  </div>
+                  <p className="text-sm leading-relaxed text-ink/65">{p.promise_text}</p>
+                  {p.source_url && (
+                    <a href={p.source_url} target="_blank" rel="noopener noreferrer" className="mt-2 inline-block text-xs text-ink/40 hover:text-accent-dark hover:underline">
+                      View source →
+                    </a>
                   )}
                 </div>
-                <p className="text-sm text-ink/80">{t.event_text}</p>
-                {t.source_url && (
-                  <a href={t.source_url} target="_blank" rel="noopener noreferrer" className="text-xs text-ink/40 hover:text-teal hover:underline">
-                    View source →
-                  </a>
-                )}
-              </li>
-            ))}
-          </ol>
-        </section>
+              ))}
+            </div>
+          </section>
+        </Reveal>
       )}
 
-      {/* ---- Government Response / Progress ---- */}
-      {issue.promises.length > 0 && (
-        <section className="mb-8">
-          <div className="mb-1 flex items-center justify-between">
-            <h2 className="text-xl font-semibold tracking-tight text-ink">Government response</h2>
-            <span className="text-sm text-ink/50">{keptPromises} of {totalPromises} commitments kept</span>
-          </div>
-          <div className="mb-4 h-1.5 w-full overflow-hidden rounded-full bg-black/5">
-            <div
-              className="h-full rounded-full bg-teal transition-all"
-              style={{ width: totalPromises ? `${(keptPromises / totalPromises) * 100}%` : "0%" }}
-            />
-          </div>
-          <div className="space-y-3">
-            {issue.promises.map((p, i) => (
-              <div key={i} className="rounded-2xl border border-black/10 bg-white p-4">
-                <div className="mb-1 flex items-center justify-between gap-2">
-                  <span className="text-sm font-medium text-ink">{p.made_by}</span>
-                  <span className={`rounded-full px-2 py-0.5 text-[11px] font-semibold uppercase ${PROMISE_STYLES[p.status] || PROMISE_STYLES.unclear}`}>
-                    {p.status}
-                  </span>
-                </div>
-                <p className="text-sm text-ink/70">{p.promise_text}</p>
-                {p.source_url && (
-                  <a href={p.source_url} target="_blank" rel="noopener noreferrer" className="mt-1 inline-block text-xs text-ink/40 hover:text-teal hover:underline">
-                    View source →
-                  </a>
-                )}
-              </div>
-            ))}
-          </div>
-        </section>
-      )}
-
-      {/* ---- Who's Responsible ---- */}
+      {/* ---- Data: who's responsible ---- */}
       {issue.responsible_bodies.length > 0 && (
-        <section className="mb-8">
-          <h2 className="mb-3 text-xl font-semibold tracking-tight text-ink">Who&apos;s responsible</h2>
-          <div className="flex flex-wrap gap-2">
-            {issue.responsible_bodies.map((b, i) => (
-              <span key={i} className="rounded-full border border-black/10 bg-white px-3 py-1.5 text-sm text-ink/75">
-                {b}
-              </span>
-            ))}
-          </div>
-        </section>
+        <Reveal>
+          <section className="mx-auto max-w-2xl px-5 py-8">
+            <h2 className="mb-4 font-serif text-display-sm font-medium text-ink">Who&apos;s responsible</h2>
+            <div className="flex flex-wrap gap-2">
+              {issue.responsible_bodies.map((b, i) => (
+                <span key={i} className="rounded-full border border-line bg-white px-3.5 py-2 text-sm text-ink/70">
+                  {b}
+                </span>
+              ))}
+            </div>
+          </section>
+        </Reveal>
       )}
 
-      {/* ---- How You Can Help (client component: persona-based actions) ---- */}
-      <IssueActions issueId={issue.id} />
-
-      {/* ---- Verified Sources ---- */}
-      <section className="mt-10 border-t border-black/10 pt-6">
-        <h2 className="mb-1 text-sm font-semibold uppercase tracking-wide text-ink/45">Verified sources</h2>
-        <p className="mb-3 text-xs text-ink/40">
-          Every fact on this page traces back to one of these. No detail here is generated or inferred.
-        </p>
-        {issue.sources.length > 0 ? (
-          <ul className="space-y-1.5 text-sm">
-            {issue.sources.map((s, i) => (
-              <li key={i}>
-                <a href={s.url} target="_blank" rel="noopener noreferrer" className="text-teal hover:underline">
-                  {s.title}
-                </a>
-              </li>
-            ))}
-          </ul>
-        ) : (
-          <p className="text-sm text-ink/40">No sources recorded for this issue yet.</p>
-        )}
+      {/* ---- Actions: the heart of the product ---- */}
+      <section className="mx-auto max-w-4xl px-5 py-14">
+        <IssueActions issueId={issue.id} />
       </section>
 
-      <section className="mt-8 rounded-2xl border border-black/10 bg-black/[0.02] p-5 text-center">
-        <p className="mb-2 text-sm text-ink/60">Looking for organisations working in this space?</p>
-        <Link href="/ngos" className="text-sm font-medium text-teal hover:underline">
-          Browse verified NGOs →
-        </Link>
+      {/* ---- Sources: trust ---- */}
+      <Reveal>
+        <section className="mx-auto max-w-2xl border-t border-line px-5 py-12">
+          <h2 className="mb-1 font-serif text-display-sm font-medium text-ink">Verified sources</h2>
+          <p className="mb-6 text-sm text-ink/50">
+            Every fact on this page traces back to one of these. Nothing here is generated or inferred.
+          </p>
+          <SourceList sources={issue.sources} />
+        </section>
+      </Reveal>
+
+      {/* ---- Version History ---- */}
+      {history.length > 0 && (
+        <Reveal>
+          <section className="mx-auto max-w-2xl px-5 py-10">
+            <h2 className="mb-1 text-sm font-semibold uppercase tracking-wide text-ink/40">Version history</h2>
+            <p className="mb-4 text-xs text-ink/35">
+              A real, immutable log of when this page&apos;s content was authored or updated — not a
+              simulated changelog.
+            </p>
+            <ul className="space-y-2 text-sm">
+              {history.map((h, i) => (
+                <li key={i} className="flex items-start gap-3 text-ink/65">
+                  <span className="mt-1.5 h-1 w-1 flex-shrink-0 rounded-full bg-ink/25" />
+                  <span>
+                    <span className="font-medium text-ink/80">{historyLabel(h.action)}</span>
+                    {h.log_metadata && "summary" in h.log_metadata && (
+                      <span> — {String(h.log_metadata.summary)}</span>
+                    )}
+                    <span className="ml-2 text-xs text-ink/35">
+                      {new Date(h.created_at).toLocaleDateString("en-IN", { day: "numeric", month: "short", year: "numeric" })}
+                    </span>
+                  </span>
+                </li>
+              ))}
+            </ul>
+          </section>
+        </Reveal>
+      )}
+
+      <section className="mx-auto mb-14 max-w-2xl px-5">
+        <div className="rounded-3xl border border-line bg-mist/50 p-6 text-center">
+          <p className="mb-2 text-sm text-ink/60">Looking for organisations working in this space?</p>
+          <Link href="/ngos" className="text-sm font-medium text-accent-dark hover:underline">
+            Browse verified NGOs →
+          </Link>
+        </div>
       </section>
-    </div>
+    </article>
   );
 }

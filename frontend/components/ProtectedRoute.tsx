@@ -14,10 +14,10 @@ export default function ProtectedRoute({ children }: { children: React.ReactNode
 
   if (loading) {
     return (
-      <div className="mx-auto max-w-2xl animate-pulse px-4 py-12">
-        <div className="mb-1 h-6 w-40 rounded bg-black/10" />
-        <div className="mb-8 h-4 w-24 rounded bg-black/5" />
-        <div className="h-48 w-full rounded-3xl bg-black/5" />
+      <div className="mx-auto max-w-2xl animate-pulse px-5 py-16">
+        <div className="mb-1 h-7 w-40 rounded bg-mist" />
+        <div className="mb-8 h-4 w-24 rounded bg-mist" />
+        <div className="h-48 w-full rounded-4xl bg-mist" />
       </div>
     );
   }

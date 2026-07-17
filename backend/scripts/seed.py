@@ -10,15 +10,19 @@ implying it's continuously refreshed — see IssueSummary.updated_at.
 
 Run with: DATABASE_URL=... python3 scripts/seed.py
 """
-import sys, os
+import sys
+import os
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 from datetime import date, datetime, timedelta, timezone
 from app.db.session import SessionLocal, engine, Base
-from app import models
+from app import models  # noqa: F401 — ensures every model (incl. GovernmentBody,
+# AuditLog, gamification tables) is registered on Base.metadata before the
+# create_all() fallback below runs, same reasoning as alembic/env.py.
 from app.models.civic import Issue, TimelineEvent, Promise, Source, ResponsibleBody, ActionDefinition, NGO
 from app.models.user import User
 from app.core.security import hash_password
+from app.services.audit import log_change
 
 Base.metadata.create_all(bind=engine)  # no-op if Alembic already ran; safe for fresh sandbox/CI DBs
 db = SessionLocal()
@@ -26,6 +30,25 @@ db = SessionLocal()
 if db.query(Issue).count() > 0:
     print("Already seeded — skipping.")
     raise SystemExit(0)
+
+# Created up-front (rather than at the bottom of the file, where the admin
+# account used to be seeded) so its id is available to attribute the
+# version-history entries below to a real actor instead of leaving them
+# actor_id=None. This is still just "the seed script authored this content" —
+# not a claim that any editorial review happened.
+backdated = datetime.now(timezone.utc) - timedelta(days=30)
+admin = User(
+    email="admin@civicnow.demo", username="admin", display_name="CivicNow Admin",
+    password_hash=hash_password("DemoAdmin!2026"), role="admin",
+    email_verified_at=backdated, created_at=backdated,
+)
+demo_user = User(
+    email="demo@civicnow.demo", username="demo_citizen", display_name="Demo Citizen",
+    password_hash=hash_password("DemoUser!2026"), role="user", persona_id="citizen", city="Bengaluru",
+    email_verified_at=backdated, created_at=backdated, leaderboard_opt_in=True,
+)
+db.add_all([admin, demo_user])
+db.flush()
 
 issue1 = Issue(
     id="neet-2026-leak", title="NEET-UG 2026 Paper Leak & Accountability Crisis",
@@ -187,24 +210,25 @@ db.add_all([
 db.add(NGO(name="Blue Cross of India", darpan_id="DEMO-001", city="Chennai", verified=True, focus_areas=["animal_welfare"], website="https://www.bluecrossofindia.org"))
 db.add(NGO(name="Unverified Local Shelter (example)", verified=False, city="Bengaluru"))
 
-# Backdated created_at so the demo account clears the 24h anti-fraud gate
-# immediately (see User.can_earn_points) — real user accounts get this
-# naturally by just... existing for a day. This is a demo-data-only
-# convenience, not a fraud loophole (it's applied only to these two fixed
-# demo accounts, never to real registrations).
-backdated = datetime.now(timezone.utc) - timedelta(days=30)
+# ---- Version history (real, non-simulated) ------------------------------
+# One "issue.created" entry per issue — this is literally what happened: the
+# seed script authored and committed this content. No entry here claims an
+# editorial review took place, because none has (see app/services/audit.py).
+# The Ladakh flagship additionally gets one "timeline_event.added" entry per
+# timeline event, since it's the reusable blueprint page and the one place
+# we're demonstrating what granular, per-change history should look like.
+for issue in (issue1, issue2, issue3):
+    log_change(db, action="issue.created", target_type="issue", target_id=issue.id, actor_id=admin.id,
+               metadata={"title": issue.title})
 
-admin = User(
-    email="admin@civicnow.demo", username="admin", display_name="CivicNow Admin",
-    password_hash=hash_password("DemoAdmin!2026"), role="admin",
-    email_verified_at=backdated, created_at=backdated,
-)
-demo_user = User(
-    email="demo@civicnow.demo", username="demo_citizen", display_name="Demo Citizen",
-    password_hash=hash_password("DemoUser!2026"), role="user", persona_id="citizen", city="Bengaluru",
-    email_verified_at=backdated, created_at=backdated, leaderboard_opt_in=True,
-)
-db.add_all([admin, demo_user])
+for ev in (
+    (date(2025, 9, 24), "Protests in Ladakh turn violent; four killed."),
+    (date(2025, 9, 26), "Wangchuk detained under the National Security Act."),
+    (date(2026, 3, 14), "MHA revokes Wangchuk's NSA detention."),
+    (date(2026, 3, 17), "Wangchuk's first public remarks after release."),
+):
+    log_change(db, action="timeline_event.added", target_type="issue", target_id="ladakh-sixth-schedule",
+               actor_id=admin.id, metadata={"event_date": ev[0].isoformat(), "summary": ev[1]})
 
 db.commit()
-print("Seed complete: 3 issues (with full sourced timelines), 20 actions across 8 personas, 2 NGOs, 2 users (admin + demo).")
+print("Seed complete: 3 issues (with full sourced timelines), 20 actions across 8 personas, 2 NGOs, 2 users (admin + demo), version history logged.")

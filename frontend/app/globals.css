@@ -2,7 +2,29 @@
 @tailwind components;
 @tailwind utilities;
 
+html {
+  scroll-behavior: smooth;
+}
+
 html, body {
-  color: #101014;
-  background: #FAFAF8;
+  color: #18160F;
+  background: #FBF9F4;
+}
+
+/* Respect reduced-motion preferences — motion here is a garnish, not load-bearing. */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+::selection {
+  background: #F6E4CC;
+  color: #18160F;
 }

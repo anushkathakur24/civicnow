@@ -3,13 +3,16 @@ interface Stat {
   value: string;
 }
 
+// A quiet signal, not a dashboard: numbers sit low-contrast against the page
+// with thin dividers instead of boxed KPI tiles, so they read as ambient
+// trust rather than something demanding attention.
 export default function StatsBar({ stats }: { stats: Stat[] }) {
   return (
-    <div className="mx-auto grid max-w-4xl grid-cols-2 gap-4 px-4 py-6 sm:grid-cols-4">
+    <div className="mx-auto flex max-w-3xl flex-wrap justify-center divide-x divide-line px-4 py-2">
       {stats.map((s) => (
-        <div key={s.label} className="text-center">
-          <div className="text-2xl font-bold text-ink">{s.value}</div>
-          <div className="text-xs text-ink/60">{s.label}</div>
+        <div key={s.label} className="px-6 py-4 text-center first:pl-0 last:pr-0">
+          <div className="font-serif text-2xl font-medium text-ink">{s.value}</div>
+          <div className="mt-0.5 text-[11px] font-medium uppercase tracking-wide text-ink/40">{s.label}</div>
         </div>
       ))}
     </div>

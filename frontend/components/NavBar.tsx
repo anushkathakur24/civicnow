@@ -7,30 +7,33 @@ export default function NavBar() {
   const { user, loading, logout } = useAuth();
 
   return (
-    <header className="sticky top-0 z-50 border-b border-black/10 bg-white/90 backdrop-blur">
-      <div className="mx-auto flex max-w-6xl items-center justify-between px-4 py-3">
-        <Link href="/" className="text-lg font-bold tracking-tight text-ink">
+    <header className="sticky top-0 z-50 border-b border-line/70 bg-paper/85 backdrop-blur-md">
+      <div className="mx-auto flex max-w-6xl items-center justify-between px-5 py-4">
+        <Link href="/" className="font-serif text-lg font-medium tracking-tight text-ink">
           CivicNow
         </Link>
-        <nav className="flex items-center gap-5 text-sm font-medium text-ink/80">
-          <Link href="/leaderboard" className="hover:text-ink">Leaderboard</Link>
-          <Link href="/ngos" className="hover:text-ink">NGOs</Link>
+        <nav className="flex items-center gap-4 text-sm font-medium text-ink/65 sm:gap-6">
+          {/* Secondary links collapse on small screens so the mobile header
+              stays uncluttered — the hero and footer already surface these
+              paths, so nothing is unreachable, just quieter on mobile. */}
+          <Link href="/leaderboard" className="hidden transition-colors hover:text-ink sm:inline">Leaderboard</Link>
+          <Link href="/ngos" className="hidden transition-colors hover:text-ink sm:inline">NGOs</Link>
           {!loading && user && (
-            <Link href="/profile" className="hover:text-ink">My Profile</Link>
+            <Link href="/profile" className="transition-colors hover:text-ink">My Profile</Link>
           )}
           {!loading && !user && (
             <>
-              <Link href="/login" className="hover:text-ink">Log in</Link>
+              <Link href="/login" className="transition-colors hover:text-ink">Log in</Link>
               <Link
                 href="/register"
-                className="rounded-full bg-saffron px-4 py-1.5 text-white hover:opacity-90"
+                className="rounded-full bg-ink px-3.5 py-2 text-white transition-opacity hover:opacity-85 sm:px-4"
               >
                 Join CivicNow
               </Link>
             </>
           )}
           {!loading && user && (
-            <button onClick={logout} className="text-ink/60 hover:text-ink">
+            <button onClick={logout} className="transition-colors hover:text-ink">
               Log out
             </button>
           )}

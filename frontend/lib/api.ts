@@ -155,6 +155,14 @@ export interface LeaderboardRow {
   score: number;
 }
 
+export interface AuditLogEntry {
+  action: string;
+  target_type: string | null;
+  target_id: string | null;
+  log_metadata: Record<string, unknown> | null;
+  created_at: string;
+}
+
 export interface NGO {
   id: string;
   name: string;
@@ -168,6 +176,7 @@ export const api = {
   getIssue: (id: string) => apiFetch<IssueDetail>(`/issues/${id}`),
   getIssueActions: (id: string, persona: string) =>
     apiFetch<ActionDefinition[]>(`/issues/${id}/actions?persona=${encodeURIComponent(persona)}`),
+  getIssueHistory: (id: string) => apiFetch<AuditLogEntry[]>(`/issues/${id}/history`),
   submitAction: (payload: { action_definition_id: number; idempotency_key: string }) =>
     apiFetch("/actions/submit", { method: "POST", auth: true, body: JSON.stringify(payload) }),
   myScore: () => apiFetch<ScoreBreakdown>("/actions/me/score", { auth: true }),
