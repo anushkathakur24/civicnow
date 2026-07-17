@@ -3,8 +3,6 @@ import Reveal from "@/components/ui/Reveal";
 
 export const metadata = { title: "About" };
 
-const GITHUB_URL = "https://github.com/anushkathakur24/civicnow";
-
 export default function AboutPage() {
   return (
     <div className="mx-auto max-w-2xl px-5 py-16">
@@ -44,20 +42,8 @@ export default function AboutPage() {
 
       <Reveal delay={0.15}>
         <section className="mb-10 space-y-3 text-[15px] leading-relaxed text-ink/75">
-          <h2 className="font-serif text-lg font-medium text-ink">How it&apos;s built</h2>
-          <p>
-            CivicNow is built and maintained by a small, independent team. We&apos;re not listing
-            individual names on this page yet — the project is early enough that we&apos;d rather be
-            judged on the sourcing and the code than on a bio. The code itself is public:
-          </p>
-          <a
-            href={GITHUB_URL}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-flex items-center gap-1.5 text-sm font-medium text-accent-dark hover:underline"
-          >
-            View the source on GitHub →
-          </a>
+          <h2 className="font-serif text-lg font-medium text-ink">Who&apos;s building this</h2>
+          <p>Built by Anushka Thakur.</p>
         </section>
       </Reveal>
 

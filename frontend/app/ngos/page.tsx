@@ -32,7 +32,7 @@ export default async function NgosPage() {
             List your NGO →
           </Link>
         </div>
-        {!error && ngos.length > 0 && ngos.length < 6 && (
+        {!error && ngos.length < 6 && (
           <p className="mb-8 rounded-2xl border border-line bg-mist/40 p-4 text-xs leading-relaxed text-ink/55">
             CivicNow is in early access — this directory is small because we&apos;re growing it
             deliberately, one verified organisation at a time, rather than importing a list we

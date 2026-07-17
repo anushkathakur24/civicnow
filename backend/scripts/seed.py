@@ -19,7 +19,7 @@ from app.db.session import SessionLocal, engine, Base
 from app import models  # noqa: F401 — ensures every model (incl. GovernmentBody,
 # AuditLog, gamification tables) is registered on Base.metadata before the
 # create_all() fallback below runs, same reasoning as alembic/env.py.
-from app.models.civic import Issue, TimelineEvent, Promise, Source, ResponsibleBody, ActionDefinition, NGO
+from app.models.civic import Issue, TimelineEvent, Promise, Source, ResponsibleBody, ActionDefinition
 from app.models.user import User
 from app.core.security import hash_password
 from app.services.audit import log_change
@@ -227,8 +227,16 @@ db.add_all([
         impact="medium", category="volunteering", verification_method="ngo_confirmation", base_points=30, effort_hours=3, recurring=True),
 ])
 
-db.add(NGO(name="Blue Cross of India", darpan_id="DEMO-001", city="Chennai", verified=True, focus_areas=["animal_welfare"], website="https://www.bluecrossofindia.org"))
-db.add(NGO(name="Unverified Local Shelter (example)", verified=False, city="Bengaluru"))
+# No seeded NGOs. An earlier version of this script listed "Blue Cross of
+# India" as `verified=True` with a placeholder darpan_id ("DEMO-001") — a
+# real, well-known org that never actually applied or had its Darpan ID
+# checked by anyone here. That's exactly the kind of fabricated-verification
+# this project's methodology page explicitly promises not to do, so it's
+# been removed rather than "corrected" to verified=False: we have no
+# standing to list a real organization at all without their own application.
+# The NGO directory now starts empty and is populated only by real
+# submissions through POST /ngos/apply — see app/ngos/page.tsx for the
+# honest "early access" framing shown while it's small.
 
 # ---- Version history (real, non-simulated) ------------------------------
 # One "issue.created" entry per issue — this is literally what happened: the
@@ -251,4 +259,4 @@ for ev in (
                actor_id=admin.id, metadata={"event_date": ev[0].isoformat(), "summary": ev[1]})
 
 db.commit()
-print("Seed complete: 3 issues (with full sourced timelines), 20 actions across 8 personas, 2 NGOs, 2 users (admin + demo), version history logged.")
+print("Seed complete: 3 issues (with full sourced timelines), 20 actions across 8 personas, 0 NGOs (directory starts empty — real applications only), 2 users (admin + demo), version history logged.")

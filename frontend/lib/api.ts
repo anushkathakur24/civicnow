@@ -146,11 +146,13 @@ export interface UserPublic {
   city: string | null;
   persona_id: string | null;
   created_at: string;
+  leaderboard_opt_in: boolean;
+  show_real_name_public: boolean;
 }
 
 export interface LeaderboardRow {
   rank: number;
-  username: string;
+  username: string | null;
   display_name: string;
   city: string | null;
   score: number;
@@ -183,6 +185,8 @@ export const api = {
   myScore: () => apiFetch<ScoreBreakdown>("/actions/me/score", { auth: true }),
   mySubmissions: () => apiFetch("/actions/me", { auth: true }),
   me: () => apiFetch<UserPublic>("/auth/me", { auth: true }),
+  updatePrivacy: (payload: { leaderboard_opt_in?: boolean; show_real_name_public?: boolean }) =>
+    apiFetch<UserPublic>("/auth/me/privacy", { method: "PATCH", auth: true, body: JSON.stringify(payload) }),
   login: (email: string, password: string) =>
     apiFetch<{ access_token: string }>("/auth/login", {
       method: "POST",

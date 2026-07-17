@@ -37,11 +37,11 @@ export default async function LeaderboardPage() {
         <Reveal delay={0.1}>
           <ol className="divide-y divide-line overflow-hidden rounded-3xl border border-line bg-white shadow-soft">
             {rows.map((r) => (
-              <li key={r.username} className="flex items-center justify-between px-5 py-4">
+              <li key={r.username || `${r.rank}-${r.display_name}`} className="flex items-center justify-between px-5 py-4">
                 <span className="flex items-center gap-3">
                   <span className="w-6 text-sm font-semibold text-ink/35">#{r.rank}</span>
                   <span className="font-medium text-ink">{r.display_name}</span>
-                  <span className="text-sm text-ink/40">@{r.username}</span>
+                  {r.username && <span className="text-sm text-ink/40">@{r.username}</span>}
                 </span>
                 <span className="font-serif font-semibold text-accent-dark">{r.score}</span>
               </li>

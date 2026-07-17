@@ -9,7 +9,7 @@ from app.api.deps import get_current_user
 from app.core.security import create_token, hash_password, verify_password
 from app.db.session import get_db
 from app.models.user import User
-from app.schemas.auth import RegisterRequest, LoginRequest, TokenResponse, UserPublic
+from app.schemas.auth import RegisterRequest, LoginRequest, TokenResponse, UserPublic, PrivacyUpdate
 
 router = APIRouter(prefix="/auth", tags=["auth"])
 logger = logging.getLogger("civicnow.auth")
@@ -60,6 +60,23 @@ def login(payload: LoginRequest, db: DBSession = Depends(get_db)):
 
 @router.get("/me", response_model=UserPublic)
 def me(current_user: User = Depends(get_current_user)):
+    return current_user
+
+
+@router.patch("/me/privacy", response_model=UserPublic)
+def update_privacy(
+    payload: PrivacyUpdate,
+    current_user: User = Depends(get_current_user),
+    db: DBSession = Depends(get_db),
+):
+    """Lets a user change their leaderboard visibility and anonymity
+    preference at any time — never a one-time registration choice."""
+    if payload.leaderboard_opt_in is not None:
+        current_user.leaderboard_opt_in = payload.leaderboard_opt_in
+    if payload.show_real_name_public is not None:
+        current_user.show_real_name_public = payload.show_real_name_public
+    db.commit()
+    db.refresh(current_user)
     return current_user
 
 

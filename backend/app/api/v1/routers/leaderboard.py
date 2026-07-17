@@ -23,9 +23,11 @@ def leaderboard(
 ):
     q = (
         db.query(
+            User.id,
             User.username,
             User.display_name,
             User.city,
+            User.show_real_name_public,
             func.coalesce(func.sum(ActionSubmission.points_awarded), 0).label("score"),
         )
         .outerjoin(ActionSubmission, ActionSubmission.user_id == User.id)
@@ -39,7 +41,21 @@ def leaderboard(
     elif scope == "company" and scope_value:
         q = q.filter(User.company == scope_value)
     rows = q.order_by(func.sum(ActionSubmission.points_awarded).desc()).limit(limit).all()
-    return [
-        {"rank": i + 1, "username": r.username, "display_name": r.display_name, "city": r.city, "score": int(r.score)}
-        for i, r in enumerate(rows)
-    ]
+    results = []
+    for i, r in enumerate(rows):
+        # `leaderboard_opt_in` controls whether you appear at all; `show_real_name_public`
+        # (changeable anytime from the profile page) controls whether you appear under
+        # your real name/username or a stable, non-identifying pseudonym. Default is
+        # anonymous — opting in doesn't force you to also be named.
+        if r.show_real_name_public:
+            username, display_name = r.username, r.display_name
+        else:
+            username, display_name = None, f"Anonymous Citizen {r.id[:6].upper()}"
+        results.append({
+            "rank": i + 1,
+            "username": username,
+            "display_name": display_name,
+            "city": r.city,
+            "score": int(r.score),
+        })
+    return results

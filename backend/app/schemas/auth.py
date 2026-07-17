@@ -28,5 +28,16 @@ class UserPublic(BaseModel):
     city: str | None
     persona_id: str | None
     created_at: datetime
+    leaderboard_opt_in: bool
+    show_real_name_public: bool
 
     model_config = ConfigDict(from_attributes=True)
+
+
+class PrivacyUpdate(BaseModel):
+    """Both settings are changeable anytime from the profile page — neither
+    is a one-time choice made at registration. `show_real_name_public`
+    defaults to False (anonymous) independently of `leaderboard_opt_in`:
+    opting into the leaderboard doesn't force you to also be named on it."""
+    leaderboard_opt_in: bool | None = None
+    show_real_name_public: bool | None = None

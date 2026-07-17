@@ -7,9 +7,10 @@ import { api, ScoreBreakdown } from "@/lib/api";
 import Reveal from "@/components/ui/Reveal";
 
 function ProfileInner() {
-  const { user } = useAuth();
+  const { user, refresh } = useAuth();
   const [score, setScore] = useState<ScoreBreakdown | null>(null);
   const [loading, setLoading] = useState(true);
+  const [privacyBusy, setPrivacyBusy] = useState<string | null>(null);
 
   useEffect(() => {
     api
@@ -17,6 +18,16 @@ function ProfileInner() {
       .then(setScore)
       .finally(() => setLoading(false));
   }, []);
+
+  async function togglePrivacy(key: "leaderboard_opt_in" | "show_real_name_public", value: boolean) {
+    setPrivacyBusy(key);
+    try {
+      await api.updatePrivacy({ [key]: value });
+      await refresh();
+    } finally {
+      setPrivacyBusy(null);
+    }
+  }
 
   if (!user) return null;
 
@@ -66,6 +77,72 @@ function ProfileInner() {
           <p className="mt-1 text-sm text-amber-800/80">Couldn&apos;t load your Impact Score — try refreshing.</p>
         </div>
       )}
+
+      <Reveal delay={0.15}>
+        <div className="mt-6 rounded-3xl border border-line bg-white p-6">
+          <h2 className="mb-1 text-xs font-semibold uppercase tracking-wide text-ink/45">Privacy</h2>
+          <p className="mb-5 text-xs text-ink/40">Both of these can be changed anytime — neither is a one-time choice.</p>
+          <div className="space-y-4">
+            <PrivacyToggle
+              label="Appear on the public leaderboard"
+              description="Off by default. When off, you never appear on /leaderboard at all."
+              checked={user.leaderboard_opt_in}
+              busy={privacyBusy === "leaderboard_opt_in"}
+              onChange={(v) => togglePrivacy("leaderboard_opt_in", v)}
+            />
+            <PrivacyToggle
+              label="Show my real name and username"
+              description={
+                user.leaderboard_opt_in
+                  ? "Off by default — you appear as “Anonymous Citizen” instead of your name."
+                  : "Only matters once you appear on the leaderboard."
+              }
+              checked={user.show_real_name_public}
+              busy={privacyBusy === "show_real_name_public"}
+              onChange={(v) => togglePrivacy("show_real_name_public", v)}
+            />
+          </div>
+        </div>
+      </Reveal>
+    </div>
+  );
+}
+
+function PrivacyToggle({
+  label,
+  description,
+  checked,
+  busy,
+  onChange,
+}: {
+  label: string;
+  description: string;
+  checked: boolean;
+  busy: boolean;
+  onChange: (value: boolean) => void;
+}) {
+  return (
+    <div className="flex items-start justify-between gap-4">
+      <div>
+        <div className="text-sm font-medium text-ink">{label}</div>
+        <div className="mt-0.5 text-xs text-ink/45">{description}</div>
+      </div>
+      <button
+        type="button"
+        role="switch"
+        aria-checked={checked}
+        disabled={busy}
+        onClick={() => onChange(!checked)}
+        className={`relative h-6 w-11 shrink-0 rounded-full transition-colors duration-200 disabled:opacity-50 ${
+          checked ? "bg-teal" : "bg-mist"
+        }`}
+      >
+        <span
+          className={`absolute top-0.5 h-5 w-5 rounded-full bg-white shadow-soft transition-transform duration-200 ${
+            checked ? "translate-x-[22px]" : "translate-x-0.5"
+          }`}
+        />
+      </button>
     </div>
   );
 }
