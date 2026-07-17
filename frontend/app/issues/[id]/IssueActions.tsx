@@ -71,6 +71,7 @@ export default function IssueActions({ issueId }: { issueId: string }) {
         <p className="mx-auto max-w-md text-sm text-ink/55">
           Matched to your role — not a generic &ldquo;volunteer&rdquo; button. Pick what fits you right now.
         </p>
+        <p className="mt-2 text-xs text-ink/35">No account needed to browse — only to mark one done.</p>
       </div>
 
       <div className="mb-6 flex flex-wrap justify-center gap-2">

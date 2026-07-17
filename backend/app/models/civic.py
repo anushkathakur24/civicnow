@@ -23,6 +23,12 @@ class Issue(Base):
     published = Column(Boolean, nullable=False, default=False)  # gated behind editorial review
     created_at = Column(DateTime, default=lambda: datetime.now(timezone.utc))
     updated_at = Column(DateTime, default=lambda: datetime.now(timezone.utc), onupdate=lambda: datetime.now(timezone.utc))
+    # Distinct from `updated_at`, which changes on ANY row write (including
+    # unrelated edits). `last_fact_checked_at` only changes when someone
+    # deliberately re-verifies the underlying facts/sources are still
+    # accurate — set manually, never auto-updated, so it stays honest about
+    # what it claims.
+    last_fact_checked_at = Column(DateTime, nullable=True)
 
     timeline = relationship("TimelineEvent", back_populates="issue", order_by="TimelineEvent.event_date")
     promises = relationship("Promise", back_populates="issue")
@@ -151,6 +157,8 @@ class NGO(Base):
     focus_areas = Column(JSON, nullable=True)  # list[str]
     city = Column(String(120), nullable=True)
     website = Column(String(500), nullable=True)
+    contact_email = Column(String(255), nullable=True)  # collected at application time so a real human can follow up
+    application_message = Column(Text, nullable=True)  # what the applicant told us about their org, for manual review
     verified = Column(Boolean, default=False)
     verified_at = Column(DateTime, nullable=True)
     created_at = Column(DateTime, default=lambda: datetime.now(timezone.utc))

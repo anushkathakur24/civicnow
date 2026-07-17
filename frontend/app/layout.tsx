@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Inter, Fraunces } from "next/font/google";
+import Link from "next/link";
 import "./globals.css";
 import { AuthProvider } from "@/lib/auth";
 import NavBar from "@/components/NavBar";
@@ -51,7 +52,22 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           <NavBar />
           <main>{children}</main>
           <footer className="mt-24 border-t border-line py-10 text-center text-xs text-ink/40">
-            CivicNow is an independent civic-information project. Not affiliated with any government body, party, or NGO named on this site.
+            <p className="mb-3">
+              CivicNow is an independent civic-information project. Not affiliated with any government body, party, or NGO named on this site.
+            </p>
+            <nav className="flex flex-wrap items-center justify-center gap-x-4 gap-y-1.5">
+              <Link href="/about" className="transition-colors hover:text-ink/70">About</Link>
+              <Link href="/methodology" className="transition-colors hover:text-ink/70">Methodology</Link>
+              <Link href="/ngos/apply" className="transition-colors hover:text-ink/70">List your NGO</Link>
+              <a
+                href="https://github.com/anushkathakur24/civicnow"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="transition-colors hover:text-ink/70"
+              >
+                GitHub
+              </a>
+            </nav>
           </footer>
         </AuthProvider>
       </body>

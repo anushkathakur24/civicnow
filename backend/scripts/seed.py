@@ -53,7 +53,7 @@ db.flush()
 issue1 = Issue(
     id="neet-2026-leak", title="NEET-UG 2026 Paper Leak & Accountability Crisis",
     category="Education / Exam Integrity", urgency="critical", status="ongoing",
-    summary="NEET-UG 2026, India's national medical entrance exam originally held on May 3, 2026, was cancelled after credible evidence of a widespread paper leak and systematic irregularities surfaced. More than a dozen students died by suicide in the aftermath, fuelling nationwide calls for accountability.",
+    summary="NEET-UG 2026, India's national medical entrance exam originally held on May 3, 2026, was cancelled on May 12 after NTA's own investigation found overlaps between a pre-circulated guess paper and the actual question paper. At least 13 student suicides have since been linked to the crisis, per compiled police and media reports, fuelling nationwide calls for accountability.",
     current_ask="CJP and allied protesters are demanding Education Minister Dharmendra Pradhan's resignation and systemic NTA reform. As of the latest reporting, the minister has not resigned.",
     accountability_mechanism="Public Examinations (Prevention of Unfair Means) Act, 2024 — criminalises leaks and organised cheating. Track whether any arrests/prosecutions under this Act have resulted from the NEET-UG 2026 leak specifically.",
     sensitive_note="This issue involves student suicides and an active, health-critical hunger strike. If you or someone you know is in distress, iCall (9152987821) and the Vandrevala Foundation helpline (1860-2662-345) offer free, confidential support in India.",
@@ -77,6 +77,16 @@ issue3 = Issue(
     sensitive_note=None,
     published=True,
 )
+
+# All three issues were re-verified against live web search on the date this
+# seed script was last edited (see git history for the exact commit date) —
+# `last_fact_checked_at` reflects that real pass, deliberately distinct from
+# `updated_at`, which just tracks the row's last write regardless of whether
+# anyone re-checked the underlying facts.
+fact_checked_at = datetime.now(timezone.utc)
+for issue in (issue1, issue2, issue3):
+    issue.last_fact_checked_at = fact_checked_at
+
 db.add_all([issue1, issue2, issue3])
 db.flush()
 
@@ -87,6 +97,12 @@ SRC_CNN_HUNGER = "https://www.cnn.com/2026/07/15/world/video/hunger-strike-sonam
 SRC_DECCAN_DAY19 = "https://www.deccanherald.com/india/sonam-wangchuk-enters-critical-stage-of-hunger-strike-on-day-19-loses-over-9-kg-doctors-warn-of-organ-damage-4075690"
 SRC_CNN_CJP = "https://www.cnn.com/2026/06/26/india/india-cockroach-janta-party-delhi-protest-intl-hnk"
 SRC_ALJAZEERA_CJP = "https://www.aljazeera.com/news/2026/6/21/indias-cockroach-movement-camps-out-until-education-minister-resigns"
+# High-stakes claim (student suicides) gets 3 independent sources, not 1 —
+# per the editorial standard that the more serious the claim, the more
+# corroboration it needs before it's stated as fact on this site.
+SRC_ALJAZEERA_SUICIDES = "https://www.aljazeera.com/news/2026/5/26/come-back-my-son-indian-exam-leak-leaves-trail-of-death-despair-anger"
+SRC_OUTLOOK_SCANDAL = "https://www.outlookindia.com/national/neet-ug-2026-paper-leak-scandal-collapse-of-trust-student-suicides-and-indias-medical-entrance-crisis"
+SRC_OUTLOOK_13SUICIDES = "https://www.outlookindia.com/amp/story/national/13-reported-suicides-after-neet-paper-leak"
 
 db.add_all([
     Source(issue_id="neet-2026-leak", title="Indian activist Wangchuk urged to end hunger strike over exam paper leaks — Al Jazeera", url=SRC_ALJAZEERA_HUNGER),
@@ -94,11 +110,15 @@ db.add_all([
     Source(issue_id="neet-2026-leak", title="Sonam Wangchuk enters critical stage of hunger strike on day 19 — Deccan Herald", url=SRC_DECCAN_DAY19),
     Source(issue_id="neet-2026-leak", title="Cockroach Janta Party: India's viral youth movement hits the streets of the capital — CNN", url=SRC_CNN_CJP),
     Source(issue_id="neet-2026-leak", title="India's 'Cockroach' movement camps out until education minister resigns — Al Jazeera", url=SRC_ALJAZEERA_CJP),
+    Source(issue_id="neet-2026-leak", title="'Come back, my son': Indian exam leak leaves trail of death, despair, anger — Al Jazeera", url=SRC_ALJAZEERA_SUICIDES),
+    Source(issue_id="neet-2026-leak", title="NEET-UG 2026 Paper Leak Scandal: Collapse of Trust, Student Suicides and India's Medical Entrance Crisis — Outlook India", url=SRC_OUTLOOK_SCANDAL),
+    Source(issue_id="neet-2026-leak", title="13 Reported Suicides After NEET Paper Leak — Outlook India", url=SRC_OUTLOOK_13SUICIDES),
 ])
 
 db.add_all([
     TimelineEvent(issue_id="neet-2026-leak", event_date=date(2026,5,3), event_text="NEET-UG 2026 held; leak and irregularities surface shortly after.", verified=True),
-    TimelineEvent(issue_id="neet-2026-leak", event_date=date(2026,5,15), event_text="Exam cancelled following credible evidence of widespread leak. Multiple student suicides reported in the following weeks.", verified=True),
+    TimelineEvent(issue_id="neet-2026-leak", event_date=date(2026,5,12), event_text="Exam cancelled after NTA's own investigation finds overlaps between a pre-circulated guess paper and the actual question paper.", source_url=SRC_OUTLOOK_SCANDAL, verified=True),
+    TimelineEvent(issue_id="neet-2026-leak", event_date=date(2026,5,26), event_text="At least 13 student suicides are linked to the crisis in compiled police and media reports, as the forced re-test drags on. This is a sensitive, actively-reported figure — see sources below rather than treating it as final.", source_url=SRC_ALJAZEERA_SUICIDES, verified=True),
     TimelineEvent(issue_id="neet-2026-leak", event_date=date(2026,5,20), event_text="Abhijeet Dipke (30, Boston University graduate) launches the satirical 'Cockroach Janta Party' (CJP) on Instagram; gains ~22 million followers within days.", source_url=SRC_CNN_CJP, verified=True),
     TimelineEvent(issue_id="neet-2026-leak", event_date=date(2026,6,6), event_text="Dipke lands in India and leads a mass youth sit-in in Delhi, followed by demonstrations in Pune, Jaipur, Lucknow and Bengaluru.", source_url=SRC_CNN_CJP, verified=True),
     TimelineEvent(issue_id="neet-2026-leak", event_date=date(2026,6,21), event_text="CJP sit-in at Jantar Mantar, Delhi becomes a continuous encampment; protesters say they will not leave until Education Minister Dharmendra Pradhan resigns.", source_url=SRC_ALJAZEERA_CJP, verified=True),

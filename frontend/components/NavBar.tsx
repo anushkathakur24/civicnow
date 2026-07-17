@@ -18,6 +18,7 @@ export default function NavBar() {
               paths, so nothing is unreachable, just quieter on mobile. */}
           <Link href="/leaderboard" className="hidden transition-colors hover:text-ink sm:inline">Leaderboard</Link>
           <Link href="/ngos" className="hidden transition-colors hover:text-ink sm:inline">NGOs</Link>
+          <Link href="/about" className="hidden transition-colors hover:text-ink sm:inline">About</Link>
           {!loading && user && (
             <Link href="/profile" className="transition-colors hover:text-ink">My Profile</Link>
           )}

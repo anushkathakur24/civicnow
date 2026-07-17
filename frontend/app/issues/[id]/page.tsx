@@ -103,8 +103,18 @@ export default async function IssuePage({ params }: { params: { id: string } }) 
           </div>
           <h1 className="mb-5 font-serif text-display-md font-medium text-ink">{issue.title}</h1>
           <p className="mx-auto mb-3 max-w-xl text-lg leading-relaxed text-ink/60">{issue.summary}</p>
-          <p className="text-xs text-ink/35">
-            Last updated {new Date(issue.updated_at).toLocaleDateString("en-IN", { day: "numeric", month: "long", year: "numeric" })}
+          <p className="flex flex-wrap items-center justify-center gap-x-3 gap-y-1 text-xs text-ink/35">
+            <span>
+              Last updated {new Date(issue.updated_at).toLocaleDateString("en-IN", { day: "numeric", month: "long", year: "numeric" })}
+            </span>
+            {issue.last_fact_checked_at && (
+              <span className="inline-flex items-center gap-1 text-teal/80">
+                <svg width="11" height="11" viewBox="0 0 20 20" fill="currentColor" className="shrink-0">
+                  <path fillRule="evenodd" d="M16.7 5.3a1 1 0 010 1.4l-7.5 7.5a1 1 0 01-1.4 0l-3.5-3.5a1 1 0 111.4-1.4L8.5 12l6.8-6.8a1 1 0 011.4 0z" clipRule="evenodd" />
+                </svg>
+                Sources fact-checked {new Date(issue.last_fact_checked_at).toLocaleDateString("en-IN", { day: "numeric", month: "long", year: "numeric" })}
+              </span>
+            )}
           </p>
         </Reveal>
 
@@ -200,7 +210,10 @@ export default async function IssuePage({ params }: { params: { id: string } }) 
         <section className="mx-auto max-w-2xl border-t border-line px-5 py-12">
           <h2 className="mb-1 font-serif text-display-sm font-medium text-ink">Verified sources</h2>
           <p className="mb-6 text-sm text-ink/50">
-            Every fact on this page traces back to one of these. Nothing here is generated or inferred.
+            Every fact on this page traces back to one of these. Nothing here is generated or inferred.{" "}
+            <Link href="/methodology" className="text-accent-dark hover:underline">
+              How we verify sources →
+            </Link>
           </p>
           <SourceList sources={issue.sources} />
         </section>

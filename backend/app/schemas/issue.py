@@ -42,6 +42,7 @@ class IssueSummary(BaseModel):
     status: str
     summary: str
     updated_at: datetime
+    last_fact_checked_at: datetime | None = None
     model_config = ConfigDict(from_attributes=True)
 
 class IssueDetail(IssueSummary):

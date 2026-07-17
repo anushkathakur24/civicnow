@@ -81,6 +81,7 @@ export interface IssueSummary {
   status: string;
   summary: string;
   updated_at: string;
+  last_fact_checked_at: string | null;
 }
 
 export interface TimelineEvent {
@@ -201,4 +202,13 @@ export const api = {
   leaderboard: (scope: string = "global") =>
     apiFetch<LeaderboardRow[]>(`/leaderboard?scope=${scope}`),
   ngos: (verifiedOnly = false) => apiFetch<NGO[]>(`/ngos${verifiedOnly ? "?verified_only=true" : ""}`),
+  applyNgo: (payload: {
+    name: string;
+    contact_email: string;
+    city?: string;
+    website?: string;
+    darpan_id?: string;
+    focus_areas?: string[];
+    message?: string;
+  }) => apiFetch<{ id: string; status: string }>("/ngos/apply", { method: "POST", body: JSON.stringify(payload) }),
 };
