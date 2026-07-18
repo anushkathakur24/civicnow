@@ -20,6 +20,7 @@ export const PERSONAS: Persona[] = [
   { id: "lawyer", label: "Lawyer", blurb: "RTIs and legal support" },
   { id: "doctor", label: "Doctor", blurb: "Health camps and clinical support" },
   { id: "student", label: "Student", blurb: "Translation and local reach" },
+  { id: "public_figure", label: "Public Figure / Influencer", blurb: "Platform and public pressure" },
 ];
 
 export function personaLabel(id: string | null | undefined): string {

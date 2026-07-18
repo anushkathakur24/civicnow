@@ -8,6 +8,9 @@ import SourceList from "@/components/SourceList";
 import Reveal from "@/components/ui/Reveal";
 import Chip, { ChipTone } from "@/components/ui/Chip";
 import ProgressRing from "@/components/ui/ProgressRing";
+import { sourcedBadgeClass } from "@/components/ui/SourcedBadge";
+import SupportNotice from "@/components/SupportNotice";
+import HelpActions from "@/components/HelpActions";
 
 export const revalidate = 60;
 
@@ -98,8 +101,10 @@ export default async function IssuePage({ params }: { params: { id: string } }) 
       <header className="mx-auto max-w-2xl px-5 pb-10 pt-16 text-center sm:pt-20">
         <Reveal>
           <div className="mb-4 flex flex-wrap items-center justify-center gap-2">
-            <Chip tone={URGENCY_TONE[issue.urgency] || "neutral"}>{issue.urgency}</Chip>
-            <span className="text-xs font-medium uppercase tracking-wide text-ink/40">{issue.category}</span>
+            <Chip tone={URGENCY_TONE[issue.urgency] || "neutral"} glow={issue.urgency === "critical" || issue.urgency === "high"}>
+              {issue.urgency}
+            </Chip>
+            <span className="font-mono text-xs font-medium uppercase tracking-wide text-ink/40">{issue.category}</span>
           </div>
           <h1 className="mb-5 font-serif text-display-md font-medium text-ink">{issue.title}</h1>
           <p className="mx-auto mb-3 max-w-xl text-lg leading-relaxed text-ink/60">{issue.summary}</p>
@@ -117,15 +122,18 @@ export default async function IssuePage({ params }: { params: { id: string } }) 
             )}
           </p>
         </Reveal>
-
-        {issue.sensitive_note && (
-          <Reveal delay={0.1}>
-            <div className="mx-auto mt-6 max-w-xl rounded-2xl border border-amber-200 bg-amber-50 p-4 text-left text-sm text-amber-800">
-              {issue.sensitive_note}
-            </div>
-          </Reveal>
-        )}
       </header>
+
+      {/* ---- Need support? — distinct from the factual timeline and the
+          action section below, and only ever shown when the issue is
+          explicitly flagged as involving distressing subject matter. ---- */}
+      {issue.sensitive_content && issue.support_note_visible && (
+        <Reveal delay={0.1}>
+          <section className="mx-auto max-w-2xl px-5 pb-10">
+            <SupportNotice context={issue.sensitive_note} />
+          </section>
+        </Reveal>
+      )}
 
       {/* ---- Data: current status, at a glance ---- */}
       {issue.current_ask && (
@@ -166,15 +174,25 @@ export default async function IssuePage({ params }: { params: { id: string } }) 
             </div>
             <div className="space-y-3">
               {issue.promises.map((p, i) => (
-                <div key={i} className="rounded-2xl border border-line bg-white p-5">
+                <div
+                  key={i}
+                  className="rounded-2xl border border-line bg-white p-5 transition-all duration-300 hover:-translate-y-0.5 hover:shadow-glow-sm"
+                >
                   <div className="mb-1.5 flex flex-wrap items-center justify-between gap-2">
                     <span className="text-sm font-medium text-ink">{p.made_by}</span>
-                    <Chip tone={PROMISE_TONE[p.status] || "neutral"}>{p.status}</Chip>
+                    <Chip tone={PROMISE_TONE[p.status] || "neutral"} glow={p.status === "kept" || p.status === "broken"}>
+                      {p.status}
+                    </Chip>
                   </div>
                   <p className="text-sm leading-relaxed text-ink/65">{p.promise_text}</p>
                   {p.source_url && (
-                    <a href={p.source_url} target="_blank" rel="noopener noreferrer" className="mt-2 inline-block text-xs text-ink/40 hover:text-accent-dark hover:underline">
-                      View source →
+                    <a
+                      href={p.source_url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className={`mt-3 ${sourcedBadgeClass("neutral")} hover:border-accent/40 hover:text-accent-dark`}
+                    >
+                      Source
                     </a>
                   )}
                 </div>
@@ -200,7 +218,13 @@ export default async function IssuePage({ params }: { params: { id: string } }) 
         </Reveal>
       )}
 
-      {/* ---- Actions: the heart of the product ---- */}
+      {/* ---- Actions: the heart of the product. Sourced, general-issue
+          actions first (grounded, credible, same for every visitor), then
+          the role-matched picker beneath — two different jobs, deliberately
+          not merged into one list. ---- */}
+      <Reveal>
+        <HelpActions actions={issue.help_actions} />
+      </Reveal>
       <section className="mx-auto max-w-4xl px-5 py-14">
         <IssueActions issueId={issue.id} />
       </section>

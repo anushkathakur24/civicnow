@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Inter, Fraunces } from "next/font/google";
+import { Inter, Fraunces, JetBrains_Mono } from "next/font/google";
 import Link from "next/link";
 import "./globals.css";
 import { AuthProvider } from "@/lib/auth";
@@ -9,13 +9,21 @@ import JourneyStrip from "@/components/JourneyStrip";
 // Self-hosted by Next at build time (no runtime font-fetching, no layout
 // shift). Fraunces carries the big editorial headline moments (the "premium,
 // calm" register); Inter stays the workhorse UI/body face for everything
-// that needs to disappear and just be legible.
+// that needs to disappear and just be legible. JetBrains Mono is new for the
+// Phenomenon Studio-inspired pass — reserved for small "data tag" moments
+// (category labels, point values, source badges), never body copy.
 const inter = Inter({ subsets: ["latin"], variable: "--font-inter", display: "swap" });
 const fraunces = Fraunces({
   subsets: ["latin"],
   variable: "--font-fraunces",
   display: "swap",
   weight: ["400", "500", "600"],
+});
+const jetbrainsMono = JetBrains_Mono({
+  subsets: ["latin"],
+  variable: "--font-mono",
+  display: "swap",
+  weight: ["500", "600"],
 });
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || "https://civicnow.example.com";
@@ -47,7 +55,7 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" className={`${inter.variable} ${fraunces.variable}`}>
+    <html lang="en" className={`${inter.variable} ${fraunces.variable} ${jetbrainsMono.variable}`}>
       <body className="min-h-screen bg-paper font-sans text-ink antialiased">
         <AuthProvider>
           <NavBar />

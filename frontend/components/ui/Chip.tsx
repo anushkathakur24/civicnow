@@ -14,18 +14,32 @@ const TONE_CLASSES: Record<ChipTone, string> = {
   red: "bg-red-100 text-red-700",
 };
 
+// Opt-in halo for the highest-stakes tones — a critical/high-urgency pill
+// gets a quiet glow instead of just a flat fill, borrowed from the reference
+// but kept subtle: a shadow, not a neon ring. Every other tone (and every
+// existing call site that doesn't pass `glow`) is unaffected.
+const GLOW_SHADOW: Partial<Record<ChipTone, string>> = {
+  red: "shadow-glow-sm",
+  accent: "shadow-glow-sm",
+  teal: "shadow-glow-teal",
+};
+
 export default function Chip({
   children,
   tone = "neutral",
+  glow = false,
   className = "",
 }: {
   children: ReactNode;
   tone?: ChipTone;
+  glow?: boolean;
   className?: string;
 }) {
   return (
     <span
-      className={`inline-flex items-center gap-1 rounded-full px-2.5 py-1 text-[11px] font-semibold uppercase tracking-wide ${TONE_CLASSES[tone]} ${className}`}
+      className={`inline-flex items-center gap-1 rounded-full px-2.5 py-1 text-[11px] font-semibold uppercase tracking-wide ${TONE_CLASSES[tone]} ${
+        glow ? GLOW_SHADOW[tone] || "" : ""
+      } ${className}`}
     >
       {children}
     </span>

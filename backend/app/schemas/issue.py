@@ -34,6 +34,14 @@ class ActionDefinitionOut(BaseModel):
     recurring: bool
     model_config = ConfigDict(from_attributes=True)
 
+class HelpActionOut(BaseModel):
+    action_type: str
+    title: str
+    description: str
+    source_urls: list[str]
+    last_verified: date
+    model_config = ConfigDict(from_attributes=True)
+
 class IssueSummary(BaseModel):
     id: str
     title: str
@@ -49,10 +57,13 @@ class IssueDetail(IssueSummary):
     current_ask: str | None
     accountability_mechanism: str | None
     sensitive_note: str | None
+    sensitive_content: bool = False
+    support_note_visible: bool = True
     timeline: list[TimelineEventOut] = []
     promises: list[PromiseOut] = []
     sources: list[SourceOut] = []
     responsible_bodies: list[str] = []
+    help_actions: list[HelpActionOut] = []
     model_config = ConfigDict(from_attributes=True)
 
     @field_validator("responsible_bodies", mode="before")

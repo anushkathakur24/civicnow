@@ -40,10 +40,10 @@ export default function RegisterPage() {
   }
 
   const inputClass =
-    "w-full rounded-xl border border-line bg-white px-4 py-2.5 text-sm outline-none transition-colors focus:border-accent";
+    "w-full rounded-xl border border-line bg-white px-4 py-2.5 text-sm outline-none transition-all duration-200 focus:border-accent focus:shadow-glow-sm";
 
   return (
-    <div className="mx-auto max-w-sm px-5 py-20">
+    <div className="bg-dot-grid mx-auto max-w-sm px-5 py-20">
       <h1 className="mb-2 font-serif text-display-sm font-medium text-ink">Join CivicNow</h1>
       <p className="mb-3 text-sm text-ink/55">
         You can browse every issue and see what actions look like right away — no account required.
@@ -57,6 +57,7 @@ export default function RegisterPage() {
           once.
         </p>
       </div>
+      <div className="glass rounded-3xl border border-line/70 p-6 shadow-soft">
       <form onSubmit={onSubmit} className="space-y-4">
         <input
           required
@@ -109,6 +110,7 @@ export default function RegisterPage() {
       <p className="mt-5 text-sm text-ink/55">
         Already have an account? <Link href="/login" className="text-accent-dark hover:underline">Log in</Link>
       </p>
+      </div>
     </div>
   );
 }

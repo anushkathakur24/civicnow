@@ -28,3 +28,31 @@ html, body {
   background: #F6E4CC;
   color: #18160F;
 }
+
+/* ---- Reference-inspired texture, adapted to the light/warm palette ---- */
+
+/* Frosted glass card: translucent white + blur, so a dot-grid or glow-orb
+   sitting behind it in the hero/stats sections still shows through faintly.
+   Distinct from the solid-white Card primitive — reserved for surfaces that
+   sit directly on a textured/gradient background. */
+.glass {
+  background: rgba(255, 255, 255, 0.66);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+}
+
+/* Very subtle dot texture — barely-there, used behind the hero/stats to add
+   depth without competing with the copy. Line-colored, not decorative noise. */
+.bg-dot-grid {
+  background-image: radial-gradient(rgba(24, 22, 15, 0.07) 1px, transparent 1px);
+  background-size: 22px 22px;
+}
+
+/* A soft blurred warm blob — the reference's "glowing gradient orb," toned
+   down to a quiet amber bloom instead of a neon accent. Positioned behind
+   headline text via absolute placement at each call site. */
+.glow-orb {
+  background: radial-gradient(closest-side, rgba(217, 127, 46, 0.28), rgba(217, 127, 46, 0) 72%);
+  filter: blur(6px);
+  pointer-events: none;
+}

@@ -20,6 +20,18 @@ class Issue(Base):
     current_ask = Column(Text, nullable=True)
     accountability_mechanism = Column(Text, nullable=True)
     sensitive_note = Column(Text, nullable=True)
+    # `sensitive_content` is the actual gate for the standardized "Need
+    # support?" callout — deliberately separate from `sensitive_note` (which
+    # stays available for free-text context, e.g. "this involves an active
+    # hunger strike") because the callout itself now renders from a single
+    # shared helpline dataset, not per-issue-authored text. `support_note_visible`
+    # is a distinct editorial on/off switch: an issue can genuinely involve
+    # distressing subject matter (`sensitive_content=True`) while an editor
+    # still explicitly suppresses the box for some documented reason — both
+    # flags must be true for the box to render, so the default (True) never
+    # silently hides it without someone deliberately flipping it off.
+    sensitive_content = Column(Boolean, nullable=False, default=False)
+    support_note_visible = Column(Boolean, nullable=False, default=True)
     published = Column(Boolean, nullable=False, default=False)  # gated behind editorial review
     created_at = Column(DateTime, default=lambda: datetime.now(timezone.utc))
     updated_at = Column(DateTime, default=lambda: datetime.now(timezone.utc), onupdate=lambda: datetime.now(timezone.utc))
@@ -35,6 +47,7 @@ class Issue(Base):
     sources = relationship("Source", back_populates="issue")
     responsible_bodies = relationship("ResponsibleBody", back_populates="issue")
     actions = relationship("ActionDefinition", back_populates="issue")
+    help_actions = relationship("HelpAction", back_populates="issue", order_by="HelpAction.sort_order")
 
 
 class TimelineEvent(Base):
@@ -119,6 +132,40 @@ class ActionDefinition(Base):
     issue = relationship("Issue", back_populates="actions")
 
     __table_args__ = (Index("ix_action_issue_persona", "issue_id", "persona_id"),)
+
+
+class HelpAction(Base):
+    """The general, issue-level 'how you can help' layer — grounded, sourced,
+    concrete actions anyone can take (amplify, sign a real petition, contact a
+    named representative, show up somewhere specific), distinct from
+    ActionDefinition (the role-matched/persona layer with points and
+    verification). Both render on the issue page; they are never merged into
+    one list because they serve different jobs — see issue-authoring
+    checklist in backend/CONTENT_GUIDELINES.md.
+
+    Every row here must be backed by at least one real, checkable source_url —
+    this is content-authoring policy, enforced by the seed-data assertion at
+    the bottom of scripts/seed.py and by the authoring checklist, not by a DB
+    constraint (a URL's realness isn't something the database can verify)."""
+    __tablename__ = "issue_help_actions"
+    id = Column(Integer, primary_key=True, autoincrement=True)
+    issue_id = Column(String(80), ForeignKey("issues.id", ondelete="CASCADE"), index=True)
+    action_type = Column(String(30), nullable=False)  # amplify|petition|contact|physical|donate|volunteer|monitor
+    title = Column(String(255), nullable=False)
+    description = Column(Text, nullable=False)
+    source_urls = Column(JSON, nullable=False)  # list[str], 1+ required — see class docstring
+    last_verified = Column(Date, nullable=False)
+    sort_order = Column(Integer, nullable=False, default=0)
+    # Ongoing situations (a hunger strike, a live petition) change quickly.
+    # Rather than leaving a stale action live with outdated urgency, an
+    # editor flips this to False when re-verifying finds it's no longer
+    # current — the row stays in history (for the audit trail) but the API
+    # excludes it from what's shown by default. See get_issue_help_actions.
+    still_active = Column(Boolean, nullable=False, default=True)
+
+    issue = relationship("Issue", back_populates="help_actions")
+
+    __table_args__ = (Index("ix_help_action_issue", "issue_id"),)
 
 
 class ActionSubmission(Base):

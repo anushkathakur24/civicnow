@@ -7,7 +7,7 @@ export default function NavBar() {
   const { user, loading, logout } = useAuth();
 
   return (
-    <header className="sticky top-0 z-50 border-b border-line/70 bg-paper/85 backdrop-blur-md">
+    <header className="glass sticky top-0 z-50 border-b border-line/70">
       <div className="mx-auto flex max-w-6xl items-center justify-between px-5 py-4">
         <Link href="/" className="flex items-baseline gap-2.5">
           <span className="font-serif text-lg font-medium tracking-tight text-ink">CivicNow</span>

@@ -34,8 +34,14 @@ export default async function HomePage() {
   return (
     <div>
       {/* ---- Hero: the copy is the design — short lines, generous space ---- */}
-      <section className="mx-auto max-w-xl px-5 pb-20 pt-28 text-center sm:pt-36">
-        <Reveal>
+      <section className="bg-dot-grid relative mx-auto max-w-xl overflow-hidden px-5 pb-20 pt-28 text-center sm:pt-36">
+        {/* Quiet warm blooms behind the headline — the reference's "glowing
+            gradient orb," toned down to sit behind type, not compete with it. */}
+        <div
+          aria-hidden
+          className="glow-orb pointer-events-none absolute -top-16 left-1/2 h-72 w-72 -translate-x-1/2 sm:h-96 sm:w-96"
+        />
+        <Reveal className="relative z-10">
           <p className="mb-8 text-xs font-semibold uppercase tracking-[0.25em] text-accent-dark">
             Stop scrolling.
           </p>
@@ -62,31 +68,31 @@ export default async function HomePage() {
       </section>
 
       {/* ---- Understand → Track → Act ---- */}
-      <Reveal delay={0.1}>
-        <section className="mx-auto max-w-3xl px-5 py-16">
-          <div className="grid grid-cols-1 gap-10 sm:grid-cols-3">
-            {[
-              { step: "01", title: "Understand", copy: "The full, honestly-sourced picture — not a headline stripped of context." },
-              { step: "02", title: "Track", copy: "What's actually happened, who's responsible, and what they've done about it." },
-              { step: "03", title: "Act", copy: "One real action, matched to your time, skills, and role — not a generic ask." },
-            ].map((s) => (
-              <div key={s.step} className="text-center sm:text-left">
-                <div className="mb-3 font-serif text-sm text-accent-dark">{s.step}</div>
+      <section className="mx-auto max-w-3xl px-5 py-16">
+        <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
+          {[
+            { step: "01", title: "Understand", copy: "The full, honestly-sourced picture — not a headline stripped of context." },
+            { step: "02", title: "Track", copy: "What's actually happened, who's responsible, and what they've done about it." },
+            { step: "03", title: "Act", copy: "One real action, matched to your time, skills, and role — not a generic ask." },
+          ].map((s, i) => (
+            <Reveal key={s.step} delay={0.06 * i}>
+              <div className="glass h-full rounded-3xl border border-line/70 p-6 text-center transition-all duration-300 hover:-translate-y-0.5 hover:shadow-glow-sm sm:text-left">
+                <div className="mb-3 font-mono text-xs text-accent-dark">{s.step}</div>
                 <h3 className="mb-2 font-serif text-xl font-medium text-ink">{s.title}</h3>
                 <p className="text-sm leading-relaxed text-ink/55">{s.copy}</p>
               </div>
-            ))}
-          </div>
-        </section>
-      </Reveal>
+            </Reveal>
+          ))}
+        </div>
+      </section>
 
       {/* ---- Flagship issue ---- */}
       {flagship && (
         <Reveal delay={0.05}>
           <section className="mx-auto max-w-3xl px-5 py-6">
             <Link href={`/issues/${flagship.id}`} className="block">
-              <div className="group rounded-4xl border border-line bg-gradient-to-br from-accent-soft/60 to-white p-9 shadow-soft transition-shadow duration-300 hover:shadow-soft-lg sm:p-12">
-                <Chip tone="red" className="mb-4">Most urgent right now</Chip>
+              <div className="group rounded-4xl border border-line bg-gradient-to-br from-accent-soft/60 to-white p-9 shadow-soft transition-all duration-300 hover:-translate-y-0.5 hover:shadow-glow sm:p-12">
+                <Chip tone="red" glow className="mb-4">Most urgent right now</Chip>
                 <h2 className="mb-3 font-serif text-display-sm font-medium text-ink">{flagship.title}</h2>
                 <p className="mb-6 max-w-xl text-ink/60">{flagship.summary}</p>
                 <span className="inline-flex items-center gap-1 font-medium text-accent-dark transition-transform duration-300 group-hover:translate-x-1">

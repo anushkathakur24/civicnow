@@ -1,9 +1,10 @@
 "use client";
 
 import { useMemo, useState } from "react";
+import Link from "next/link";
 import { NGO } from "@/lib/api";
 import Card from "@/components/ui/Card";
-import Chip from "@/components/ui/Chip";
+import SourcedBadge from "@/components/ui/SourcedBadge";
 import Reveal from "@/components/ui/Reveal";
 
 export default function NgoBrowser({ ngos }: { ngos: NGO[] }) {
@@ -34,25 +35,27 @@ export default function NgoBrowser({ ngos }: { ngos: NGO[] }) {
         />
       </div>
 
-      {filtered.length === 0 && (
-        <div className="rounded-3xl border border-dashed border-line p-10 text-center text-sm text-ink/45">
-          {ngos.length === 0 ? "No NGOs listed yet." : `No NGOs match "${query}".`}
+      {filtered.length === 0 && ngos.length > 0 && (
+        <div className="mb-3 rounded-3xl border border-dashed border-line p-10 text-center text-sm text-ink/45">
+          No NGOs match &ldquo;{query}&rdquo;.
         </div>
       )}
 
-      <div className="space-y-3">
+      <div className="grid gap-3 sm:grid-cols-2">
         {filtered.map((n, i) => (
           <Reveal key={n.id} delay={Math.min(i * 0.04, 0.25)}>
-            <Card className="p-5">
+            <Card hover glow className="h-full p-5">
               <div className="flex items-center justify-between gap-2">
                 <div className="font-medium text-ink">{n.name}</div>
                 {n.verified ? (
-                  <Chip tone="teal" className="shrink-0">Verified</Chip>
+                  <SourcedBadge className="shrink-0">Verified</SourcedBadge>
                 ) : (
-                  <Chip tone="neutral" className="shrink-0">Unverified</Chip>
+                  <SourcedBadge tone="neutral" icon={false} className="shrink-0">Unverified</SourcedBadge>
                 )}
               </div>
-              {typeof n.city === "string" && n.city && <div className="mt-0.5 text-sm text-ink/50">{n.city}</div>}
+              {typeof n.city === "string" && n.city && (
+                <div className="mt-1 font-mono text-xs text-ink/40">{n.city}</div>
+              )}
               {!n.verified && (
                 <p className="mt-2 text-xs text-amber-700">
                   Registration not yet confirmed — shown transparently rather than hidden or presented as verified.
@@ -61,6 +64,25 @@ export default function NgoBrowser({ ngos }: { ngos: NGO[] }) {
             </Card>
           </Reveal>
         ))}
+
+        {/* Recruitment slot, not an afterthought — always the last card in the
+            grid so the directory reads as actively growing rather than a
+            closed, finished list. */}
+        <Reveal delay={Math.min(filtered.length * 0.04, 0.3)}>
+          <Link
+            href="/ngos/apply"
+            className="group flex h-full min-h-[104px] flex-col items-center justify-center gap-2 rounded-3xl border-2 border-dashed border-line p-5 text-center transition-all duration-300 hover:-translate-y-0.5 hover:border-accent/50 hover:bg-accent-soft/10"
+          >
+            <span className="flex h-8 w-8 items-center justify-center rounded-full border border-line text-ink/40 transition-colors group-hover:border-accent/50 group-hover:text-accent-dark">
+              <svg width="14" height="14" viewBox="0 0 20 20" fill="none">
+                <path d="M10 4v12M4 10h12" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" />
+              </svg>
+            </span>
+            <span className="text-sm font-medium text-ink/60 transition-colors group-hover:text-accent-dark">
+              List your NGO
+            </span>
+          </Link>
+        </Reveal>
       </div>
     </div>
   );

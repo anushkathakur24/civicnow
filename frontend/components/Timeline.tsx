@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
 import { TimelineEvent } from "@/lib/api";
-import Chip from "@/components/ui/Chip";
+import SourcedBadge, { sourcedBadgeClass } from "@/components/ui/SourcedBadge";
 
 // A single connecting rail with a node per event. Clicking an event expands
 // it to surface the source link — reading history unfold, one confirmed
@@ -25,20 +25,20 @@ export default function Timeline({ events }: { events: TimelineEvent[] }) {
             transition={{ duration: 0.6, delay: Math.min(i * 0.06, 0.4), ease: [0.16, 1, 0.3, 1] }}
           >
             <span
-              className={`absolute -left-[33px] top-1 h-3 w-3 rounded-full border-2 border-paper ${
+              className={`absolute -left-[33px] top-5 h-3 w-3 rounded-full border-2 border-paper ${
                 t.verified ? "bg-teal" : "bg-ink/25"
               }`}
             />
             <button
               type="button"
               onClick={() => setOpenIndex(isOpen ? null : i)}
-              className="group flex w-full flex-col items-start text-left"
+              className="glass group flex w-full flex-col items-start rounded-2xl border border-line/70 p-4 text-left transition-all duration-300 hover:-translate-y-0.5 hover:shadow-glow-sm"
             >
               <div className="mb-1.5 flex flex-wrap items-center gap-2">
                 <span className="text-xs font-semibold uppercase tracking-wide text-accent-dark">
                   {new Date(t.event_date).toLocaleDateString("en-IN", { day: "numeric", month: "short", year: "numeric" })}
                 </span>
-                {t.verified && <Chip tone="teal">Sourced</Chip>}
+                {t.verified && <SourcedBadge>Sourced</SourcedBadge>}
               </div>
               <p className="text-[15px] leading-relaxed text-ink/80 transition-colors group-hover:text-ink">
                 {t.event_text}
@@ -49,12 +49,9 @@ export default function Timeline({ events }: { events: TimelineEvent[] }) {
                 href={t.source_url}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="mt-2 inline-flex items-center gap-1 text-xs font-medium text-ink/40 transition-colors hover:text-accent-dark"
+                className={`mt-2 ${sourcedBadgeClass("neutral")} hover:border-accent/40 hover:text-accent-dark`}
               >
                 View original source
-                <svg width="10" height="10" viewBox="0 0 20 20" fill="none">
-                  <path d="M7 13L13 7M13 7H8M13 7V12" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
-                </svg>
               </a>
             )}
           </motion.li>

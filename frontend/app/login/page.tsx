@@ -29,9 +29,13 @@ export default function LoginPage() {
     }
   }
 
+  const inputClass =
+    "w-full rounded-xl border border-line bg-white px-4 py-2.5 text-sm outline-none transition-all duration-200 focus:border-accent focus:shadow-glow-sm";
+
   return (
-    <div className="mx-auto max-w-sm px-5 py-20">
+    <div className="bg-dot-grid mx-auto max-w-sm px-5 py-20">
       <h1 className="mb-8 font-serif text-display-sm font-medium text-ink">Log in</h1>
+      <div className="glass rounded-3xl border border-line/70 p-6 shadow-soft">
       <form onSubmit={onSubmit} className="space-y-4">
         <input
           type="email"
@@ -39,7 +43,7 @@ export default function LoginPage() {
           placeholder="Email"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
-          className="w-full rounded-xl border border-line bg-white px-4 py-2.5 text-sm outline-none transition-colors focus:border-accent"
+          className={inputClass}
         />
         <input
           type="password"
@@ -47,7 +51,7 @@ export default function LoginPage() {
           placeholder="Password"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
-          className="w-full rounded-xl border border-line bg-white px-4 py-2.5 text-sm outline-none transition-colors focus:border-accent"
+          className={inputClass}
         />
         {error && <p className="text-sm text-red-600">{error}</p>}
         <Button disabled={busy} className="w-full py-3">
@@ -57,6 +61,7 @@ export default function LoginPage() {
       <p className="mt-5 text-sm text-ink/55">
         No account? <Link href="/register" className="text-accent-dark hover:underline">Register</Link>
       </p>
+      </div>
     </div>
   );
 }

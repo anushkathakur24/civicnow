@@ -27,7 +27,7 @@ export default function SourceList({ sources }: { sources: SourceItem[] }) {
               href={s.url}
               target="_blank"
               rel="noopener noreferrer"
-              className="group flex items-start gap-3 rounded-2xl border border-line bg-white p-4 transition-colors duration-200 hover:border-accent/40 hover:bg-accent-soft/20"
+              className="group flex items-start gap-3 rounded-2xl border border-line bg-white p-4 transition-all duration-300 hover:-translate-y-0.5 hover:border-accent/40 hover:shadow-glow-sm"
             >
               <span className="mt-0.5 flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-full bg-mist text-xs font-semibold uppercase text-ink/50">
                 {domain.slice(0, 1)}
@@ -36,7 +36,7 @@ export default function SourceList({ sources }: { sources: SourceItem[] }) {
                 <span className="block truncate text-sm font-medium text-ink group-hover:text-accent-dark">
                   {s.title}
                 </span>
-                <span className="mt-0.5 block text-xs text-ink/40">{domain}</span>
+                <span className="mt-0.5 block font-mono text-[11px] text-ink/40">{domain}</span>
               </span>
             </a>
           </li>

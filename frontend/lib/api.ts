@@ -104,14 +104,34 @@ export interface SourceItem {
   url: string;
 }
 
+export type HelpActionType =
+  | "amplify"
+  | "petition"
+  | "contact"
+  | "physical"
+  | "donate"
+  | "volunteer"
+  | "monitor";
+
+export interface HelpAction {
+  action_type: HelpActionType | string;
+  title: string;
+  description: string;
+  source_urls: string[];
+  last_verified: string;
+}
+
 export interface IssueDetail extends IssueSummary {
   current_ask: string | null;
   accountability_mechanism: string | null;
   sensitive_note: string | null;
+  sensitive_content: boolean;
+  support_note_visible: boolean;
   timeline: TimelineEvent[];
   promises: PromiseItem[];
   sources: SourceItem[];
   responsible_bodies: string[];
+  help_actions: HelpAction[];
 }
 
 export interface ActionDefinition {

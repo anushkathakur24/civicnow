@@ -3,16 +3,22 @@ interface Stat {
   value: string;
 }
 
-// A quiet signal, not a dashboard: numbers sit low-contrast against the page
-// with thin dividers instead of boxed KPI tiles, so they read as ambient
-// trust rather than something demanding attention.
+// Bento-grid of glass cards, Phenomenon Studio-inspired — but numbers stay
+// low-contrast-first (monospace, not oversized) so this still reads as an
+// ambient trust signal, not a dashboard demanding attention. The "every
+// number is counted directly from the database" disclaimer lives with the
+// caller (app/page.tsx), directly beneath this — that's the actual trust
+// feature; the glass styling is just texture on top of it.
 export default function StatsBar({ stats }: { stats: Stat[] }) {
   return (
-    <div className="mx-auto flex max-w-3xl flex-wrap justify-center divide-x divide-line px-4 py-2">
+    <div className="mx-auto grid max-w-3xl grid-cols-2 gap-3 px-4 sm:grid-cols-4">
       {stats.map((s) => (
-        <div key={s.label} className="px-6 py-4 text-center first:pl-0 last:pr-0">
-          <div className="font-serif text-2xl font-medium text-ink">{s.value}</div>
-          <div className="mt-0.5 text-[11px] font-medium uppercase tracking-wide text-ink/40">{s.label}</div>
+        <div
+          key={s.label}
+          className="glass rounded-2xl border border-line/70 px-4 py-5 text-center transition-all duration-300 hover:-translate-y-0.5 hover:shadow-glow-sm"
+        >
+          <div className="font-mono text-2xl font-semibold tracking-tight text-ink">{s.value}</div>
+          <div className="mt-1 text-[10px] font-medium uppercase tracking-wide text-ink/40">{s.label}</div>
         </div>
       ))}
     </div>

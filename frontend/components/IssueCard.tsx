@@ -10,13 +10,17 @@ const URGENCY_TONE: Record<string, ChipTone> = {
   low: "neutral",
 };
 
+const GLOW_URGENCY = new Set(["critical", "high"]);
+
 export default function IssueCard({ issue }: { issue: IssueSummary }) {
   return (
     <Link href={`/issues/${issue.id}`} className="block">
-      <Card hover className="h-full">
-        <div className="mb-3 flex items-center gap-2">
-          <Chip tone={URGENCY_TONE[issue.urgency] || "neutral"}>{issue.urgency}</Chip>
-          <span className="text-xs text-ink/45">{issue.category}</span>
+      <Card hover glow className="h-full">
+        <div className="mb-3 flex items-center justify-between gap-2">
+          <Chip tone={URGENCY_TONE[issue.urgency] || "neutral"} glow={GLOW_URGENCY.has(issue.urgency)}>
+            {issue.urgency}
+          </Chip>
+          <span className="font-mono text-[10px] uppercase tracking-wide text-ink/40">{issue.category}</span>
         </div>
         <h3 className="mb-2 font-serif text-lg font-medium leading-snug tracking-tight text-ink">
           {issue.title}

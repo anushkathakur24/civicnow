@@ -31,13 +31,26 @@ def get_issue(issue_id: str, db: DBSession = Depends(get_db)):
             selectinload(Issue.promises),
             selectinload(Issue.sources),
             selectinload(Issue.responsible_bodies),
+            selectinload(Issue.help_actions),
         )
         .filter(Issue.id == issue_id, Issue.published.is_(True))
         .first()
     )
     if not issue:
         raise HTTPException(404, "Issue not found")
-    return IssueDetail.model_validate(issue)
+    detail = IssueDetail.model_validate(issue)
+    # A stale action (an ended hunger strike, a closed petition) gets
+    # `still_active=False` at re-verification time rather than being deleted
+    # outright — keeps the row in the DB for auditability, but the public API
+    # excludes it here so nothing outdated is ever shown as current.
+    # `still_active` is deliberately not part of HelpActionOut, so filtering
+    # happens by zipping against the ORM rows (same relationship, same
+    # `order_by`, so positions line up 1:1) rather than mutating `issue`
+    # itself, which would risk SQLAlchemy flushing an orphaned-child update.
+    detail.help_actions = [
+        out for out, row in zip(detail.help_actions, issue.help_actions) if row.still_active
+    ]
+    return detail
 
 
 @router.get("/{issue_id}/history", response_model=list[AuditLogOut])
