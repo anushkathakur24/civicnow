@@ -6,6 +6,7 @@ import Reveal from "@/components/ui/Reveal";
 import { ButtonLink } from "@/components/ui/Button";
 import Chip from "@/components/ui/Chip";
 import JourneyStrip from "@/components/JourneyStrip";
+import JourneyGraphic from "@/components/JourneyGraphic";
 
 export const revalidate = 60; // ISR: re-fetch issue list from the API at most once a minute
 
@@ -67,23 +68,11 @@ export default async function HomePage() {
         </Reveal>
       </section>
 
-      {/* ---- Understand → Track → Act ---- */}
+      {/* ---- Understand → Track → Act — shared component, see
+          components/JourneyGraphic.tsx (also used on About and issue
+          pages) so the motif reads identically everywhere. ---- */}
       <section className="mx-auto max-w-3xl px-5 py-16">
-        <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
-          {[
-            { step: "01", title: "Understand", copy: "The full, honestly-sourced picture — not a headline stripped of context." },
-            { step: "02", title: "Track", copy: "What's actually happened, who's responsible, and what they've done about it." },
-            { step: "03", title: "Act", copy: "One real action, matched to your time, skills, and role — not a generic ask." },
-          ].map((s, i) => (
-            <Reveal key={s.step} delay={0.06 * i}>
-              <div className="glass h-full rounded-3xl border border-line/70 p-6 text-center transition-all duration-300 hover:-translate-y-0.5 hover:shadow-glow-sm sm:text-left">
-                <div className="mb-3 font-mono text-xs text-accent-dark">{s.step}</div>
-                <h3 className="mb-2 font-serif text-xl font-medium text-ink">{s.title}</h3>
-                <p className="text-sm leading-relaxed text-ink/55">{s.copy}</p>
-              </div>
-            </Reveal>
-          ))}
-        </div>
+        <JourneyGraphic />
       </section>
 
       {/* ---- Flagship issue ---- */}

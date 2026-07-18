@@ -5,6 +5,7 @@ import { api, ApiError } from "@/lib/api";
 import IssueActions from "./IssueActions";
 import Timeline from "@/components/Timeline";
 import SourceList from "@/components/SourceList";
+import JourneyGraphic from "@/components/JourneyGraphic";
 import Reveal from "@/components/ui/Reveal";
 import Chip, { ChipTone } from "@/components/ui/Chip";
 import ProgressRing from "@/components/ui/ProgressRing";
@@ -123,6 +124,14 @@ export default async function IssuePage({ params }: { params: { id: string } }) 
           </p>
         </Reveal>
       </header>
+
+      {/* ---- Understand → Track → Act — the same shared graphic used on
+          the homepage and About page, here framing this specific page: the
+          timeline below is "Understand", current status is "Track", and
+          the actions section is "Act". ---- */}
+      <section className="mx-auto max-w-2xl px-5 pb-12">
+        <JourneyGraphic />
+      </section>
 
       {/* ---- Need support? — distinct from the factual timeline and the
           action section below, and only ever shown when the issue is
