@@ -19,7 +19,7 @@ export default function NavBar() {
           {/* Secondary links collapse on small screens so the mobile header
               stays uncluttered — the hero and footer already surface these
               paths, so nothing is unreachable, just quieter on mobile. */}
-          <Link href="/leaderboard" className="hidden transition-colors hover:text-ink sm:inline">Leaderboard</Link>
+          <Link href="/leaderboard" className="hidden transition-colors hover:text-ink sm:inline">Impact Board</Link>
           <Link href="/ngos" className="hidden transition-colors hover:text-ink sm:inline">NGOs</Link>
           <Link href="/about" className="hidden transition-colors hover:text-ink sm:inline">About</Link>
           {!loading && user && (

@@ -3,7 +3,7 @@ import { api } from "@/lib/api";
 import Reveal from "@/components/ui/Reveal";
 
 export const revalidate = 30;
-export const metadata = { title: "Leaderboard" };
+export const metadata = { title: "Impact Board" };
 
 export default async function LeaderboardPage() {
   let rows: Awaited<ReturnType<typeof api.leaderboard>> = [];
@@ -17,7 +17,7 @@ export default async function LeaderboardPage() {
   return (
     <div className="mx-auto max-w-2xl px-5 py-16">
       <Reveal>
-        <h1 className="mb-2 font-serif text-display-sm font-medium text-ink">Leaderboard</h1>
+        <h1 className="mb-2 font-serif text-display-sm font-medium text-ink">Impact Board</h1>
         <p className="mb-8 text-sm text-ink/55">
           Opt-in only — most CivicNow users keep their Impact Score private by default.
         </p>

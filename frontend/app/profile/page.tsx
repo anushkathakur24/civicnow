@@ -84,8 +84,8 @@ function ProfileInner() {
           <p className="mb-5 text-xs text-ink/40">Both of these can be changed anytime — neither is a one-time choice.</p>
           <div className="space-y-4">
             <PrivacyToggle
-              label="Appear on the public leaderboard"
-              description="Off by default. When off, you never appear on /leaderboard at all."
+              label="Appear on the public Impact Board"
+              description="Off by default. When off, you never appear on the Impact Board at all."
               checked={user.leaderboard_opt_in}
               busy={privacyBusy === "leaderboard_opt_in"}
               onChange={(v) => togglePrivacy("leaderboard_opt_in", v)}
@@ -95,7 +95,7 @@ function ProfileInner() {
               description={
                 user.leaderboard_opt_in
                   ? "Off by default — you appear as “Anonymous Citizen” instead of your name."
-                  : "Only matters once you appear on the leaderboard."
+                  : "Only matters once you appear on the Impact Board."
               }
               checked={user.show_real_name_public}
               busy={privacyBusy === "show_real_name_public"}

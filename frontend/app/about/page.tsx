@@ -143,13 +143,12 @@ export default function AboutPage() {
             initials="AT"
             paragraphs={[
               "Hi, I'm Anushka Thakur.",
-              "I'm a software engineer, and I got tired of watching myself scroll past things I cared about and do nothing. I don't have a big team or a big budget behind this — just a tech background, and a decision to stop waiting for someone else to build the thing I wished existed.",
+              "I'm in my final year of engineering (IT), and I got tired of watching myself scroll past things I cared about and do nothing. I don't have a big team or a big budget behind this — just a tech background, and a decision to stop waiting for someone else to build the thing I wished existed.",
               "CivicNow is me acting on that. It's early, it's imperfect, and I'm building it in the open. If you want to help, push back on something, or just tell me what's broken — reach out.",
             ]}
             links={[
-              { kind: "github", label: "GitHub", href: "https://github.com/anushkathakur24" },
-              { kind: "linkedin", label: "LinkedIn", href: "https://www.linkedin.com/in/anushkathakur24" },
-              { kind: "email", label: "Email", href: "mailto:hello@civicnow.app" },
+              { kind: "linkedin", label: "LinkedIn", href: "https://www.linkedin.com/in/thakur-anushka" },
+              { kind: "email", label: "Email", href: "mailto:anushkthakur24@gmail.com" },
             ]}
           />
         </section>
