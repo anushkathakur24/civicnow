@@ -10,7 +10,7 @@ from slowapi.errors import RateLimitExceeded
 
 from app.core.config import get_settings
 from app.core.logging_config import configure_logging
-from app.api.v1.routers import health, auth, issues, actions, users, leaderboard, ngos
+from app.api.v1.routers import health, auth, issues, actions, users, leaderboard, ngos, internal
 
 settings = get_settings()
 configure_logging(settings.ENV)
@@ -68,6 +68,9 @@ app.include_router(actions.router, prefix="/api/v1")
 app.include_router(users.router, prefix="/api/v1")
 app.include_router(leaderboard.router, prefix="/api/v1")
 app.include_router(ngos.router, prefix="/api/v1")
+# Temporary — see app/api/v1/routers/internal.py docstring. Remove this line
+# and delete that file once the one-off production backfill has run.
+app.include_router(internal.router, prefix="/api/v1")
 
 
 @app.get("/")
