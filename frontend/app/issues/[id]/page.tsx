@@ -126,11 +126,14 @@ export default async function IssuePage({ params }: { params: { id: string } }) 
       </header>
 
       {/* ---- Understand → Track → Act — the same shared graphic used on
-          the homepage and About page, here framing this specific page: the
-          timeline below is "Understand", current status is "Track", and
-          the actions section is "Act". ---- */}
+          the homepage and About page, here framing this specific page and,
+          unlike those two, actually clickable: each step scroll-jumps to
+          the part of this page it names (timeline, current status,
+          actions). ---- */}
       <section className="mx-auto max-w-2xl px-5 pb-12">
-        <JourneyGraphic />
+        <JourneyGraphic
+          links={{ understand: "#issue-understand", track: "#issue-track", act: "#issue-act" }}
+        />
       </section>
 
       {/* ---- Need support? — distinct from the factual timeline and the
@@ -147,7 +150,7 @@ export default async function IssuePage({ params }: { params: { id: string } }) 
       {/* ---- Data: current status, at a glance ---- */}
       {issue.current_ask && (
         <Reveal>
-          <section className="mx-auto max-w-2xl px-5 pb-14">
+          <section id="issue-track" className="mx-auto max-w-2xl scroll-mt-24 px-5 pb-14">
             <div className="flex flex-col items-center gap-6 rounded-4xl border border-line bg-white p-8 text-center shadow-soft sm:flex-row sm:text-left">
               {totalPromises > 0 && (
                 <ProgressRing value={keptPromises} total={totalPromises} label="Commitments kept" />
@@ -164,7 +167,7 @@ export default async function IssuePage({ params }: { params: { id: string } }) 
 
       {/* ---- Timeline: history unfolding ---- */}
       {issue.timeline.length > 0 && (
-        <section className="mx-auto max-w-2xl px-5 py-8">
+        <section id="issue-understand" className="mx-auto max-w-2xl scroll-mt-24 px-5 py-8">
           <Reveal>
             <h2 className="mb-1 font-serif text-display-sm font-medium text-ink">How we got here</h2>
             <p className="mb-8 text-sm text-ink/50">Tap any moment to see where it came from.</p>
@@ -231,12 +234,14 @@ export default async function IssuePage({ params }: { params: { id: string } }) 
           actions first (grounded, credible, same for every visitor), then
           the role-matched picker beneath — two different jobs, deliberately
           not merged into one list. ---- */}
-      <Reveal>
-        <HelpActions actions={issue.help_actions} />
-      </Reveal>
-      <section className="mx-auto max-w-4xl px-5 py-14">
-        <IssueActions issueId={issue.id} />
-      </section>
+      <div id="issue-act" className="scroll-mt-24">
+        <Reveal>
+          <HelpActions actions={issue.help_actions} />
+        </Reveal>
+        <section className="mx-auto max-w-4xl px-5 py-14">
+          <IssueActions issueId={issue.id} />
+        </section>
+      </div>
 
       {/* ---- Sources: trust ---- */}
       <Reveal>
