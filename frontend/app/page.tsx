@@ -54,13 +54,13 @@ export default async function HomePage() {
           <p className="mb-12 text-xs font-semibold uppercase tracking-[0.2em] text-ink/35">
             For Every Issue. For Every Indian.
           </p>
-          <div className="flex flex-wrap justify-center gap-3">
+          <div className="flex flex-col items-center gap-4">
             <ButtonLink href="#issues" variant="primary" className="px-6 py-3">
               Explore Issues
             </ButtonLink>
-            <ButtonLink href="/register" variant="secondary" className="px-6 py-3">
-              Start your Impact Score
-            </ButtonLink>
+            <Link href="/register" className="text-sm font-medium text-ink/50 transition-colors hover:text-accent-dark">
+              Start your Impact Score →
+            </Link>
           </div>
         </Reveal>
       </section>
