@@ -58,7 +58,7 @@ export default function NgoBrowser({ ngos }: { ngos: NGO[] }) {
               )}
               {!n.verified && (
                 <p className="mt-2 text-xs text-amber-700">
-                  Registration not yet confirmed — shown transparently rather than hidden or presented as verified.
+                  Registration not yet confirmed. Shown transparently rather than hidden or presented as verified.
                 </p>
               )}
             </Card>

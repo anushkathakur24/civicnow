@@ -19,13 +19,13 @@ export default async function LeaderboardPage() {
       <Reveal>
         <h1 className="mb-2 font-serif text-display-sm font-medium text-ink">Impact Board</h1>
         <p className="mb-8 text-sm text-ink/55">
-          Opt-in only — most CivicNow users keep their Impact Score private by default.
+          Opt-in only: most CivicNow users keep their Impact Score private by default.
         </p>
       </Reveal>
       {error && (
         <div className="rounded-3xl border border-amber-200 bg-amber-50 p-5 text-center">
           <p className="font-medium text-amber-900">Live information temporarily unavailable.</p>
-          <p className="mt-1 text-sm text-amber-800/80">Couldn&apos;t reach the CivicNow API — try refreshing shortly.</p>
+          <p className="mt-1 text-sm text-amber-800/80">Couldn&apos;t reach the CivicNow API. Try refreshing shortly.</p>
         </div>
       )}
       {!error && rows.length === 0 && (
@@ -38,7 +38,7 @@ export default async function LeaderboardPage() {
             </span>
             <p className="mb-1 text-sm font-medium text-ink/70">Nobody&apos;s opted in yet</p>
             <p className="mx-auto max-w-xs text-xs leading-relaxed text-ink/45">
-              Impact Scores are private by default — this list only shows accounts that explicitly
+              Impact Scores are private by default: this list only shows accounts that explicitly
               chose to appear here. Be the first.
             </p>
             <Link

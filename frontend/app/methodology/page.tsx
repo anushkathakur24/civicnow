@@ -18,15 +18,15 @@ export default function MethodologyPage() {
           <h2 className="mb-3 font-serif text-lg font-medium text-ink">How we verify sources</h2>
           <div className="space-y-3 text-[15px] leading-relaxed text-ink/75">
             <p>
-              Every fact on an issue page — a promise, a timeline event, a status — links to a
+              Every fact on an issue page (a promise, a timeline event, a status) links to a
               specific source, not a general citation. We prioritise primary sources: government
               notifications, official statements, court filings, press releases from the bodies
               involved. Where a primary document isn&apos;t public, we cite reporting from named,
               identifiable outlets rather than anonymous or unsourced claims.
             </p>
             <p>
-              For claims with serious real-world stakes — for example, reported deaths connected to
-              an issue — we require at least two independent sources before publishing, not one.
+              For claims with serious real-world stakes (for example, reported deaths connected to
+              an issue), we require at least two independent sources before publishing, not one.
               A single-sourced claim on a high-stakes fact is treated as unverified until a second
               source confirms it.
             </p>
@@ -61,22 +61,22 @@ export default function MethodologyPage() {
           <h2 className="mb-3 font-serif text-lg font-medium text-ink">How the Impact Score works</h2>
           <div className="space-y-3 text-[15px] leading-relaxed text-ink/75">
             <p>
-              The score is computed entirely server-side from verified action submissions — nothing
+              The score is computed entirely server-side from verified action submissions; nothing
               a client sends can set or inflate it directly. Three numbers combine for every action:
             </p>
             <ul className="space-y-1.5 pl-4">
               <li className="list-disc">
-                <span className="font-medium text-ink">Base points by impact</span> — high-impact
+                <span className="font-medium text-ink">Base points by impact:</span> high-impact
                 actions are worth 50 points, medium 30, low 15.
               </li>
               <li className="list-disc">
-                <span className="font-medium text-ink">A trust multiplier by verification method</span>{" "}
-                — self-reported actions count at 20% of base value; actions confirmed by an NGO,
+                <span className="font-medium text-ink">A trust multiplier by verification method:</span>{" "}
+                self-reported actions count at 20% of base value; actions confirmed by an NGO,
                 a government official, or attendance QR count at 100%. Receipt and document
                 uploads sit in between.
               </li>
               <li className="list-disc">
-                <span className="font-medium text-ink">Diminishing returns</span> — the same category
+                <span className="font-medium text-ink">Diminishing returns:</span> the same category
                 of action, repeated a third time or more within a rolling 7-day window, counts at
                 10% of its normal value. This is the main defence against farming the cheapest
                 action type over and over.
@@ -111,7 +111,7 @@ export default function MethodologyPage() {
             This system catches obvious spam and unverifiable claims, not everything. A determined
             bad actor with real documents can still submit false information, and human reviewers can
             make mistakes. If you spot a factual error on any issue page, the sources are listed so
-            you can check our work directly — that&apos;s the point of showing them.
+            you can check our work directly. That&apos;s the point of showing them.
           </p>
         </section>
       </Reveal>

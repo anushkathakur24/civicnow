@@ -58,7 +58,7 @@ export default function AboutPage() {
                 YouTube Shorts, or WhatsApp.
               </p>
               <p>
-                They care. They repost. Then they move on — not because they don&apos;t want to help,
+                They care. They repost. Then they move on, not because they don&apos;t want to help,
                 but because they don&apos;t know how.
               </p>
             </div>
@@ -95,7 +95,7 @@ export default function AboutPage() {
           <p className="text-sm leading-relaxed text-ink/65">
             It is an independent project, not affiliated with any government body, political party,
             or NGO named on this site. It doesn&apos;t run ads and doesn&apos;t sell data. It is
-            currently small and in early access by design — a handful of issues, tracked carefully,
+            currently small and in early access by design: a handful of issues, tracked carefully,
             rather than a large database tracked carelessly.
           </p>
         </section>
@@ -108,9 +108,9 @@ export default function AboutPage() {
           <div className="rounded-4xl border border-accent/15 bg-gradient-to-br from-mist/60 to-white p-7 shadow-soft sm:p-9">
             <h2 className="mb-4 font-serif text-xl font-medium text-ink sm:text-2xl">What CivicNow is not</h2>
             <ul className="space-y-2.5 text-[15px] leading-relaxed text-ink/70">
-              <li>Not a news outlet — it doesn&apos;t break stories, it tracks their aftermath.</li>
-              <li>Not a petition site — actions here are meant to be verifiable, not just clicks.</li>
-              <li>Not neutral about accuracy — sources are shown so you can check the work, not asked to trust a badge.</li>
+              <li>Not a news outlet: it doesn&apos;t break stories, it tracks their aftermath.</li>
+              <li>Not a petition site: actions here are meant to be verifiable, not just clicks.</li>
+              <li>Not neutral about accuracy: sources are shown so you can check the work, not asked to trust a badge.</li>
             </ul>
           </div>
         </section>
@@ -143,8 +143,8 @@ export default function AboutPage() {
             initials="AT"
             paragraphs={[
               "Hi, I'm Anushka Thakur.",
-              "I'm in my final year of engineering, and I got tired of watching myself scroll past things I cared about and do nothing. I don't have a big team or a big budget behind this — just a tech background, and a decision to stop waiting for someone else to build the thing I wished existed.",
-              "CivicNow is me acting on that. It's early, it's imperfect, and I'm building it in the open. If you want to help, push back on something, or just tell me what's broken — reach out.",
+              "I'm in my final year of engineering, and I got tired of watching myself scroll past things I cared about and do nothing. I don't have a big team or a big budget behind this, just a tech background and a decision to stop waiting for someone else to build the thing I wished existed.",
+              "CivicNow is me acting on that. It's early, it's imperfect, and I'm building it in the open. If you want to help, push back on something, or just tell me what's broken, reach out.",
             ]}
             links={[
               { kind: "linkedin", label: "LinkedIn", href: "https://www.linkedin.com/in/thakur-anushka" },

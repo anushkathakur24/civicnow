@@ -4,7 +4,7 @@ const STEPS = [
   {
     step: "01",
     title: "Understand",
-    copy: "The full, honestly-sourced picture — not a headline stripped of context.",
+    copy: "The full, honestly-sourced picture, not a headline stripped of context.",
   },
   {
     step: "02",
@@ -14,7 +14,7 @@ const STEPS = [
   {
     step: "03",
     title: "Act",
-    copy: "One real action, matched to your time, skills, and role — not a generic ask.",
+    copy: "One real action, matched to your time, skills, and role, not a generic ask.",
   },
 ] as const;
 

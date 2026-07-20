@@ -98,7 +98,7 @@ export default async function HomePage() {
         <div className="mx-auto mb-6 max-w-2xl rounded-3xl border border-amber-200 bg-amber-50 p-5 text-center">
           <p className="font-medium text-amber-900">Live information temporarily unavailable.</p>
           <p className="mt-1 text-sm text-amber-800/80">
-            We couldn&apos;t reach the CivicNow API just now — nothing fabricated is shown in its place.
+            We couldn&apos;t reach the CivicNow API just now. Nothing fabricated is shown in its place.
             Try refreshing shortly.
           </p>
         </div>
@@ -126,7 +126,7 @@ export default async function HomePage() {
             ]}
           />
           <p className="mx-auto mb-4 max-w-md px-4 text-center text-[11px] text-ink/35">
-            Every number above is counted directly from what&apos;s in the database right now — not a
+            Every number above is counted directly from what&apos;s in the database right now, not a
             marketing figure.
           </p>
         </Reveal>

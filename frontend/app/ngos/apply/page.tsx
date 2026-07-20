@@ -38,7 +38,7 @@ export default function NgoApplyPage() {
       });
       setDone(true);
     } catch (err) {
-      setError(err instanceof ApiError ? err.message : "Couldn't submit — try again shortly.");
+      setError(err instanceof ApiError ? err.message : "Couldn't submit. Try again shortly.");
     } finally {
       setBusy(false);
     }
@@ -53,7 +53,7 @@ export default function NgoApplyPage() {
         <h1 className="mb-3 font-serif text-display-sm font-medium text-ink">Received</h1>
         <p className="mb-8 text-sm leading-relaxed text-ink/60">
           Your organisation now appears in the NGO directory, marked &ldquo;Unverified&rdquo; until we
-          confirm your Darpan ID and reach out at the email you provided. No automated approval —
+          confirm your Darpan ID and reach out at the email you provided. No automated approval:
           a real person checks every application.
         </p>
         <Link href="/ngos" className="text-sm font-medium text-accent-dark hover:underline">
@@ -76,7 +76,7 @@ export default function NgoApplyPage() {
           <p className="mb-1.5 font-semibold uppercase tracking-wide text-ink/45">What verification means</p>
           <p>
             &ldquo;Verified&rdquo; on CivicNow means we&apos;ve confirmed your NGO Darpan registration ID
-            against the government registry — not an endorsement of your work. Applications without a
+            against the government registry, not an endorsement of your work. Applications without a
             Darpan ID are still listed, clearly marked &ldquo;Unverified,&rdquo; while you sort that out.
             Every check is done manually; there&apos;s no automated approval.
           </p>

@@ -31,13 +31,13 @@ const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || "https://civicnow.example.c
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
   title: {
-    default: "CivicNow — Know More. Do More.",
+    default: "CivicNow: Know More. Do More.",
     template: "%s | CivicNow",
   },
   description:
-    "Every Issue. Every Indian. Every Action Matters. CivicNow tracks India's most urgent civic issues and matches you to one real, verified action — for your role, your time, your city.",
+    "Every Issue. Every Indian. Every Action Matters. CivicNow tracks India's most urgent civic issues and matches you to one real, verified action for your role, your time, your city.",
   openGraph: {
-    title: "CivicNow — Know More. Do More.",
+    title: "CivicNow: Know More. Do More.",
     description:
       "Every issue deserves more than awareness. Track what's happening, see what's changed, take one real action.",
     url: SITE_URL,
@@ -47,7 +47,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "CivicNow — Know More. Do More.",
+    title: "CivicNow: Know More. Do More.",
     description: "Every issue deserves more than awareness. Understand. Track. Act.",
   },
   robots: { index: true, follow: true },

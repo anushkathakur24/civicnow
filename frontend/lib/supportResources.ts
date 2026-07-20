@@ -14,6 +14,6 @@ export interface SupportResource {
 }
 
 export const SUPPORT_RESOURCES: SupportResource[] = [
-  { name: "iCALL (TISS)", detail: "9152987821", hours: "Mon–Sat" },
+  { name: "iCALL (TISS)", detail: "9152987821", hours: "Mon to Sat" },
   { name: "Vandrevala Foundation", detail: "+91 9999 666 555", hours: "24×7 Call & WhatsApp" },
 ];

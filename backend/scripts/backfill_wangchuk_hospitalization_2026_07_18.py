@@ -78,12 +78,12 @@ SRC_LIVEMINT_TIMELINE = "https://www.livemint.com/politics/news/sonam-wangchuk-5
 SRC_OUTLOOK_60FIGURES = "https://www.outlookindia.com/art-entertainment/sonam-wangchuk-hunger-strike-60-public-figures-urge-him-to-stop-fast"
 
 NEW_SOURCES = [
-    ("'Urgent': Delhi High Court Seeks Centre, Delhi Govt Stand On Plea Seeking To End Sonam Wangchuk's Hunger Strike — LiveLaw", SRC_LIVELAW_PIL),
-    ("Sonam Wangchuk Hunger Strike Live: Delhi HC Hearing, Health Updates — Brut", SRC_BRUT_HEARING),
-    ("Delhi Police 'shift' Wangchuk to hospital, CJP's Dipke alleges activist taken 'by force' — The Print", SRC_THEPRINT_HOSPITAL),
-    ("Why was Sonam Wangchuk shifted to Safdarjung Hospital and protesters removed from Jantar Mantar, explained — India TV News", SRC_INDIATV_HOSPITAL),
-    ("Sonam Wangchuk hunger strike: 5 hunger strikes explained — Livemint", SRC_LIVEMINT_TIMELINE),
-    ("Sonam Wangchuk Hunger Strike: 60 Public Figures Urge Him To Stop Fast — Outlook India", SRC_OUTLOOK_60FIGURES),
+    ("'Urgent': Delhi High Court Seeks Centre, Delhi Govt Stand On Plea Seeking To End Sonam Wangchuk's Hunger Strike", SRC_LIVELAW_PIL),
+    ("Sonam Wangchuk Hunger Strike Live: Delhi HC Hearing, Health Updates", SRC_BRUT_HEARING),
+    ("Delhi Police 'shift' Wangchuk to hospital, CJP's Dipke alleges activist taken 'by force'", SRC_THEPRINT_HOSPITAL),
+    ("Why was Sonam Wangchuk shifted to Safdarjung Hospital and protesters removed from Jantar Mantar, explained", SRC_INDIATV_HOSPITAL),
+    ("Sonam Wangchuk hunger strike: 5 hunger strikes explained", SRC_LIVEMINT_TIMELINE),
+    ("Sonam Wangchuk Hunger Strike: 60 Public Figures Urge Him To Stop Fast", SRC_OUTLOOK_60FIGURES),
 ]
 
 sources_added = 0
@@ -98,7 +98,7 @@ for title, url in NEW_SOURCES:
 NEW_EVENTS = [
     (date(2026, 7, 15), "A PIL is filed in the Delhi High Court seeking urgent medical intervention for Wangchuk as his hunger strike continues.", SRC_LIVELAW_PIL),
     (date(2026, 7, 16), "The Delhi High Court hears the plea and directs daily clinical monitoring of Wangchuk's health as the fast enters its 19th day; reports describe him surviving on little beyond salt water amid critical health warnings.", SRC_BRUT_HEARING),
-    (date(2026, 7, 18), "On day 21 of the fast, Delhi Police remove Wangchuk from Jantar Mantar and shift him to Safdarjung Hospital following the High Court's directions; CJP's Dipke alleges he was taken 'by force'. He remains under continuous medical monitoring and has not called off his fast. This is a contested characterization — see sources below rather than treating either account as settled.", SRC_THEPRINT_HOSPITAL),
+    (date(2026, 7, 18), "On day 21 of the fast, Delhi Police remove Wangchuk from Jantar Mantar and shift him to Safdarjung Hospital following the High Court's directions; CJP's Dipke alleges he was taken 'by force'. He remains under continuous medical monitoring and has not called off his fast. This is a contested characterization. See sources below rather than treating either account as settled.", SRC_THEPRINT_HOSPITAL),
 ]
 
 events_added = 0
@@ -120,7 +120,7 @@ physical = (
 if physical:
     physical.description = (
         "Wangchuk was removed from Jantar Mantar by Delhi Police on July 18 (day 21) and "
-        "hospitalised at Safdarjung under High Court-ordered medical monitoring — the situation "
+        "hospitalised at Safdarjung under High Court-ordered medical monitoring. The situation "
         "is changing fast, so confirm the CJP sit-in's current status and any march plans through "
         "their official channels before attending, rather than assuming the June 21 encampment "
         "logistics still hold."
@@ -140,7 +140,7 @@ if not oversight:
         title="Track the Court-Ordered Medical Oversight",
         description=(
             "A Delhi High Court PIL filed July 15 led to a directive for daily clinical monitoring "
-            "of Wangchuk's health, and preceded his July 18 hospitalisation — this is a real, "
+            "of Wangchuk's health, and preceded his July 18 hospitalisation. This is a real, "
             "ongoing legal proceeding with implications for protester-welfare obligations beyond "
             "this one case."
         ),
@@ -151,19 +151,19 @@ if not oversight:
 
 NEW_ACTIONS = [
     dict(persona_id="citizen",
-        action_text="Share only confirmed updates on Wangchuk's hospitalisation from named outlets (LiveLaw, The Print, India TV News) — whether he was moved voluntarily or 'by force' is actively disputed, and unverified clips are spreading faster than corrections.",
+        action_text="Share only confirmed updates on Wangchuk's hospitalisation from named outlets (LiveLaw, The Print, India TV News). Whether he was moved voluntarily or 'by force' is actively disputed, and unverified clips are spreading faster than corrections.",
         impact="medium", category="awareness", verification_method="self_reported", base_points=30, effort_hours=1, recurring=True),
     dict(persona_id="lawyer",
-        action_text="Track the Delhi High Court's July 15 PIL ordering daily clinical monitoring of Wangchuk — it's a live proceeding with implications for protester-welfare obligations during hunger strikes generally, not just this case.",
+        action_text="Track the Delhi High Court's July 15 PIL ordering daily clinical monitoring of Wangchuk. It's a live proceeding with implications for protester-welfare obligations during hunger strikes generally, not just this case.",
         impact="high", category="rti_grievance", verification_method="ngo_confirmation", base_points=50, effort_hours=3, recurring=True),
     dict(persona_id="doctor",
-        action_text="Help counter medical misinformation circulating about hunger-strike risk and post-fast recovery alongside Wangchuk's hospitalisation — route corrections through a medical association or established outlet, not direct outreach to him or his family.",
+        action_text="Help counter medical misinformation circulating about hunger-strike risk and post-fast recovery alongside Wangchuk's hospitalisation. Route corrections through a medical association or established outlet, not direct outreach to him or his family.",
         impact="medium", category="awareness", verification_method="social_post_verification", base_points=30, effort_hours=2, recurring=True),
     dict(persona_id="content_creator",
-        action_text="Cover the hospitalisation citing named outlets rather than unverified social clips — the 'voluntary vs. forced removal' question is genuinely contested right now, and getting it wrong either direction does real harm.",
+        action_text="Cover the hospitalisation citing named outlets rather than unverified social clips. The 'voluntary vs. forced removal' question is genuinely contested right now, and getting it wrong either direction does real harm.",
         impact="high", category="awareness", verification_method="social_post_verification", base_points=50, effort_hours=3, recurring=True),
     dict(persona_id="public_figure",
-        action_text="Use a named, public platform the way Zeenat Aman, Swara Bhaskar, Prakash Raj, and the 60+ writers/academics who signed an open letter have — a public, attributable appeal for government dialogue and de-escalation carries more institutional weight than an anonymous share.",
+        action_text="Use a named, public platform the way Zeenat Aman, Swara Bhaskar, Prakash Raj, and the 60+ writers/academics who signed an open letter have: a public, attributable appeal for government dialogue and de-escalation carries more institutional weight than an anonymous share.",
         impact="high", category="advocacy", verification_method="social_post_verification", base_points=50, effort_hours=1, recurring=False),
 ]
 

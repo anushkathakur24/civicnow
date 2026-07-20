@@ -41,7 +41,7 @@ export default function IssueActions({ issueId }: { issueId: string }) {
     api
       .getIssueActions(issueId, persona)
       .then(setActions)
-      .catch(() => setError("Couldn't load actions for this issue — the API may be temporarily unavailable."))
+      .catch(() => setError("Couldn't load actions for this issue. The API may be temporarily unavailable."))
       .finally(() => setLoading(false));
   }, [issueId, persona]);
 
@@ -69,9 +69,9 @@ export default function IssueActions({ issueId }: { issueId: string }) {
         <p className="mb-2 text-xs font-semibold uppercase tracking-[0.15em] text-accent-dark">The action engine</p>
         <h2 className="mb-2 font-serif text-display-sm font-medium text-ink">How you can help</h2>
         <p className="mx-auto max-w-md text-sm text-ink/55">
-          Matched to your role — not a generic &ldquo;volunteer&rdquo; button. Pick what fits you right now.
+          Matched to your role, not a generic &ldquo;volunteer&rdquo; button. Pick what fits you right now.
         </p>
-        <p className="mt-2 text-xs text-ink/35">No account needed to browse — only to mark one done.</p>
+        <p className="mt-2 text-xs text-ink/35">No account needed to browse, only to mark one done.</p>
       </div>
 
       <div className="mb-6 flex flex-wrap justify-center gap-2">
@@ -164,7 +164,7 @@ export default function IssueActions({ issueId }: { issueId: string }) {
                       <svg width="16" height="16" viewBox="0 0 20 20" fill="currentColor">
                         <path fillRule="evenodd" d="M16.7 5.3a1 1 0 010 1.4l-7.5 7.5a1 1 0 01-1.4 0l-3.5-3.5a1 1 0 111.4-1.4L8.5 12l6.8-6.8a1 1 0 011.4 0z" clipRule="evenodd" />
                       </svg>
-                      {submitted[a.id] === "auto_approved" ? "Done — points awarded" : "Done — pending verification"}
+                      {submitted[a.id] === "auto_approved" ? "Done, points awarded" : "Done, pending verification"}
                     </span>
                   ) : (
                     <Button onClick={() => handleSubmit(a)} variant="primary" className="w-fit bg-accent hover:bg-accent-dark">
@@ -178,7 +178,7 @@ export default function IssueActions({ issueId }: { issueId: string }) {
           {actions.length === 0 && (
             <div className="col-span-full rounded-3xl border border-dashed border-line p-8 text-center text-sm text-ink/50">
               No actions are defined yet for this role on this issue. This is shown honestly rather than
-              filled with a generic placeholder — check back, or try a different role above.
+              filled with a generic placeholder. Check back, or try a different role above.
             </div>
           )}
         </div>

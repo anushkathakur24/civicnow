@@ -84,7 +84,7 @@ export default function HelpActions({ actions }: { actions: HelpAction[] }) {
         </p>
         <h2 className="mb-2 font-serif text-display-sm font-medium text-ink">How you can help</h2>
         <p className="mx-auto max-w-md text-sm text-ink/55">
-          Concrete, sourced actions anyone can take right now — not a generic ask.
+          Concrete, sourced actions anyone can take right now, not a generic ask.
         </p>
       </div>
 

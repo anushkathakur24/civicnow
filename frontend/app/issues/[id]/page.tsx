@@ -79,7 +79,7 @@ export default async function IssuePage({ params }: { params: { id: string } }) 
         <h1 className="mb-2 font-serif text-2xl font-medium text-ink">Live information temporarily unavailable</h1>
         <p className="mb-8 text-ink/55">
           We couldn&apos;t reach the CivicNow API to load this issue. Nothing is being shown in its
-          place rather than risk displaying stale or fabricated content — try again shortly.
+          place rather than risk displaying stale or fabricated content. Try again shortly.
         </p>
         <Link href="/" className="rounded-full bg-ink px-5 py-2.5 text-white">
           Back to CivicNow
@@ -263,7 +263,7 @@ export default async function IssuePage({ params }: { params: { id: string } }) 
           <section className="mx-auto max-w-2xl px-5 py-10">
             <h2 className="mb-1 text-sm font-semibold uppercase tracking-wide text-ink/40">Version history</h2>
             <p className="mb-4 text-xs text-ink/35">
-              A real, immutable log of when this page&apos;s content was authored or updated — not a
+              A real, immutable log of when this page&apos;s content was authored or updated, not a
               simulated changelog.
             </p>
             <ul className="space-y-2 text-sm">
@@ -273,7 +273,7 @@ export default async function IssuePage({ params }: { params: { id: string } }) 
                   <span>
                     <span className="font-medium text-ink/80">{historyLabel(h.action)}</span>
                     {h.log_metadata && "summary" in h.log_metadata && (
-                      <span> — {String(h.log_metadata.summary)}</span>
+                      <span>: {String(h.log_metadata.summary)}</span>
                     )}
                     <span className="ml-2 text-xs text-ink/35">
                       {new Date(h.created_at).toLocaleDateString("en-IN", { day: "numeric", month: "short", year: "numeric" })}

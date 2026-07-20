@@ -46,14 +46,14 @@ export default function RegisterPage() {
     <div className="bg-dot-grid mx-auto max-w-sm px-5 py-20">
       <h1 className="mb-2 font-serif text-display-sm font-medium text-ink">Join CivicNow</h1>
       <p className="mb-3 text-sm text-ink/55">
-        You can browse every issue and see what actions look like right away — no account required.
+        You can browse every issue and see what actions look like right away. No account required.
       </p>
       <div className="mb-8 rounded-2xl border border-line bg-mist/40 p-4 text-xs leading-relaxed text-ink/60">
         <p className="mb-1 font-semibold uppercase tracking-wide text-ink/45">Why there&apos;s a 24-hour wait</p>
         <p>
           New accounts can verify their email and log in immediately, but can&apos;t submit actions
-          for 24 hours. This is deliberate: it&apos;s what keeps the Impact Score meaning something —
-          without it, anyone could mass-create accounts to farm points. It costs real users one day,
+          for 24 hours. This is deliberate: it&apos;s what keeps the Impact Score meaning something.
+          Without it, anyone could mass-create accounts to farm points. It costs real users one day,
           once.
         </p>
       </div>

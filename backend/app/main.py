@@ -26,7 +26,7 @@ limiter = Limiter(key_func=get_remote_address, default_limits=[settings.RATE_LIM
 app = FastAPI(
     title="CivicNow API",
     version="1.0.0",
-    description="India's civic action platform — issue tracking, personalized actions, verified Impact Score.",
+    description="India's civic action platform: issue tracking, personalized actions, verified Impact Score.",
     docs_url="/docs" if not settings.is_production else None,  # don't expose Swagger publicly in prod
     redoc_url=None,
 )

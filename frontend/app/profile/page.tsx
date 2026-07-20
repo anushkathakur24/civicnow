@@ -74,14 +74,14 @@ function ProfileInner() {
       ) : (
         <div className="rounded-3xl border border-amber-200 bg-amber-50 p-5 text-center">
           <p className="font-medium text-amber-900">Live information temporarily unavailable.</p>
-          <p className="mt-1 text-sm text-amber-800/80">Couldn&apos;t load your Impact Score — try refreshing.</p>
+          <p className="mt-1 text-sm text-amber-800/80">Couldn&apos;t load your Impact Score. Try refreshing.</p>
         </div>
       )}
 
       <Reveal delay={0.15}>
         <div className="mt-6 rounded-3xl border border-line bg-white p-6">
           <h2 className="mb-1 text-xs font-semibold uppercase tracking-wide text-ink/45">Privacy</h2>
-          <p className="mb-5 text-xs text-ink/40">Both of these can be changed anytime — neither is a one-time choice.</p>
+          <p className="mb-5 text-xs text-ink/40">Both of these can be changed anytime; neither is a one-time choice.</p>
           <div className="space-y-4">
             <PrivacyToggle
               label="Appear on the public Impact Board"
@@ -94,7 +94,7 @@ function ProfileInner() {
               label="Show my real name and username"
               description={
                 user.leaderboard_opt_in
-                  ? "Off by default — you appear as “Anonymous Citizen” instead of your name."
+                  ? "Off by default: you appear as “Anonymous Citizen” instead of your name."
                   : "Only matters once you appear on the Impact Board."
               }
               checked={user.show_real_name_public}

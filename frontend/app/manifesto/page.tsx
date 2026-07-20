@@ -66,7 +66,7 @@ export default function ManifestoPage() {
       </Beat>
 
       <Beat>
-        We built CivicNow because awareness should be the beginning —
+        We built CivicNow because awareness should be the beginning,
         <br />
         not the end.
       </Beat>

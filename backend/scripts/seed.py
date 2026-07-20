@@ -55,7 +55,7 @@ issue1 = Issue(
     category="Education / Exam Integrity", urgency="critical", status="ongoing",
     summary="NEET-UG 2026, India's national medical entrance exam originally held on May 3, 2026, was cancelled on May 12 after NTA's own investigation found overlaps between a pre-circulated guess paper and the actual question paper. At least 13 student suicides have since been linked to the crisis, per compiled police and media reports, fuelling nationwide calls for accountability. Sonam Wangchuk's hunger strike in solidarity with the protest escalated sharply in mid-July: a Delhi High Court PIL forced daily medical monitoring, and on July 18 (day 21) Delhi Police removed him from Jantar Mantar to Safdarjung Hospital, where he continues his fast under medical supervision.",
     current_ask="CJP and allied protesters are demanding Education Minister Dharmendra Pradhan's resignation and systemic NTA reform. As of the latest reporting, the minister has not resigned; Wangchuk remains hospitalised and has not called off his fast.",
-    accountability_mechanism="Public Examinations (Prevention of Unfair Means) Act, 2024 — criminalises leaks and organised cheating. Track whether any arrests/prosecutions under this Act have resulted from the NEET-UG 2026 leak specifically.",
+    accountability_mechanism="The Public Examinations (Prevention of Unfair Means) Act, 2024 criminalises leaks and organised cheating. Track whether any arrests/prosecutions under this Act have resulted from the NEET-UG 2026 leak specifically.",
     # `sensitive_note` is now just short contextual framing shown inside the
     # standardized SupportNotice callout — the actual helpline numbers live
     # in frontend/lib/supportResources.ts (one shared source), not here. See
@@ -83,7 +83,7 @@ issue2 = Issue(
     published=True,
 )
 issue3 = Issue(
-    id="sc-stray-dog-verdict", title="Supreme Court Stray Dog Verdict — Municipal Compliance Tracker",
+    id="sc-stray-dog-verdict", title="Supreme Court Stray Dog Verdict: Municipal Compliance Tracker",
     category="Public Safety / Animal Welfare / Municipal Accountability", urgency="medium", status="compliance deadline approaching",
     summary="In May 2026 the Supreme Court ordered states and union territories to sterilise and permanently relocate stray dogs from hospitals, schools, bus stands and railway stations, set up at least one Animal Birth Control (ABC) centre per district, and restrict euthanasia to narrow, documented cases. Compliance affidavits are due August 7, 2026, with a consolidated report due to the Court by November 17, 2026.",
     current_ask="Citizens can push their local municipal body to publish its ABC centre and relocation compliance status ahead of the deadlines.",
@@ -120,20 +120,20 @@ SRC_OUTLOOK_SCANDAL = "https://www.outlookindia.com/national/neet-ug-2026-paper-
 SRC_OUTLOOK_13SUICIDES = "https://www.outlookindia.com/amp/story/national/13-reported-suicides-after-neet-paper-leak"
 
 db.add_all([
-    Source(issue_id="neet-2026-leak", title="Indian activist Wangchuk urged to end hunger strike over exam paper leaks — Al Jazeera", url=SRC_ALJAZEERA_HUNGER),
-    Source(issue_id="neet-2026-leak", title="Two weeks of hunger in protest of India's exam system — CNN", url=SRC_CNN_HUNGER),
-    Source(issue_id="neet-2026-leak", title="Sonam Wangchuk enters critical stage of hunger strike on day 19 — Deccan Herald", url=SRC_DECCAN_DAY19),
-    Source(issue_id="neet-2026-leak", title="Cockroach Janta Party: India's viral youth movement hits the streets of the capital — CNN", url=SRC_CNN_CJP),
-    Source(issue_id="neet-2026-leak", title="India's 'Cockroach' movement camps out until education minister resigns — Al Jazeera", url=SRC_ALJAZEERA_CJP),
-    Source(issue_id="neet-2026-leak", title="'Come back, my son': Indian exam leak leaves trail of death, despair, anger — Al Jazeera", url=SRC_ALJAZEERA_SUICIDES),
-    Source(issue_id="neet-2026-leak", title="NEET-UG 2026 Paper Leak Scandal: Collapse of Trust, Student Suicides and India's Medical Entrance Crisis — Outlook India", url=SRC_OUTLOOK_SCANDAL),
-    Source(issue_id="neet-2026-leak", title="13 Reported Suicides After NEET Paper Leak — Outlook India", url=SRC_OUTLOOK_13SUICIDES),
+    Source(issue_id="neet-2026-leak", title="Indian activist Wangchuk urged to end hunger strike over exam paper leaks", url=SRC_ALJAZEERA_HUNGER),
+    Source(issue_id="neet-2026-leak", title="Two weeks of hunger in protest of India's exam system", url=SRC_CNN_HUNGER),
+    Source(issue_id="neet-2026-leak", title="Sonam Wangchuk enters critical stage of hunger strike on day 19", url=SRC_DECCAN_DAY19),
+    Source(issue_id="neet-2026-leak", title="Cockroach Janta Party: India's viral youth movement hits the streets of the capital", url=SRC_CNN_CJP),
+    Source(issue_id="neet-2026-leak", title="India's 'Cockroach' movement camps out until education minister resigns", url=SRC_ALJAZEERA_CJP),
+    Source(issue_id="neet-2026-leak", title="'Come back, my son': Indian exam leak leaves trail of death, despair, anger", url=SRC_ALJAZEERA_SUICIDES),
+    Source(issue_id="neet-2026-leak", title="NEET-UG 2026 Paper Leak Scandal: Collapse of Trust, Student Suicides and India's Medical Entrance Crisis", url=SRC_OUTLOOK_SCANDAL),
+    Source(issue_id="neet-2026-leak", title="13 Reported Suicides After NEET Paper Leak", url=SRC_OUTLOOK_13SUICIDES),
 ])
 
 db.add_all([
     TimelineEvent(issue_id="neet-2026-leak", event_date=date(2026,5,3), event_text="NEET-UG 2026 held; leak and irregularities surface shortly after.", verified=True),
     TimelineEvent(issue_id="neet-2026-leak", event_date=date(2026,5,12), event_text="Exam cancelled after NTA's own investigation finds overlaps between a pre-circulated guess paper and the actual question paper.", source_url=SRC_OUTLOOK_SCANDAL, verified=True),
-    TimelineEvent(issue_id="neet-2026-leak", event_date=date(2026,5,26), event_text="At least 13 student suicides are linked to the crisis in compiled police and media reports, as the forced re-test drags on. This is a sensitive, actively-reported figure — see sources below rather than treating it as final.", source_url=SRC_ALJAZEERA_SUICIDES, verified=True),
+    TimelineEvent(issue_id="neet-2026-leak", event_date=date(2026,5,26), event_text="At least 13 student suicides are linked to the crisis in compiled police and media reports, as the forced re-test drags on. This is a sensitive, actively-reported figure. See sources below rather than treating it as final.", source_url=SRC_ALJAZEERA_SUICIDES, verified=True),
     TimelineEvent(issue_id="neet-2026-leak", event_date=date(2026,5,20), event_text="Abhijeet Dipke (30, Boston University graduate) launches the satirical 'Cockroach Janta Party' (CJP) on Instagram; gains ~22 million followers within days.", source_url=SRC_CNN_CJP, verified=True),
     TimelineEvent(issue_id="neet-2026-leak", event_date=date(2026,6,6), event_text="Dipke lands in India and leads a mass youth sit-in in Delhi, followed by demonstrations in Pune, Jaipur, Lucknow and Bengaluru.", source_url=SRC_CNN_CJP, verified=True),
     TimelineEvent(issue_id="neet-2026-leak", event_date=date(2026,6,21), event_text="CJP sit-in at Jantar Mantar, Delhi becomes a continuous encampment; protesters say they will not leave until Education Minister Dharmendra Pradhan resigns.", source_url=SRC_ALJAZEERA_CJP, verified=True),
@@ -142,7 +142,7 @@ db.add_all([
     Promise(issue_id="neet-2026-leak", made_by="Education Ministry", promise_text="Cancel and re-conduct the compromised exam", status="kept", source_url=SRC_ALJAZEERA_HUNGER),
     Promise(issue_id="neet-2026-leak", made_by="Education Ministry", promise_text="Education Minister resignation (demanded by CJP and allied protesters)", status="pending", source_url=SRC_ALJAZEERA_CJP),
     ResponsibleBody(issue_id="neet-2026-leak", body_name="Ministry of Education"),
-    ResponsibleBody(issue_id="neet-2026-leak", body_name="National Testing Agency (NTA) — conducts NEET-UG"),
+    ResponsibleBody(issue_id="neet-2026-leak", body_name="National Testing Agency (NTA)"),
     ResponsibleBody(issue_id="neet-2026-leak", body_name="Central Bureau of Investigation (if the leak probe is referred to it)"),
 ])
 
@@ -162,18 +162,18 @@ SRC_LIVEMINT_TIMELINE = "https://www.livemint.com/politics/news/sonam-wangchuk-5
 SRC_OUTLOOK_60FIGURES = "https://www.outlookindia.com/art-entertainment/sonam-wangchuk-hunger-strike-60-public-figures-urge-him-to-stop-fast"
 
 db.add_all([
-    Source(issue_id="neet-2026-leak", title="'Urgent': Delhi High Court Seeks Centre, Delhi Govt Stand On Plea Seeking To End Sonam Wangchuk's Hunger Strike — LiveLaw", url=SRC_LIVELAW_PIL),
-    Source(issue_id="neet-2026-leak", title="Sonam Wangchuk Hunger Strike Live: Delhi HC Hearing, Health Updates — Brut", url=SRC_BRUT_HEARING),
-    Source(issue_id="neet-2026-leak", title="Delhi Police 'shift' Wangchuk to hospital, CJP's Dipke alleges activist taken 'by force' — The Print", url=SRC_THEPRINT_HOSPITAL),
-    Source(issue_id="neet-2026-leak", title="Why was Sonam Wangchuk shifted to Safdarjung Hospital and protesters removed from Jantar Mantar, explained — India TV News", url=SRC_INDIATV_HOSPITAL),
-    Source(issue_id="neet-2026-leak", title="Sonam Wangchuk hunger strike: 5 hunger strikes explained — Livemint", url=SRC_LIVEMINT_TIMELINE),
-    Source(issue_id="neet-2026-leak", title="Sonam Wangchuk Hunger Strike: 60 Public Figures Urge Him To Stop Fast — Outlook India", url=SRC_OUTLOOK_60FIGURES),
+    Source(issue_id="neet-2026-leak", title="'Urgent': Delhi High Court Seeks Centre, Delhi Govt Stand On Plea Seeking To End Sonam Wangchuk's Hunger Strike", url=SRC_LIVELAW_PIL),
+    Source(issue_id="neet-2026-leak", title="Sonam Wangchuk Hunger Strike Live: Delhi HC Hearing, Health Updates", url=SRC_BRUT_HEARING),
+    Source(issue_id="neet-2026-leak", title="Delhi Police 'shift' Wangchuk to hospital, CJP's Dipke alleges activist taken 'by force'", url=SRC_THEPRINT_HOSPITAL),
+    Source(issue_id="neet-2026-leak", title="Why was Sonam Wangchuk shifted to Safdarjung Hospital and protesters removed from Jantar Mantar, explained", url=SRC_INDIATV_HOSPITAL),
+    Source(issue_id="neet-2026-leak", title="Sonam Wangchuk hunger strike: 5 hunger strikes explained", url=SRC_LIVEMINT_TIMELINE),
+    Source(issue_id="neet-2026-leak", title="Sonam Wangchuk Hunger Strike: 60 Public Figures Urge Him To Stop Fast", url=SRC_OUTLOOK_60FIGURES),
 ])
 
 db.add_all([
     TimelineEvent(issue_id="neet-2026-leak", event_date=date(2026,7,15), event_text="A PIL is filed in the Delhi High Court seeking urgent medical intervention for Wangchuk as his hunger strike continues.", source_url=SRC_LIVELAW_PIL, verified=True),
     TimelineEvent(issue_id="neet-2026-leak", event_date=date(2026,7,16), event_text="The Delhi High Court hears the plea and directs daily clinical monitoring of Wangchuk's health as the fast enters its 19th day; reports describe him surviving on little beyond salt water amid critical health warnings.", source_url=SRC_BRUT_HEARING, verified=True),
-    TimelineEvent(issue_id="neet-2026-leak", event_date=date(2026,7,18), event_text="On day 21 of the fast, Delhi Police remove Wangchuk from Jantar Mantar and shift him to Safdarjung Hospital following the High Court's directions; CJP's Dipke alleges he was taken 'by force'. He remains under continuous medical monitoring and has not called off his fast. This is a contested characterization — see sources below rather than treating either account as settled.", source_url=SRC_THEPRINT_HOSPITAL, verified=True),
+    TimelineEvent(issue_id="neet-2026-leak", event_date=date(2026,7,18), event_text="On day 21 of the fast, Delhi Police remove Wangchuk from Jantar Mantar and shift him to Safdarjung Hospital following the High Court's directions; CJP's Dipke alleges he was taken 'by force'. He remains under continuous medical monitoring and has not called off his fast. This is a contested characterization. See sources below rather than treating either account as settled.", source_url=SRC_THEPRINT_HOSPITAL, verified=True),
 ])
 
 # Only this issue's facts were genuinely re-researched on 2026-07-18 (the
@@ -201,11 +201,11 @@ SRC_WANGCHUK_DAY18 = "https://www.tbsnews.net/world/south-asia/activist-sonam-wa
 db.add_all([
     HelpAction(issue_id="neet-2026-leak", action_type="amplify", sort_order=1,
         title="Amplify on Social Media",
-        description="The Cockroach Janta Party's Instagram (@cockroachjantaparty, 20M+ followers) and the #CockroachJantaParty hashtag are the active, verified channels for this movement — share confirmed updates through these rather than starting new, unverified threads.",
+        description="The Cockroach Janta Party's Instagram (@cockroachjantaparty, 20M+ followers) and the #CockroachJantaParty hashtag are the active, verified channels for this movement. Share confirmed updates through these rather than starting new, unverified threads.",
         source_urls=[SRC_CJP_MONTH, SRC_CJP_WIKI], last_verified=date(2026,7,17)),
     HelpAction(issue_id="neet-2026-leak", action_type="petition", sort_order=2,
         title="Sign and Share the Petition",
-        description="An active Change.org petition calls for Education Minister Dharmendra Pradhan's resignation over the NEET-UG 2026 leak — check the live signature count and add yours at the link below.",
+        description="An active Change.org petition calls for Education Minister Dharmendra Pradhan's resignation over the NEET-UG 2026 leak. Check the live signature count and add yours at the link below.",
         source_urls=[SRC_PETITION_FIRE], last_verified=date(2026,7,17)),
     HelpAction(issue_id="neet-2026-leak", action_type="contact", sort_order=3,
         title="Contact the Ministry of Education",
@@ -213,11 +213,11 @@ db.add_all([
         source_urls=[SRC_MOE_WHOSWHO, SRC_PGPORTAL], last_verified=date(2026,7,17)),
     HelpAction(issue_id="neet-2026-leak", action_type="physical", sort_order=4,
         title="Show Physical Solidarity",
-        description="Wangchuk was removed from Jantar Mantar by Delhi Police on July 18 (day 21) and hospitalised at Safdarjung under High Court-ordered medical monitoring — the situation is changing fast, so confirm the CJP sit-in's current status and any march plans through their official channels before attending, rather than assuming the June 21 encampment logistics still hold.",
+        description="Wangchuk was removed from Jantar Mantar by Delhi Police on July 18 (day 21) and hospitalised at Safdarjung under High Court-ordered medical monitoring. The situation is changing fast, so confirm the CJP sit-in's current status and any march plans through their official channels before attending, rather than assuming the June 21 encampment logistics still hold.",
         source_urls=[SRC_THEPRINT_HOSPITAL, SRC_INDIATV_HOSPITAL], last_verified=date(2026,7,18)),
     HelpAction(issue_id="neet-2026-leak", action_type="monitor", sort_order=5,
         title="Track the Court-Ordered Medical Oversight",
-        description="A Delhi High Court PIL filed July 15 led to a directive for daily clinical monitoring of Wangchuk's health, and preceded his July 18 hospitalisation — this is a real, ongoing legal proceeding with implications for protester-welfare obligations beyond this one case.",
+        description="A Delhi High Court PIL filed July 15 led to a directive for daily clinical monitoring of Wangchuk's health, and preceded his July 18 hospitalisation. This is a real, ongoing legal proceeding with implications for protester-welfare obligations beyond this one case.",
         source_urls=[SRC_LIVELAW_PIL, SRC_THEPRINT_HOSPITAL], last_verified=date(2026,7,18)),
 ])
 
@@ -228,16 +228,16 @@ SRC_NEWSLAUNDRY_FLEXIBLE = "https://www.newslaundry.com/2026/03/17/talks-are-a-g
 SRC_THEWEEK_NSA = "https://www.theweek.in/news/india/2026/03/14/centre-revokes-sonam-wangchuks-nsa-detention-signals-fresh-opening-for-dialogue-in-ladakh.html"
 
 db.add_all([
-    Source(issue_id="ladakh-sixth-schedule", title="India releases Ladakh activist Sonam Wangchuk after six months in jail — Al Jazeera", url=SRC_ALJAZEERA_RELEASE),
-    Source(issue_id="ladakh-sixth-schedule", title="'Talks are a give-and-take': Sonam Wangchuk on 6th schedule, statehood — Newslaundry", url=SRC_NEWSLAUNDRY_FLEXIBLE),
-    Source(issue_id="ladakh-sixth-schedule", title="Centre revokes Sonam Wangchuk's NSA detention, signals fresh opening for dialogue — The Week", url=SRC_THEWEEK_NSA),
+    Source(issue_id="ladakh-sixth-schedule", title="India releases Ladakh activist Sonam Wangchuk after six months in jail", url=SRC_ALJAZEERA_RELEASE),
+    Source(issue_id="ladakh-sixth-schedule", title="'Talks are a give-and-take': Sonam Wangchuk on 6th schedule, statehood", url=SRC_NEWSLAUNDRY_FLEXIBLE),
+    Source(issue_id="ladakh-sixth-schedule", title="Centre revokes Sonam Wangchuk's NSA detention, signals fresh opening for dialogue", url=SRC_THEWEEK_NSA),
 ])
 
 db.add_all([
     TimelineEvent(issue_id="ladakh-sixth-schedule", event_date=date(2025,9,24), event_text="Protests in Ladakh turn violent; four people killed, dozens injured. Centre blames 'provocative speeches' by Wangchuk.", source_url=SRC_THEWEEK_NSA, verified=True),
     TimelineEvent(issue_id="ladakh-sixth-schedule", event_date=date(2025,9,26), event_text="Wangchuk detained and charged under the National Security Act (NSA).", source_url=SRC_THEWEEK_NSA, verified=True),
     TimelineEvent(issue_id="ladakh-sixth-schedule", event_date=date(2026,3,14), event_text="Ministry of Home Affairs revokes Wangchuk's NSA detention 'with immediate effect' after nearly six months in custody.", source_url=SRC_ALJAZEERA_RELEASE, verified=True),
-    TimelineEvent(issue_id="ladakh-sixth-schedule", event_date=date(2026,3,17), event_text="In his first public remarks after release, Wangchuk says both sides must stay 'flexible' — Ladakh would accept either full statehood or Sixth Schedule protections, ideally both.", source_url=SRC_NEWSLAUNDRY_FLEXIBLE, verified=True),
+    TimelineEvent(issue_id="ladakh-sixth-schedule", event_date=date(2026,3,17), event_text="In his first public remarks after release, Wangchuk says both sides must stay 'flexible': Ladakh would accept either full statehood or Sixth Schedule protections, ideally both.", source_url=SRC_NEWSLAUNDRY_FLEXIBLE, verified=True),
     ResponsibleBody(issue_id="ladakh-sixth-schedule", body_name="Ministry of Home Affairs"),
     ResponsibleBody(issue_id="ladakh-sixth-schedule", body_name="Union Territory Administration of Ladakh"),
     ResponsibleBody(issue_id="ladakh-sixth-schedule", body_name="Supreme Court of India (ongoing related case)"),
@@ -257,7 +257,7 @@ SRC_MHA_DIRECTORY = "https://www.mha.gov.in/sites/default/files/TelephoneDirecto
 db.add_all([
     HelpAction(issue_id="ladakh-sixth-schedule", action_type="amplify", sort_order=1,
         title="Follow and Share Verified Reporting",
-        description="No single verified campaign hashtag exists for this movement — instead, follow and share reporting directly from Ladakh-focused outlets and joint statements from the Leh Apex Body and Kargil Democratic Alliance, rather than amplifying unverified claims.",
+        description="No single verified campaign hashtag exists for this movement. Instead, follow and share reporting directly from Ladakh-focused outlets and joint statements from the Leh Apex Body and Kargil Democratic Alliance, rather than amplifying unverified claims.",
         source_urls=[SRC_REACHLADAKH_DRAFT, SRC_KASHMIRLIFE_RALLY], last_verified=date(2026,7,17)),
     HelpAction(issue_id="ladakh-sixth-schedule", action_type="contact", sort_order=2,
         title="Contact the Ministry of Home Affairs",
@@ -265,7 +265,7 @@ db.add_all([
         source_urls=[SRC_MHA_DIRECTORY, SRC_PGPORTAL], last_verified=date(2026,7,17)),
     HelpAction(issue_id="ladakh-sixth-schedule", action_type="monitor", sort_order=3,
         title="Track the Dialogue Committee's Progress",
-        description="The Leh Apex Body and Kargil Democratic Alliance submitted a detailed 40-page draft proposal to the Home Ministry in early 2026 — follow their joint statements for the Centre's response rather than relying on secondhand summaries.",
+        description="The Leh Apex Body and Kargil Democratic Alliance submitted a detailed 40-page draft proposal to the Home Ministry in early 2026. Follow their joint statements for the Centre's response rather than relying on secondhand summaries.",
         source_urls=[SRC_REACHLADAKH_DRAFT], last_verified=date(2026,7,17)),
 ])
 
@@ -276,7 +276,7 @@ SRC_SC_OBSERVER = "https://www.scobserver.in/journal/what-did-the-supreme-court-
 
 db.add_all([
     Source(issue_id="sc-stray-dog-verdict", title="Supreme Court Stray Dog Verdict 2026: New Rules on Relocation, Shelters and Euthanasia", url=SRC_SANSA_LEGAL),
-    Source(issue_id="sc-stray-dog-verdict", title="What did the Supreme Court hold on the stray-dogs matter? — Supreme Court Observer", url=SRC_SC_OBSERVER),
+    Source(issue_id="sc-stray-dog-verdict", title="What did the Supreme Court hold on the stray-dogs matter?", url=SRC_SC_OBSERVER),
 ])
 
 db.add_all([
@@ -300,15 +300,15 @@ SRC_IMPACTGURU_CHARITIES = "https://www.impactguru.com/info/street-dog-charities
 db.add_all([
     HelpAction(issue_id="sc-stray-dog-verdict", action_type="monitor", sort_order=1,
         title="File an RTI on Your District's Compliance",
-        description="States must file compliance affidavits by August 7, 2026, with a consolidated report due to the Supreme Court by November 17, 2026 — file an RTI with your municipal corporation asking for its current ABC (Animal Birth Control) centre count and relocation status ahead of these deadlines.",
+        description="States must file compliance affidavits by August 7, 2026, with a consolidated report due to the Supreme Court by November 17, 2026. File an RTI with your municipal corporation asking for its current ABC (Animal Birth Control) centre count and relocation status ahead of these deadlines.",
         source_urls=[SRC_SANSA_LEGAL, SRC_SC_OBSERVER], last_verified=date(2026,7,17)),
     HelpAction(issue_id="sc-stray-dog-verdict", action_type="volunteer", sort_order=2,
         title="Volunteer at an AWBI-Recognised ABC Centre",
-        description="Veterinarians and volunteers can offer sterilisation, vaccination, or shelter-support hours directly through Animal Welfare Board of India-recognised organisations — verify an organisation's AWBI recognition before volunteering.",
+        description="Veterinarians and volunteers can offer sterilisation, vaccination, or shelter-support hours directly through Animal Welfare Board of India-recognised organisations. Verify an organisation's AWBI recognition before volunteering.",
         source_urls=[SRC_AWBI, SRC_IMPACTGURU_CHARITIES], last_verified=date(2026,7,17)),
     HelpAction(issue_id="sc-stray-dog-verdict", action_type="donate", sort_order=3,
         title="Support a Vetted Shelter's ABC Programme",
-        description="Established shelters running Animal Birth Control programmes rely on donations for food, sterilisation surgeries, and vaccination drives — confirm an organisation's registration and AWBI recognition before giving.",
+        description="Established shelters running Animal Birth Control programmes rely on donations for food, sterilisation surgeries, and vaccination drives. Confirm an organisation's registration and AWBI recognition before giving.",
         source_urls=[SRC_AWBI, SRC_IMPACTGURU_CHARITIES], last_verified=date(2026,7,17)),
 ])
 
@@ -332,16 +332,16 @@ db.add_all([
 db.add_all([
     # NEET-UG leak
     ActionDefinition(issue_id="neet-2026-leak", persona_id="software_engineer",
-        action_text="Build or contribute to an open-source dashboard tracking RTI response times from the Ministry of Education/NTA on the leak investigation — public transparency tooling is the highest-leverage thing a technical volunteer can do here.",
+        action_text="Build or contribute to an open-source dashboard tracking RTI response times from the Ministry of Education/NTA on the leak investigation. Public transparency tooling is the highest-leverage thing a technical volunteer can do here.",
         impact="high", category="advocacy", verification_method="social_post_verification", base_points=50, effort_hours=6, recurring=True),
     ActionDefinition(issue_id="neet-2026-leak", persona_id="lawyer",
         action_text="Offer pro-bono consultation to students/families weighing legal action over the cancelled exam, or help draft RTI escalation requests when the Ministry/NTA stonewalls.",
         impact="high", category="rti_grievance", verification_method="ngo_confirmation", base_points=50, effort_hours=4, recurring=True),
     ActionDefinition(issue_id="neet-2026-leak", persona_id="doctor",
-        action_text="Volunteer clinical hours with an established helpline (iCall, Vandrevala Foundation) supporting affected students — don't DM students directly, route through the organisations already doing this safely.",
+        action_text="Volunteer clinical hours with an established helpline (iCall, Vandrevala Foundation) supporting affected students. Don't DM students directly; route through the organisations already doing this safely.",
         impact="high", category="volunteering", verification_method="ngo_confirmation", base_points=50, effort_hours=3, recurring=True),
     ActionDefinition(issue_id="neet-2026-leak", persona_id="student",
-        action_text="Translate the verified timeline and mental-health helpline numbers into your regional language and share through student networks — English/Hindi coverage misses a large share of affected students.",
+        action_text="Translate the verified timeline and mental-health helpline numbers into your regional language and share through student networks. English/Hindi coverage misses a large share of affected students.",
         impact="medium", category="awareness", verification_method="social_post_verification", base_points=30, effort_hours=2, recurring=False),
 
     # NEET-UG: added 2026-07-18 in response to Wangchuk's hospitalisation —
@@ -349,24 +349,24 @@ db.add_all([
     # claim right now, which shapes several of these (citizen, content
     # creator) toward careful sourcing rather than amplification.
     ActionDefinition(issue_id="neet-2026-leak", persona_id="citizen",
-        action_text="Share only confirmed updates on Wangchuk's hospitalisation from named outlets (LiveLaw, The Print, India TV News) — whether he was moved voluntarily or 'by force' is actively disputed, and unverified clips are spreading faster than corrections.",
+        action_text="Share only confirmed updates on Wangchuk's hospitalisation from named outlets (LiveLaw, The Print, India TV News). Whether he was moved voluntarily or 'by force' is actively disputed, and unverified clips are spreading faster than corrections.",
         impact="medium", category="awareness", verification_method="self_reported", base_points=30, effort_hours=1, recurring=True),
     ActionDefinition(issue_id="neet-2026-leak", persona_id="lawyer",
-        action_text="Track the Delhi High Court's July 15 PIL ordering daily clinical monitoring of Wangchuk — it's a live proceeding with implications for protester-welfare obligations during hunger strikes generally, not just this case.",
+        action_text="Track the Delhi High Court's July 15 PIL ordering daily clinical monitoring of Wangchuk. It's a live proceeding with implications for protester-welfare obligations during hunger strikes generally, not just this case.",
         impact="high", category="rti_grievance", verification_method="ngo_confirmation", base_points=50, effort_hours=3, recurring=True),
     ActionDefinition(issue_id="neet-2026-leak", persona_id="doctor",
-        action_text="Help counter medical misinformation circulating about hunger-strike risk and post-fast recovery alongside Wangchuk's hospitalisation — route corrections through a medical association or established outlet, not direct outreach to him or his family.",
+        action_text="Help counter medical misinformation circulating about hunger-strike risk and post-fast recovery alongside Wangchuk's hospitalisation. Route corrections through a medical association or established outlet, not direct outreach to him or his family.",
         impact="medium", category="awareness", verification_method="social_post_verification", base_points=30, effort_hours=2, recurring=True),
     ActionDefinition(issue_id="neet-2026-leak", persona_id="content_creator",
-        action_text="Cover the hospitalisation citing named outlets rather than unverified social clips — the 'voluntary vs. forced removal' question is genuinely contested right now, and getting it wrong either direction does real harm.",
+        action_text="Cover the hospitalisation citing named outlets rather than unverified social clips. The 'voluntary vs. forced removal' question is genuinely contested right now, and getting it wrong either direction does real harm.",
         impact="high", category="awareness", verification_method="social_post_verification", base_points=50, effort_hours=3, recurring=True),
     ActionDefinition(issue_id="neet-2026-leak", persona_id="public_figure",
-        action_text="Use a named, public platform the way Zeenat Aman, Swara Bhaskar, Prakash Raj, and the 60+ writers/academics who signed an open letter have — a public, attributable appeal for government dialogue and de-escalation carries more institutional weight than an anonymous share.",
+        action_text="Use a named, public platform the way Zeenat Aman, Swara Bhaskar, Prakash Raj, and the 60+ writers/academics who signed an open letter have: a public, attributable appeal for government dialogue and de-escalation carries more institutional weight than an anonymous share.",
         impact="high", category="advocacy", verification_method="social_post_verification", base_points=50, effort_hours=1, recurring=False),
 
     # Ladakh
     ActionDefinition(issue_id="ladakh-sixth-schedule", persona_id="software_engineer",
-        action_text="Offer to help the Leh Apex Body or Kargil Democratic Alliance digitize and publish primary documents (dialogue committee minutes, Sixth Schedule proposals) if they lack technical capacity — contact them directly before building anything unsolicited.",
+        action_text="Offer to help the Leh Apex Body or Kargil Democratic Alliance digitize and publish primary documents (dialogue committee minutes, Sixth Schedule proposals) if they lack technical capacity. Contact them directly before building anything unsolicited.",
         impact="medium", category="advocacy", verification_method="ngo_confirmation", base_points=30, effort_hours=4, recurring=False),
     ActionDefinition(issue_id="ladakh-sixth-schedule", persona_id="lawyer",
         action_text="Offer pro-bono constitutional research specifically on Sixth Schedule precedent (other tribal areas under Schedule VI) to advocacy groups drafting Ladakh's proposal.",
@@ -380,7 +380,7 @@ db.add_all([
         action_text="Veterinarians specifically: volunteer sterilisation/vaccination hours at a local ABC centre before the August 7 compliance deadline.",
         impact="high", category="volunteering", verification_method="ngo_confirmation", base_points=50, effort_hours=4, recurring=True),
     ActionDefinition(issue_id="sc-stray-dog-verdict", persona_id="software_engineer",
-        action_text="Build a simple public tracker (even a spreadsheet + map) of which districts have published ABC centre compliance status ahead of the August 7 deadline — most citizens have no visibility into this right now.",
+        action_text="Build a simple public tracker (even a spreadsheet + map) of which districts have published ABC centre compliance status ahead of the August 7 deadline. Most citizens have no visibility into this right now.",
         impact="high", category="advocacy", verification_method="social_post_verification", base_points=50, effort_hours=5, recurring=False),
     ActionDefinition(issue_id="sc-stray-dog-verdict", persona_id="student",
         action_text="Volunteer at local ABC/sterilisation drives, or help translate Animal Welfare Board guidance for community awareness campaigns.",

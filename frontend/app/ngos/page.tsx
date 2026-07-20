@@ -22,7 +22,7 @@ export default async function NgosPage() {
           <div>
             <h1 className="mb-1 font-serif text-display-sm font-medium text-ink">NGOs on CivicNow</h1>
             <p className="text-sm text-ink/55">
-              &ldquo;Verified&rdquo; means registration (Darpan ID) has been confirmed — not an endorsement.
+              &ldquo;Verified&rdquo; means registration (Darpan ID) has been confirmed, not an endorsement.
             </p>
           </div>
           <Link
@@ -34,7 +34,7 @@ export default async function NgosPage() {
         </div>
         {!error && ngos.length < 6 && (
           <p className="mb-8 rounded-2xl border border-line bg-mist/40 p-4 text-xs leading-relaxed text-ink/55">
-            CivicNow is in early access — this directory is small because we&apos;re growing it
+            CivicNow is in early access: this directory is small because we&apos;re growing it
             deliberately, one verified organisation at a time, rather than importing a list we
             haven&apos;t checked. If you run or know an NGO working on any issue tracked here,{" "}
             <Link href="/ngos/apply" className="font-medium text-accent-dark hover:underline">
@@ -46,7 +46,7 @@ export default async function NgosPage() {
       {error ? (
         <div className="rounded-3xl border border-amber-200 bg-amber-50 p-5 text-center">
           <p className="font-medium text-amber-900">Live information temporarily unavailable.</p>
-          <p className="mt-1 text-sm text-amber-800/80">Couldn&apos;t reach the CivicNow API — try refreshing shortly.</p>
+          <p className="mt-1 text-sm text-amber-800/80">Couldn&apos;t reach the CivicNow API. Try refreshing shortly.</p>
         </div>
       ) : (
         <NgoBrowser ngos={ngos} />
