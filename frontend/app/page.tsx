@@ -5,7 +5,6 @@ import HomeIssueBrowser from "./HomeIssueBrowser";
 import Reveal from "@/components/ui/Reveal";
 import { ButtonLink } from "@/components/ui/Button";
 import Chip from "@/components/ui/Chip";
-import JourneyStrip from "@/components/JourneyStrip";
 import JourneyGraphic from "@/components/JourneyGraphic";
 
 export const revalidate = 60; // ISR: re-fetch issue list from the API at most once a minute
@@ -54,13 +53,10 @@ export default async function HomePage() {
           <p className="mb-12 text-xs font-semibold uppercase tracking-[0.2em] text-ink/35">
             For Every Issue. For Every Indian.
           </p>
-          <div className="flex flex-col items-center gap-4">
+          <div className="flex justify-center">
             <ButtonLink href="#issues" variant="primary" className="px-6 py-3">
               Explore Issues
             </ButtonLink>
-            <Link href="/register" className="text-sm font-medium text-ink/50 transition-colors hover:text-accent-dark">
-              Start your Impact Score →
-            </Link>
           </div>
         </Reveal>
       </section>
@@ -118,8 +114,20 @@ export default async function HomePage() {
 
       <HomeIssueBrowser issues={issues} apiError={apiError} />
 
-      <Reveal className="px-5 pb-4 pt-4">
-        <JourneyStrip />
+      {/* ---- Closing CTA: once someone's actually looked at an issue,
+          this is where the account/tracking pitch belongs, not upfront
+          in the hero next to the thing we actually want them to do
+          first. JourneyStrip still appears in the footer on every page,
+          so that motif isn't lost by removing it from here. ---- */}
+      <Reveal className="px-5 pb-20 pt-8">
+        <section className="mx-auto max-w-xl text-center">
+          <p className="mb-5 text-sm text-ink/65">
+            Took an action? Track it, and everything else you do, in one place.
+          </p>
+          <ButtonLink href="/register" variant="primary" className="px-6 py-3">
+            Start your Impact Score
+          </ButtonLink>
+        </section>
       </Reveal>
     </div>
   );
