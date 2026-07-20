@@ -26,7 +26,13 @@ const jetbrainsMono = JetBrains_Mono({
   weight: ["500", "600"],
 });
 
-const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || "https://civicnow.example.com";
+// Falls back to the real production domain (not a placeholder) so og:url,
+// canonical links, and metadataBase-resolved asset URLs (og:image,
+// twitter:image) are always correct even if NEXT_PUBLIC_SITE_URL isn't set
+// in the deployment environment. Still prefer setting the env var in Vercel
+// project settings — that's the one place to update if a custom domain is
+// ever added, instead of a code change + redeploy.
+const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || "https://civicnow-six.vercel.app";
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
