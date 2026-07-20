@@ -1,6 +1,7 @@
 import type { HelpAction } from "@/lib/api";
 import Card from "@/components/ui/Card";
 import { sourcedBadgeClass } from "@/components/ui/SourcedBadge";
+import { domainOf } from "@/lib/url";
 
 // The general, issue-level "how you can help" layer — grounded, sourced,
 // concrete actions anyone can take, distinct from the role-matched action
@@ -102,7 +103,7 @@ export default function HelpActions({ actions }: { actions: HelpAction[] }) {
             </div>
             <p className="mb-3 text-sm leading-relaxed text-ink/65">{a.description}</p>
             <div className="flex flex-wrap items-center gap-1.5">
-              {a.source_urls.map((url, idx) => (
+              {a.source_urls.map((url) => (
                 <a
                   key={url}
                   href={url}
@@ -110,7 +111,7 @@ export default function HelpActions({ actions }: { actions: HelpAction[] }) {
                   rel="noopener noreferrer"
                   className={`${sourcedBadgeClass("neutral")} hover:border-accent/40 hover:text-accent-dark`}
                 >
-                  [{idx + 1}]
+                  {domainOf(url)}
                 </a>
               ))}
               <span className="ml-auto text-[11px] text-ink/35">

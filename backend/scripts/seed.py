@@ -53,8 +53,8 @@ db.flush()
 issue1 = Issue(
     id="neet-2026-leak", title="NEET-UG 2026 Paper Leak & Accountability Crisis",
     category="Education / Exam Integrity", urgency="critical", status="ongoing",
-    summary="NEET-UG 2026, India's national medical entrance exam originally held on May 3, 2026, was cancelled on May 12 after NTA's own investigation found overlaps between a pre-circulated guess paper and the actual question paper. At least 13 student suicides have since been linked to the crisis, per compiled police and media reports, fuelling nationwide calls for accountability. Sonam Wangchuk's hunger strike in solidarity with the protest escalated sharply in mid-July: a Delhi High Court PIL forced daily medical monitoring, and on July 18 (day 21) Delhi Police removed him from Jantar Mantar to Safdarjung Hospital, where he continues his fast under medical supervision.",
-    current_ask="CJP and allied protesters are demanding Education Minister Dharmendra Pradhan's resignation and systemic NTA reform. As of the latest reporting, the minister has not resigned; Wangchuk remains hospitalised and has not called off his fast.",
+    summary="NEET-UG 2026, India's national medical entrance exam originally held on May 3, 2026, was cancelled on May 12 after NTA's own investigation found overlaps between a pre-circulated guess paper and the actual question paper. At least 13 student suicides have since been linked to the crisis, per compiled police and media reports, fuelling nationwide calls for accountability. Sonam Wangchuk's hunger strike in solidarity with the protest has continued past three weeks despite hospitalisation: after Delhi Police moved him to Safdarjung Hospital on July 18, his wife petitioned the Delhi High Court disputing his continued confinement, and a CJP march to Parliament on July 20 was met with police lathi charge and tear gas, an incident CJP and Delhi Police dispute the severity of. Wangchuk remains on hunger strike as of day 23.",
+    current_ask="CJP and allied protesters are demanding Education Minister Dharmendra Pradhan's resignation and systemic NTA reform. As of the latest reporting, the minister has not resigned; Wangchuk remains on hunger strike (day 23) and says he will continue until protest leaders are allowed to meet MPs at Parliament or him at the hospital.",
     accountability_mechanism="The Public Examinations (Prevention of Unfair Means) Act, 2024 criminalises leaks and organised cheating. Track whether any arrests/prosecutions under this Act have resulted from the NEET-UG 2026 leak specifically.",
     # `sensitive_note` is now just short contextual framing shown inside the
     # standardized SupportNotice callout — the actual helpline numbers live
@@ -176,13 +176,42 @@ db.add_all([
     TimelineEvent(issue_id="neet-2026-leak", event_date=date(2026,7,18), event_text="On day 21 of the fast, Delhi Police remove Wangchuk from Jantar Mantar and shift him to Safdarjung Hospital following the High Court's directions; CJP's Dipke alleges he was taken 'by force'. He remains under continuous medical monitoring and has not called off his fast. This is a contested characterization. See sources below rather than treating either account as settled.", source_url=SRC_THEPRINT_HOSPITAL, verified=True),
 ])
 
-# Only this issue's facts were genuinely re-researched on 2026-07-18 (the
-# hospitalization update above) — the blanket `fact_checked_at` loop earlier
-# in this file stamps all three issues with "now" every time the script
-# runs, which was always a bit imprecise, but this override at least keeps
-# NEET-UG's timestamp honest about when it was actually re-verified rather
-# than just re-run.
-issue1.last_fact_checked_at = datetime(2026, 7, 18, tzinfo=timezone.utc)
+# ---- NEET-UG: Parliament march crackdown escalation (added 2026-07-20) ----
+# The story moved again two days after the hospitalization above: Wangchuk's
+# wife petitioned the Delhi HC disputing his continued confinement, and the
+# CJP's march to Parliament on the Monsoon Session's opening day was met
+# with a lathi charge and tear gas. The injury/assault claims here are
+# genuinely contested — CJP alleges serious injuries including to Wangchuk's
+# wife, Delhi Police issued an official on-record denial the same day — so
+# both accounts are represented in the timeline text below rather than
+# either being stated as settled fact. Sourced from Tribune's live coverage
+# (which itself cites PTI/TNS wire copy and the Delhi Police's own X post)
+# and Bar & Bench's reporting on the HC petition, found via live search.
+SRC_TRIBUNE_DAY23 = "https://www.tribuneindia.com/news/india/day-23-sonam-wangchuk-resumes-hunger-strike-after-police-action-against-protesters/"
+SRC_TRIBUNE_PHOTOS = "https://www.tribuneindia.com/news/delhi/in-photos-police-use-teargas-lathis-during-cjp-protest/"
+SRC_TRIBUNE_LIVEBLOG = "https://www.tribuneindia.com/live-blog/delhi/live-updates-thousands-gather-at-jantar-mantar-ahead-of-cjps-march-to-parliament/"
+SRC_BARANDBENCH_HC = "https://www.barandbench.com/news/litigation/no-medical-emergency-to-remove-sonam-wangchuk-from-protest-site-gitanjali-angmo-moves-delhi-hc"
+
+db.add_all([
+    Source(issue_id="neet-2026-leak", title="CJP protest: Sonam Wangchuk resumes hunger strike after police resort to lathi-charge, teargas against protesting youth", url=SRC_TRIBUNE_DAY23),
+    Source(issue_id="neet-2026-leak", title="In photos: Police use teargas, lathis during CJP protest", url=SRC_TRIBUNE_PHOTOS),
+    Source(issue_id="neet-2026-leak", title="'Sansad Chalo' march: CJP alleges police excesses after crackdown, continues sit-in near Kerala House", url=SRC_TRIBUNE_LIVEBLOG),
+    Source(issue_id="neet-2026-leak", title="No medical emergency to remove Sonam Wangchuk from protest site: Gitanjali Angmo moves Delhi HC", url=SRC_BARANDBENCH_HC),
+])
+
+db.add_all([
+    TimelineEvent(issue_id="neet-2026-leak", event_date=date(2026,7,19), event_text="Wangchuk's wife, Gitanjali J Angmo, petitions the Delhi High Court alleging he is being held at Safdarjung Hospital without any legal order and disputing the hospital's blood-test readings; she seeks his immediate discharge and access for his lawyers and doctors.", source_url=SRC_BARANDBENCH_HC, verified=True),
+    TimelineEvent(issue_id="neet-2026-leak", event_date=date(2026,7,20), event_text="On the opening day of Parliament's Monsoon Session, CJP's 'Sansad Chalo' march toward Parliament is met with police lathi charge and tear gas; the stage at Jantar Mantar is dismantled and the sit-in shifts near Kerala House. CJP alleges serious student injuries and that Angmo was assaulted; Delhi Police issued an official denial on X the same day, calling the assault claims 'completely false and misleading' and saying no one was 'subjected to targeted assault.' Both accounts remain contested. See sources below rather than treating either as settled.", source_url=SRC_TRIBUNE_LIVEBLOG, verified=True),
+    TimelineEvent(issue_id="neet-2026-leak", event_date=date(2026,7,20), event_text="Writing from Safdarjung Hospital on day 23 of his fast, Wangchuk vows to continue his hunger strike until protest leaders are allowed to meet MPs at Parliament or him at the hospital, citing what he called the 'brutality' shown toward the day's protesters.", source_url=SRC_TRIBUNE_DAY23, verified=True),
+])
+
+# Only this issue's facts were genuinely re-researched on 2026-07-20 (the
+# Parliament march escalation above) — the blanket `fact_checked_at` loop
+# earlier in this file stamps all three issues with "now" every time the
+# script runs, which was always a bit imprecise, but this override at least
+# keeps NEET-UG's timestamp honest about when it was actually re-verified
+# rather than just re-run.
+issue1.last_fact_checked_at = datetime(2026, 7, 20, tzinfo=timezone.utc)
 
 # ---- NEET-UG: sourced "How you can help" actions --------------------------
 # Every entry below cites a real, checkable source found via live search on
@@ -213,12 +242,12 @@ db.add_all([
         source_urls=[SRC_MOE_WHOSWHO, SRC_PGPORTAL], last_verified=date(2026,7,17)),
     HelpAction(issue_id="neet-2026-leak", action_type="physical", sort_order=4,
         title="Show Physical Solidarity",
-        description="Wangchuk was removed from Jantar Mantar by Delhi Police on July 18 (day 21) and hospitalised at Safdarjung under High Court-ordered medical monitoring. The situation is changing fast, so confirm the CJP sit-in's current status and any march plans through their official channels before attending, rather than assuming the June 21 encampment logistics still hold.",
-        source_urls=[SRC_THEPRINT_HOSPITAL, SRC_INDIATV_HOSPITAL], last_verified=date(2026,7,18)),
+        description="Police dismantled the Jantar Mantar stage during the July 20 'Sansad Chalo' march to Parliament, which was met with lathi charge and tear gas; the sit-in has since continued near Kerala House. The situation is changing fast, so confirm the current protest location and any march plans through CJP's official channels before attending, rather than assuming the earlier Jantar Mantar logistics still hold.",
+        source_urls=[SRC_TRIBUNE_LIVEBLOG, SRC_TRIBUNE_PHOTOS], last_verified=date(2026,7,20)),
     HelpAction(issue_id="neet-2026-leak", action_type="monitor", sort_order=5,
-        title="Track the Court-Ordered Medical Oversight",
-        description="A Delhi High Court PIL filed July 15 led to a directive for daily clinical monitoring of Wangchuk's health, and preceded his July 18 hospitalisation. This is a real, ongoing legal proceeding with implications for protester-welfare obligations beyond this one case.",
-        source_urls=[SRC_LIVELAW_PIL, SRC_THEPRINT_HOSPITAL], last_verified=date(2026,7,18)),
+        title="Track the Ongoing Court Proceedings",
+        description="Two related cases are live: the Delhi High Court PIL from July 15 that led to court-ordered daily medical monitoring of Wangchuk, and a separate July 19 petition from his wife, Gitanjali Angmo, disputing his continued hospitalisation and seeking his discharge. Both have real implications for protester-welfare obligations beyond this one case.",
+        source_urls=[SRC_LIVELAW_PIL, SRC_BARANDBENCH_HC], last_verified=date(2026,7,20)),
 ])
 
 # ---- Ladakh -----------------------------------------------------------

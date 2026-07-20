@@ -1,12 +1,5 @@
 import { SourceItem } from "@/lib/api";
-
-function domainOf(url: string): string {
-  try {
-    return new URL(url).hostname.replace(/^www\./, "");
-  } catch {
-    return url;
-  }
-}
+import { domainOf } from "@/lib/url";
 
 // Every source gets a real, derived domain (from the actual URL — never a
 // guessed or fabricated publisher name/logo) and a direct link to the

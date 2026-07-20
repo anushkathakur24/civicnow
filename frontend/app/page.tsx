@@ -27,9 +27,6 @@ export default async function HomePage() {
   }
 
   const flagship = issues.find((i) => i.urgency === "critical") || issues[0];
-  const lastRefreshed = issues.length > 0
-    ? new Date(Math.max(...issues.map((i) => new Date(i.updated_at).getTime())))
-    : null;
   const verifiedNgoCount = ngos.filter((n) => n.verified).length;
 
   return (
@@ -44,7 +41,7 @@ export default async function HomePage() {
         />
         <Reveal className="relative z-10">
           <p className="mb-8 text-xs font-semibold uppercase tracking-[0.25em] text-accent-dark">
-            Stop scrolling.
+            Outrage fades. Action doesn&apos;t.
           </p>
           <h1 className="mb-8 font-serif text-display-lg font-medium leading-[1.05] text-ink">
             Know More.
@@ -103,20 +100,7 @@ export default async function HomePage() {
           </p>
         </div>
       ) : (
-        <Reveal>
-          <div className="mx-auto mb-1 mt-6 flex max-w-6xl items-center justify-center gap-2 px-4 text-xs text-ink/40">
-            <span className="relative flex h-1.5 w-1.5">
-              <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-teal opacity-75" />
-              <span className="relative inline-flex h-1.5 w-1.5 rounded-full bg-teal" />
-            </span>
-            Live from the CivicNow API
-            {lastRefreshed && (
-              <span>
-                · issue data last updated{" "}
-                {lastRefreshed.toLocaleDateString("en-IN", { day: "numeric", month: "short", year: "numeric" })}
-              </span>
-            )}
-          </div>
+        <Reveal className="pt-6">
           <StatsBar
             stats={[
               { label: "Active Issues", value: String(issues.length) },
