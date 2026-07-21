@@ -223,6 +223,7 @@ issue1.last_fact_checked_at = datetime(2026, 7, 20, tzinfo=timezone.utc)
 SRC_CJP_MONTH = "https://www.aljazeera.com/news/2026/6/16/my-voice-is-being-heard-a-month-of-indias-cockroach-janta-party"
 SRC_CJP_WIKI = "https://en.wikipedia.org/wiki/Cockroach_Janta_Party"
 SRC_PETITION_FIRE = "https://www.change.org/p/fire-education-minister-of-india-mr-dharmendra-pradhan"
+SRC_PETITION_DIALOGUE = "https://www.change.org/p/government-of-india-please-talk-to-mr-sonam-wangchuk"
 SRC_MOE_WHOSWHO = "https://www.education.gov.in/en/whos-who"
 SRC_PGPORTAL = "https://pgportal.gov.in/Registration"
 SRC_WANGCHUK_DAY18 = "https://www.tbsnews.net/world/south-asia/activist-sonam-wangchuk-enters-18th-day-hunger-strike-delhi-court-hears-plea"
@@ -233,9 +234,9 @@ db.add_all([
         description="The Cockroach Janta Party's Instagram (@cockroachjantaparty, 20M+ followers) and the #CockroachJantaParty hashtag are the active, verified channels for this movement. Share confirmed updates through these rather than starting new, unverified threads.",
         source_urls=[SRC_CJP_MONTH, SRC_CJP_WIKI], last_verified=date(2026,7,17)),
     HelpAction(issue_id="neet-2026-leak", action_type="petition", sort_order=2,
-        title="Sign and Share the Petition",
-        description="An active Change.org petition calls for Education Minister Dharmendra Pradhan's resignation over the NEET-UG 2026 leak. Check the live signature count and add yours at the link below.",
-        source_urls=[SRC_PETITION_FIRE], last_verified=date(2026,7,17)),
+        title="Sign and Share the Petitions",
+        description="Two active Change.org petitions are circulating: one calling for Education Minister Dharmendra Pradhan's resignation, another (472,000+ signatures as of July 22) urging the government to open dialogue with Wangchuk given his deteriorating health. Check the live signature counts and add yours at the links below.",
+        source_urls=[SRC_PETITION_FIRE, SRC_PETITION_DIALOGUE], last_verified=date(2026,7,22)),
     HelpAction(issue_id="neet-2026-leak", action_type="contact", sort_order=3,
         title="Contact the Ministry of Education",
         description="File a formal grievance through the government's CPGRAMS portal, or write directly to the Education Minister's office (minister.sm@gov.in, +91-11-24015222) demanding a public update on the NTA leak investigation.",
